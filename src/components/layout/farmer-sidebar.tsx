@@ -21,11 +21,13 @@ import {
   Bell,
   Home,
   Database,
+  Microscope,
 } from 'lucide-react';
 
 const mainLinks = [
   { href: '/farmer-dashboard', label: 'Overview', icon: Home },
   { href: '/farmer-dashboard/my-produce-listings', label: 'My Produce Listings', icon: List },
+  { href: '/farmer-dashboard/ai-price-advisor', label: 'AI Price Advisor', icon: Microscope },
   { href: '/farmer-dashboard/market-price-suggestions', label: 'Market Price Suggestions', icon: Tags },
   { href: '/farmer-dashboard/market-prices', label: 'Daily Market Prices', icon: Database },
   { href: '/farmer-dashboard/orders-received', label: 'Orders Received', icon: Receipt },
