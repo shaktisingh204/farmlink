@@ -4,52 +4,56 @@
 import { PageHeader } from '@/components/page-header';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { Produce } from '@/lib/types';
 import Image from 'next/image';
-import { ImageIcon, PlusCircle, Loader2 } from 'lucide-react';
+import { ImageIcon, PlusCircle, Loader2, RefreshCw, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { getProduceListings } from './actions';
 import { useAuth } from '@/hooks/use-auth';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function MyProduceListingsPage() {
   const [produceList, setProduceList] = useState<Produce[]>([]);
+  const [rawData, setRawData] = useState<any>(null); // For debugging
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { user, loading: authLoading } = useAuth();
 
+  const fetchProduce = useCallback(async () => {
+    if (!user) {
+      setError("User not authenticated.");
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+    setRawData(null);
+    try {
+      // The action now returns the raw snapshot value for debugging
+      const result = await getProduceListings(user.uid);
+      setRawData(result.raw); // Store raw data for display
+      setProduceList(result.produce || []);
+    } catch (err: any) {
+      setError(`Failed to fetch produce listings: ${err.message}`);
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [user]);
+
   useEffect(() => {
-    // This effect should only run when the authentication state changes.
-    const fetchProduce = async () => {
-      // If auth is still loading, do nothing yet.
-      if (authLoading) {
-        setIsLoading(true);
-        return;
-      }
-      
-      // If auth is done and there's no user, show the empty state.
-      if (!user) {
-        setIsLoading(false);
-        setProduceList([]); // Ensure list is empty
-        return;
-      }
-
-      // Now we know we have a user, so let's fetch their data.
+    if (authLoading) {
       setIsLoading(true);
-      setError(null);
-      try {
-        const listings = await getProduceListings(user.uid);
-        setProduceList(listings.reverse()); // Show newest first
-      } catch (err) {
-        setError('Failed to fetch produce listings.');
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
+      return;
+    }
+    if (!user) {
+      setIsLoading(false);
+      return;
+    }
     fetchProduce();
-  }, [user, authLoading]);
+  }, [user, authLoading, fetchProduce]);
 
   return (
     <div className="space-y-8">
@@ -58,20 +62,45 @@ export default function MyProduceListingsPage() {
           title="My Produce Listings"
           description="Manage your produce listings."
         />
-        <Button asChild>
-            <Link href="/farmer-dashboard/my-produce-listings/add">
-                <PlusCircle className="mr-2"/>
-                Add New Listing
-            </Link>
-        </Button>
+        <div className="flex items-center gap-2">
+            <Button variant="outline" size="icon" onClick={fetchProduce} disabled={isLoading}>
+                <RefreshCw className={cn("h-4 w-4", isLoading && "animate-spin")} />
+            </Button>
+            <Button asChild>
+                <Link href="/farmer-dashboard/my-produce-listings/add">
+                    <PlusCircle className="mr-2"/>
+                    Add New Listing
+                </Link>
+            </Button>
+        </div>
       </div>
+      
+       {/* Debugging Panel */}
+      <Card className="bg-destructive/10 border-destructive">
+          <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-destructive"><AlertTriangle className="w-5 h-5"/> Debugging Information</CardTitle>
+              <CardDescription className="text-destructive/80">This panel shows the raw data response from the database to help diagnose issues.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {isLoading && <p>Fetching data...</p>}
+            {error && <p>Error: {error}</p>}
+            <pre className="text-xs bg-background p-4 rounded-md overflow-x-auto">
+                {JSON.stringify(rawData, null, 2) || "No raw data received yet."}
+            </pre>
+          </CardContent>
+      </Card>
+
 
        {isLoading ? (
         <div className="flex justify-center items-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
         ) : error ? (
-            <div className="text-center py-12 text-destructive">{error}</div>
+            <Alert variant="destructive">
+                <AlertTriangle className="h-4 w-4"/>
+                <AlertTitle>Error Loading Listings</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+            </Alert>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {produceList.length > 0 ? (
@@ -122,3 +151,4 @@ export default function MyProduceListingsPage() {
     </div>
   );
 }
+

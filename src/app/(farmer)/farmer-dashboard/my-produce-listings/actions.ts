@@ -6,6 +6,7 @@ import { ref, push, set, get, query, orderByChild, equalTo, update } from 'fireb
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import type { Produce } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 const ProduceSchema = z.object({
   name: z.string().min(1, 'Produce name is required.'),
@@ -13,7 +14,6 @@ const ProduceSchema = z.object({
   quantity: z.coerce.number().min(0.1, 'Quantity is required.'),
   price: z.coerce.number().min(0.01, 'Price is required.'),
   description: z.string().min(1, 'Description is required.'),
-  // If imageUrl is an empty string, transform it to undefined so it's omitted
   imageUrl: z.string().optional().transform(val => (val === '' ? undefined : val)),
   farmerId: z.string().min(1, 'Farmer ID is required.'),
   createdAt: z.string(),
@@ -68,7 +68,6 @@ export async function updateProduceAction(
   formData: FormData
 ): Promise<AddProduceState> {
   try {
-    // We only validate the fields present in the form for an update.
     const UpdateSchema = ProduceSchema.omit({ createdAt: true });
     const validatedFields = UpdateSchema.safeParse(Object.fromEntries(formData.entries()));
 
@@ -86,7 +85,6 @@ export async function updateProduceAction(
 
     const produceRef = ref(db, `produce/${produceId}`);
     
-    // Get existing data to merge, preserving fields like createdAt
     const snapshot = await get(produceRef);
     if (!snapshot.exists()) {
         return { error: 'The produce listing you are trying to edit does not exist.' };
@@ -110,25 +108,26 @@ export async function updateProduceAction(
   }
 }
 
-export async function getProduceListings(farmerId: string) {
+export async function getProduceListings(farmerId: string): Promise<{ produce: Produce[], raw: any }> {
     try {
         const produceRef = ref(db, 'produce');
         const q = query(produceRef, orderByChild('farmerId'), equalTo(farmerId));
         const snapshot = await get(q);
+        
+        const rawData = snapshot.val();
 
         if (snapshot.exists()) {
             const data = snapshot.val();
-            // Firebase returns an object, so we convert it to an array
             const produceArray: Produce[] = Object.keys(data).map(key => ({
                 id: key,
                 ...data[key]
-            }));
-            return produceArray;
+            })).reverse(); // show newest first
+            return { produce: produceArray, raw: rawData };
         }
-        return [];
+        return { produce: [], raw: rawData };
     } catch (error) {
         console.error("Error fetching produce listings:", error);
-        return [];
+        return { produce: [], raw: { error: (error as Error).message } };
     }
 }
 
