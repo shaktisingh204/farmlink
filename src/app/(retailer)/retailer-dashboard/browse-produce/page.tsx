@@ -51,7 +51,7 @@ export default function BrowseProducePage() {
         await createOrder({
             retailerId: user.uid,
             produceId: produceItem.id,
-            farmerId: produceItem.farmerId!,
+            farmerId: produceItem.farmerId,
             quantity: 1, // Placeholder quantity
             totalPrice: produceItem.price,
         });

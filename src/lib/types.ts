@@ -8,7 +8,7 @@ export interface Produce {
   description: string;
   variety?: string;
   imageUrl?: string;
-  farmerId?: string;
+  farmerId: string;
 }
 
 export interface Farmer {

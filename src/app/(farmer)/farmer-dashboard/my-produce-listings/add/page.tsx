@@ -67,7 +67,6 @@ export default function AddProducePage() {
         description="Fill out the details below to add a new item to your listings."
       />
       <form action={dispatch}>
-        {/* Add hidden input for farmerId */}
         <input type="hidden" name="farmerId" value={user?.uid || ''} />
 
         <Card>
