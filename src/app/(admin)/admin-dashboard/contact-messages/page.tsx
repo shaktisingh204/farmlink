@@ -103,9 +103,9 @@ export default function Page() {
           ) : (
             <div className="text-center py-16 text-muted-foreground">
               <Inbox className="mx-auto h-12 w-12" />
-              <h3 className="mt-4 text-lg font-semibold">Empty Inbox</h3>
+              <h3 className="mt-4 text-lg font-semibold">Nothing to show</h3>
               <p className="mt-2 text-sm">
-                No contact messages have been received yet.
+                There are no contact messages to display.
               </p>
             </div>
           )}

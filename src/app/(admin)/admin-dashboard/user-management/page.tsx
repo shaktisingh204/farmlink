@@ -87,8 +87,8 @@ export default function Page() {
           ) : (
             <div className="text-center py-16 text-muted-foreground">
               <Users2 className="mx-auto h-12 w-12" />
-              <h3 className="mt-4 text-lg font-semibold">No Users Found</h3>
-              <p className="mt-2 text-sm">No users have registered on the platform yet.</p>
+              <h3 className="mt-4 text-lg font-semibold">Nothing to show</h3>
+              <p className="mt-2 text-sm">There are no users to display.</p>
             </div>
           )}
         </CardContent>
