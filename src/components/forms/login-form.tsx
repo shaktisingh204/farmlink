@@ -24,8 +24,8 @@ export function LoginForm({ title, description, icon, loginPath }: LoginFormProp
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-md">
-      <Card>
+    <form onSubmit={handleSubmit} className="w-full max-w-sm">
+      <Card className="border-none shadow-none">
         <CardHeader className="text-center items-center">
           {icon}
           <CardTitle className="font-headline text-2xl">{title}</CardTitle>
