@@ -18,10 +18,12 @@ import { CircleUser } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/hooks/use-auth"
 import { usePathname } from "next/navigation"
+import { useLanguage } from "@/hooks/use-language";
 
 export function AppHeader() {
   const { user, logout } = useAuth();
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   const getProfileLink = () => {
     if (pathname.startsWith('/admin-dashboard')) return '/admin-dashboard/profile';
@@ -55,14 +57,14 @@ export function AppHeader() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>{t('appHeader_myAccount')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-                <Link href={getProfileLink()}>Profile</Link>
+                <Link href={getProfileLink()}>{t('appHeader_profile')}</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuItem>{t('appHeader_support')}</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => logout()}>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => logout()}>{t('appHeader_logout')}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

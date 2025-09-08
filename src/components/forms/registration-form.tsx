@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Terminal, Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
+import { useLanguage } from '@/hooks/use-language';
 
 interface RegistrationFormProps {
   title: string;
@@ -25,6 +26,7 @@ export function RegistrationForm({ title, description, icon, loginPath, dashboar
   const { registerAndRedirect } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useLanguage();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -39,9 +41,9 @@ export function RegistrationForm({ title, description, icon, loginPath, dashboar
       await registerAndRedirect(email, password, name, role, dashboardPath);
     } catch (err: any) {
       if (err.code === 'auth/email-already-in-use') {
-        setError('This email is already registered. Please login instead.');
+        setError(t('registrationForm_error_emailInUse'));
       } else {
-        setError(err.message || 'An unexpected error occurred.');
+        setError(err.message || t('registrationForm_error_unexpected'));
       }
     } finally {
       setIsLoading(false);
@@ -58,27 +60,27 @@ export function RegistrationForm({ title, description, icon, loginPath, dashboar
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="name">{t('registrationForm_nameLabel')}</Label>
             <Input id="name" type="text" placeholder="John Doe" required disabled={isLoading} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t('registrationForm_emailLabel')}</Label>
             <Input id="email" type="email" placeholder="m@example.com" required disabled={isLoading} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t('registrationForm_passwordLabel')}</Label>
             <Input id="password" type="password" required disabled={isLoading} />
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          {error && <Alert variant="destructive"><Terminal className="h-4 w-4" /><AlertTitle>Registration Failed</AlertTitle><AlertDescription>{error}</AlertDescription></Alert>}
+          {error && <Alert variant="destructive"><Terminal className="h-4 w-4" /><AlertTitle>{t('registrationForm_error_title')}</AlertTitle><AlertDescription>{error}</AlertDescription></Alert>}
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isLoading ? 'Creating Account...' : 'Create Account'}
+            {isLoading ? t('registrationForm_creatingAccount') : t('registrationForm_createAccountButton')}
           </Button>
            <p className="text-xs text-muted-foreground text-center pt-2">
             <Link href="/" className="underline hover:text-primary">
-              Back to portal selection
+              {t('registrationForm_backToPortalSelection')}
             </Link>
           </p>
         </CardFooter>

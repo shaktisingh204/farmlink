@@ -5,8 +5,11 @@ import { LoginForm } from '@/components/forms/login-form';
 import { User } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useLanguage } from '@/hooks/use-language';
 
 export default function FarmerLoginPage() {
+  const { t } = useLanguage();
+
   return (
      <div className="grid md:grid-cols-2 min-h-screen bg-background">
       <div className="hidden md:block relative">
@@ -19,23 +22,23 @@ export default function FarmerLoginPage() {
         />
          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
         <div className="absolute bottom-8 left-8 text-white">
-          <h2 className="text-4xl font-bold font-headline">Farmer Portal</h2>
-          <p className="text-lg mt-2 max-w-md">Join our network of local farmers, manage your produce, and reach more buyers.</p>
+          <h2 className="text-4xl font-bold font-headline">{t('loginPage_farmer_title')}</h2>
+          <p className="text-lg mt-2 max-w-md">{t('loginPage_farmer_description')}</p>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center p-4">
         <div className="w-full max-w-sm">
           <LoginForm
-            title="Farmer Login"
-            description="Access your dashboard to manage your produce and earnings."
+            title={t('loginForm_farmer_title')}
+            description={t('loginForm_farmer_description')}
             icon={<User className="w-12 h-12 text-primary" />}
             loginPath="/farmer-dashboard"
             role="farmer"
           />
           <p className="text-sm text-center text-muted-foreground mt-6">
-            Don't have an account?{' '}
+            {t('loginForm_noAccount')}{' '}
             <Link href="/farmer-register" className="font-semibold text-primary hover:underline">
-              Register here
+              {t('loginForm_registerHere')}
             </Link>
           </p>
         </div>

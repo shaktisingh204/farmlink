@@ -23,17 +23,19 @@ import {
   Home,
   UserCircle,
 } from 'lucide-react';
+import { useLanguage } from '@/hooks/use-language';
 
 export function RetailerSidebar() {
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   const mainLinks = [
-    { href: '/retailer-dashboard', label: 'Overview', icon: Home },
-    { href: '/retailer-dashboard/browse-produce', label: 'Browse Produce', icon: Search },
-    { href: '/retailer-dashboard/my-orders', label: 'My Orders', icon: Receipt },
-    { href: '/retailer-dashboard/recommended-deals', label: 'Recommended Deals', icon: Tags },
-    { href: '/retailer-dashboard/payments', label: 'Payments', icon: Wallet },
-    { href: '/retailer-dashboard/favorites', label: 'Favorites', icon: Heart },
+    { href: '/retailer-dashboard', label: t('retailerSidebar_overview'), icon: Home },
+    { href: '/retailer-dashboard/browse-produce', label: t('retailerSidebar_browseProduce'), icon: Search },
+    { href: '/retailer-dashboard/my-orders', label: t('retailerSidebar_myOrders'), icon: Receipt },
+    { href: '/retailer-dashboard/recommended-deals', label: t('retailerSidebar_recommendedDeals'), icon: Tags },
+    { href: '/retailer-dashboard/payments', label: t('retailerSidebar_payments'), icon: Wallet },
+    { href: '/retailer-dashboard/favorites', label: t('retailerSidebar_favorites'), icon: Heart },
   ];
 
   return (
@@ -43,7 +45,7 @@ export function RetailerSidebar() {
           <Logo className="w-7 h-7 text-primary" />
           <div className="flex flex-col">
             <span className="text-xl font-semibold font-headline">FarmLink</span>
-            <span className="text-xs text-muted-foreground flex items-center gap-1"><ShoppingBag className="w-3 h-3" /> Retailer Portal</span>
+            <span className="text-xs text-muted-foreground flex items-center gap-1"><ShoppingBag className="w-3 h-3" /> {t('retailerSidebar_portalName')}</span>
           </div>
         </div>
       </SidebarHeader>
@@ -75,11 +77,11 @@ export function RetailerSidebar() {
                   variant={pathname === '/retailer-dashboard/profile' ? 'primary' : 'ghost'}
                   className="w-full justify-start"
                   size="lg"
-                  tooltip='Profile'
+                  tooltip={t('sidebar_profile')}
                   isActive={pathname === '/retailer-dashboard/profile'}
                 >
                 <UserCircle className="w-5 h-5"/>
-                <span>Profile</span>
+                <span>{t('sidebar_profile')}</span>
               </SidebarMenuButton>
             </Link>
            </SidebarMenuItem>
@@ -90,9 +92,9 @@ export function RetailerSidebar() {
                   variant='outline'
                   className="w-full justify-start"
                   size="lg"
-                  tooltip='Back to Portal Selection'
+                  tooltip={t('sidebar_backToPortals')}
                 >
-                  <span>Back to Portal Selection</span>
+                  <span>{t('sidebar_backToPortals')}</span>
                 </SidebarMenuButton>
               </Link>
             </SidebarMenuItem>
