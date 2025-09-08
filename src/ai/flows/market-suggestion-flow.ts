@@ -70,13 +70,13 @@ const prompt = ai.definePrompt({
   input: {schema: MarketSuggestionInputSchema},
   output: {schema: MarketSuggestionOutputSchema},
   tools: [getMarketDataTool],
-  prompt: `You are an expert agricultural market analyst for farmers in India. Your goal is to provide clear, actionable advice.
+  prompt: `You are an expert agricultural market analyst for farmers in India. Your goal is to provide clear, actionable advice. The currency is INR.
 
   User-provided commodity: {{{commodity}}}
   
   1. Use the 'getLatestMarketData' tool to fetch the most recent market prices for the user's commodity.
   2. Analyze the data you receive. Look for markets with high prices (both max and modal), significant price differences between markets, or other interesting trends.
-  3. Based on your analysis, generate a bulleted list of 2-3 specific, actionable 'suggestions' for the farmer. For example, "Consider selling at [Market Name] in [District] where the maximum price is ₹[Price], which is higher than other listed markets." or "The price range in [District] is wide, from ₹[Min] to ₹[Max]. Aim for the higher end if your produce is of high quality."
+  3. Based on your analysis, generate a bulleted list of 2-3 specific, actionable 'suggestions' for the farmer. For example, "Consider selling at [Market Name] in [District] where the maximum price is INR [Price], which is higher than other listed markets." or "The price range in [District] is wide, from INR [Min] to INR [Max]. Aim for the higher end if your produce is of high quality."
   4. Provide a 'summary' of the overall market conditions. For example, "Prices for {{{commodity}}} are currently strongest in the [State/Region] region, with several markets showing high demand."
   5. Respond ONLY with the JSON object containing 'suggestions' and 'summary'. Do not add any extra conversational text.
   `,

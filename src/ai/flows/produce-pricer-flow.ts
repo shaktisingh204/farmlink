@@ -78,7 +78,7 @@ const prompt = ai.definePrompt({
   input: {schema: ProducePriceAdvisorInputSchema},
   output: {schema: ProducePriceAdvisorOutputSchema},
   tools: [getMarketPriceTool],
-  prompt: `You are an expert agricultural analyst. Your task is to analyze an image of produce, identify it, assess its quality, and recommend a fair market price per kg in Indian Rupees (₹).
+  prompt: `You are an expert agricultural analyst. Your task is to analyze an image of produce, identify it, assess its quality, and recommend a fair market price per kg in Indian Rupees (INR).
 
   User-provided information:
   - Commodity: {{{commodity}}}

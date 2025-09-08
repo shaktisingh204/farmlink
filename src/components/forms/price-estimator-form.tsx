@@ -93,7 +93,7 @@ export function PriceEstimatorForm() {
                 <div className="text-center p-6 bg-background rounded-lg">
                   <p className="text-sm text-muted-foreground">Recommended Price</p>
                   <p className="text-5xl font-bold text-primary">
-                    ₹{state.result.recommendedPrice.toFixed(2)}
+                    INR {state.result.recommendedPrice.toFixed(2)}
                   </p>
                   <p className="text-sm text-muted-foreground">per unit/kg</p>
                 </div>

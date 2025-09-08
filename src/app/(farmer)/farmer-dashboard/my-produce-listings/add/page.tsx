@@ -90,7 +90,7 @@ export default function AddProducePage() {
               {state.fieldErrors?.quantity && <p className="text-sm text-destructive">{state.fieldErrors.quantity}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="price">Price (₹ per kg)</Label>
+              <Label htmlFor="price">Price (INR per kg)</Label>
               <Input id="price" name="price" type="number" step="0.01" placeholder="250.00" required />
               {state.fieldErrors?.price && <p className="text-sm text-destructive">{state.fieldErrors.price}</p>}
             </div>

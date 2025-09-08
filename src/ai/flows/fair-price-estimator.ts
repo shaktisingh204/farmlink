@@ -33,7 +33,7 @@ const prompt = ai.definePrompt({
   name: 'fairPriceEstimatorPrompt',
   input: {schema: FairPriceEstimatorInputSchema},
   output: {schema: FairPriceEstimatorOutputSchema},
-  prompt: `You are an AI assistant that helps farmers determine a fair price for their produce.
+  prompt: `You are an AI assistant that helps farmers determine a fair price for their produce. The currency is INR.
 
   Based on the following information, provide a recommended price and explain your reasoning:
 
