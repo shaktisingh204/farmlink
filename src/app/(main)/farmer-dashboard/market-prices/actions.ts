@@ -16,23 +16,53 @@ export interface MarketRecord {
   Commodity_Code: string;
 }
 
-export async function getMarketData(): Promise<MarketRecord[]> {
+export interface MarketDataParams {
+  offset?: number;
+  limit?: number;
+  filters?: {
+    State?: string;
+    District?: string;
+    Commodity?: string;
+    Arrival_Date?: string;
+  };
+}
+
+export async function getMarketData(params: MarketDataParams = {}): Promise<MarketRecord[]> {
+  const { offset = 0, limit = 10, filters = {} } = params;
+  const apiKey = '579b464db66ec23bdd0000018efebc38e78249b16bb4854257316ec3';
+  const baseUrl = 'https://api.data.gov.in/resource/35985678-0d79-46b4-9ed6-6f13308a1d24';
+
+  const urlParams = new URLSearchParams({
+    'api-key': apiKey,
+    format: 'xml',
+    offset: String(offset),
+    limit: String(limit),
+  });
+
+  if (filters.State) urlParams.append('filters[State]', filters.State);
+  if (filters.District) urlParams.append('filters[District]', filters.District);
+  if (filters.Commodity) urlParams.append('filters[Commodity]', filters.Commodity);
+  if (filters.Arrival_Date) urlParams.append('filters[Arrival_Date]', filters.Arrival_Date);
+
   try {
-    const response = await fetch('https://api.data.gov.in/resource/35985678-0d79-46b4-9ed6-6f13308a1d24?api-key=579b464db66ec23bdd0000018efebc38e78249b16bb4854257316ec3&format=xml');
+    const response = await fetch(`${baseUrl}?${urlParams.toString()}`);
     if (!response.ok) {
-      throw new Error('Failed to fetch data');
+      throw new Error(`Failed to fetch data: ${response.statusText}`);
     }
     const xmlData = await response.text();
     const parser = new XMLParser();
     const jsonData = parser.parse(xmlData);
 
-    let records = jsonData.result.records.item;
-
-    if (!Array.isArray(records)) {
-      records = [records];
+    if (jsonData.result && jsonData.result.records && jsonData.result.records.item) {
+        let records = jsonData.result.records.item;
+        if (!Array.isArray(records)) {
+          records = [records];
+        }
+        return records;
+    } else {
+        return [];
     }
-    
-    return records;
+
   } catch (error) {
     console.error("Error fetching market data:", error);
     return [];
