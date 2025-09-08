@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -49,17 +50,17 @@ const getMarketDataTool = ai.defineTool(
             limit: 5,
             filters: {
                 Commodity: input.commodity,
-                Arrival_Date: new Date().toISOString(),
             },
         });
         
+        // Ensure all price fields are strings to match the schema
         return marketData.map(record => ({
-            Market: record.Market,
-            District: record.District,
-            State: record.State,
-            Min_Price: record.Min_Price,
-            Max_Price: record.Max_Price,
-            Modal_Price: record.Modal_Price,
+            Market: String(record.Market),
+            District: String(record.District),
+            State: String(record.State),
+            Min_Price: String(record.Min_Price),
+            Max_Price: String(record.Max_Price),
+            Modal_Price: String(record.Modal_Price),
         }));
     }
 );
@@ -76,7 +77,7 @@ const prompt = ai.definePrompt({
   
   1. Use the 'getLatestMarketData' tool to fetch the most recent market prices for the user's commodity.
   2. Analyze the data you receive. Look for markets with high prices (both max and modal), significant price differences between markets, or other interesting trends.
-  3. Based on your analysis, generate a bulleted list of 2-3 specific, actionable 'suggestions' for the farmer. For example, "Consider selling at [Market Name] in [District] where the maximum price is INR [Price], which is higher than other listed markets." or "The price range in [District] is wide, from INR [Min] to INR [Max]. Aim for the higher end if your produce is of high quality."
+  3. Based on your analysis, generate a bulleted list of 2-3 specific, actionable 'suggestions' for the farmer. For example, "Consider selling at [Market Name] in [District] where the maximum price is INR [Price], which is higher than other listed markets." or "The price range in [District] is wide, from INR [Min] to [Max]. Aim for the higher end if your produce is of high quality."
   4. Provide a 'summary' of the overall market conditions. For example, "Prices for {{{commodity}}} are currently strongest in the [State/Region] region, with several markets showing high demand."
   5. Respond ONLY with the JSON object containing 'suggestions' and 'summary'. Do not add any extra conversational text.
   `,
