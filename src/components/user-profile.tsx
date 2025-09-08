@@ -13,7 +13,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { useToast } from './hooks/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
