@@ -64,7 +64,6 @@ export default function OrdersReceivedPage() {
                     <div className="col-span-full text-center py-12 flex flex-col items-center">
                         <ShoppingBag className="w-12 h-12 mb-4 text-muted-foreground" />
                         <p className="text-muted-foreground">You haven&apos;t received any orders yet.</p>
-                        {error && <p className="text-xs text-destructive mt-2">{error}</p>}
                     </div>
                 ) : (
                    <div className="border rounded-md">

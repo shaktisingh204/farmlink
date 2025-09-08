@@ -103,9 +103,12 @@ export default function PaymentsEarningsPage() {
                     <div className="flex justify-center items-center py-12">
                         <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     </div>
-                ) : error ? (
-                    <div className="text-center py-12 text-destructive">{error}</div>
-                ) : orders.length > 0 ? (
+                ) : error || orders.length === 0 ? (
+                    <div className="col-span-full text-center py-12 flex flex-col items-center">
+                        <DollarSign className="w-12 h-12 mb-4 text-muted-foreground" />
+                        <p className="text-muted-foreground">You have no payment history yet.</p>
+                    </div>
+                ) : (
                    <div className="border rounded-md">
                     <Table>
                         <TableHeader>
@@ -130,11 +133,6 @@ export default function PaymentsEarningsPage() {
                         </TableBody>
                     </Table>
                    </div>
-                ) : (
-                    <div className="col-span-full text-center py-12 flex flex-col items-center">
-                        <DollarSign className="w-12 h-12 mb-4 text-muted-foreground" />
-                        <p className="text-muted-foreground">You have no payment history yet.</p>
-                    </div>
                 )}
             </CardContent>
         </Card>
