@@ -2,7 +2,7 @@ import { getCurrentUser } from '@/lib/actions/user-actions';
 import { getProduceListings } from './actions';
 import { MyProduceListingsContent } from './content';
 import type { Produce } from '@/lib/types';
-import { getTranslations } from '@/hooks/use-language';
+import { getTranslations } from '@/lib/i18n';
 
 export default async function MyProduceListingsPage() {
   const { t } = await getTranslations();
