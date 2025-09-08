@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { auth, db } from '@/lib/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { ref, set } from 'firebase/database';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
@@ -38,8 +38,8 @@ export function RegistrationForm({ title, description, icon, loginPath, dashboar
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Add user to Firestore
-      await setDoc(doc(db, "users", user.uid), {
+      // Add user to Realtime Database
+      await set(ref(db, 'users/' + user.uid), {
         name: name,
         email: email,
         role: title.split(' ')[0].toLowerCase(), // e.g., 'farmer', 'admin'
