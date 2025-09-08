@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { PRODUCE_TYPES } from '@/lib/placeholder-data';
 import { useFormStatus } from 'react-dom';
 import { updateProduceAction, type AddProduceState } from '../../actions';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useActionState } from 'react';
 import React from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
@@ -33,7 +33,7 @@ function SubmitButton() {
 export function EditProduceForm({ produce }: { produce: Produce }) {
   const initialState: AddProduceState = {};
   const updateProduceWithId = updateProduceAction.bind(null, produce.id);
-  const [state, dispatch] = React.useActionState(updateProduceWithId, initialState);
+  const [state, dispatch] = useActionState(updateProduceWithId, initialState);
   
   const { toast } = useToast();
   const router = useRouter();

@@ -5,6 +5,7 @@ import { db } from '@/lib/firebase';
 import { ref, push, set, get, query, orderByChild, equalTo, update } from 'firebase/database';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
+import type { Produce } from '@/lib/types';
 
 const ProduceSchema = z.object({
   name: z.string().min(1, 'Produce name is required.'),
@@ -12,7 +13,8 @@ const ProduceSchema = z.object({
   quantity: z.coerce.number().min(0.1, 'Quantity is required.'),
   price: z.coerce.number().min(0.01, 'Price is required.'),
   description: z.string().min(1, 'Description is required.'),
-  imageUrl: z.string().optional(),
+  // If imageUrl is an empty string, transform it to undefined so it's omitted
+  imageUrl: z.string().optional().transform(val => val === '' ? undefined : val),
   farmerId: z.string().min(1, "Farmer ID is required."),
   createdAt: z.string(),
 });
@@ -36,6 +38,7 @@ export async function addProduceAction(
     });
 
     if (!validatedFields.success) {
+      console.error('Validation failed:', validatedFields.error.flatten());
       return {
         error: 'Invalid form data. Please check your inputs.',
         fieldErrors: validatedFields.error.flatten().fieldErrors,
@@ -53,7 +56,7 @@ export async function addProduceAction(
     revalidatePath('/retailer-dashboard/browse-produce'); // Revalidate retailer page
     return { success: true };
   } catch (e: any) {
-    console.error(e);
+    console.error("Error in addProduceAction:", e);
     return { error: 'An unexpected error occurred. Please try again.' };
   }
 }
@@ -64,9 +67,12 @@ export async function updateProduceAction(
   formData: FormData
 ): Promise<AddProduceState> {
   try {
-    const validatedFields = ProduceSchema.safeParse(Object.fromEntries(formData.entries()));
+    // We only validate the fields present in the form for an update.
+    const UpdateSchema = ProduceSchema.omit({ createdAt: true });
+    const validatedFields = UpdateSchema.safeParse(Object.fromEntries(formData.entries()));
 
     if (!validatedFields.success) {
+       console.error('Update validation failed:', validatedFields.error.flatten());
       return {
         error: 'Invalid form data. Please check your inputs.',
         fieldErrors: validatedFields.error.flatten().fieldErrors,
@@ -78,14 +84,27 @@ export async function updateProduceAction(
     }
 
     const produceRef = ref(db, `produce/${produceId}`);
-    await update(produceRef, validatedFields.data);
+    
+    // Get existing data to merge, preserving fields like createdAt
+    const snapshot = await get(produceRef);
+    if (!snapshot.exists()) {
+        return { error: 'The produce listing you are trying to edit does not exist.' };
+    }
+    const existingData = snapshot.val();
+    
+    const dataToUpdate = {
+        ...existingData,
+        ...validatedFields.data,
+    };
+
+    await set(produceRef, dataToUpdate);
 
     revalidatePath('/farmer-dashboard/my-produce-listings');
     revalidatePath(`/farmer-dashboard/my-produce-listings/edit/${produceId}`);
     revalidatePath('/retailer-dashboard/browse-produce');
     return { success: true };
   } catch (e: any) {
-    console.error(e);
+    console.error("Error in updateProduceAction:", e);
     return { error: 'An unexpected error occurred. Please try again.' };
   }
 }
@@ -98,13 +117,11 @@ export async function getProduceListings(farmerId: string) {
 
         if (snapshot.exists()) {
             const data = snapshot.val();
-            // Firebase returns an object when there's one item, so we must ensure it's always an array.
-            if (typeof data === 'object' && data !== null) {
-                return Object.keys(data).map(key => ({
-                    id: key,
-                    ...data[key]
-                }));
-            }
+            const produceArray: Produce[] = Object.keys(data).map(key => ({
+                id: key,
+                ...data[key]
+            }));
+            return produceArray;
         }
         return [];
     } catch (error) {
