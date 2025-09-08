@@ -3,7 +3,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { User, ShoppingBag, Building, Shield, ArrowRight, TrendingUp, Cpu, Truck, Lightbulb, Users, CheckCircle, Facebook, Twitter, Instagram, MessageSquare, Bot } from 'lucide-react';
 import { PageHeader } from '@/components/page-header';
@@ -371,52 +371,43 @@ export default function LandingPage() {
 
         <FaqChatbot />
       </main>
-      <footer className="relative bg-background border-t text-white">
-        <Image 
-            src="https://picsum.photos/1920/1080?random=101"
-            alt="Abstract footer background"
-            fill
-            objectFit="cover"
-            className="opacity-10"
-            data-ai-hint="dark farm"
-        />
-        <div className="absolute inset-0 bg-primary/90"></div>
-        <div className="relative z-10 container mx-auto py-12 px-4">
+      <footer className="bg-background border-t">
+        <div className="container mx-auto py-12 px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div className="col-span-2 md:col-span-1">
                     <div className="flex items-center gap-2">
-                        <Bot className="w-7 h-7 text-primary-foreground"/>
-                        <span className="text-xl font-semibold font-headline text-primary-foreground">FarmLink</span>
+                        <Bot className="w-7 h-7 text-primary"/>
+                        <span className="text-xl font-semibold font-headline text-foreground">FarmLink</span>
                     </div>
-                    <p className="text-primary-foreground/80 mt-4 text-sm">
+                    <p className="text-muted-foreground mt-4 text-sm">
                         Connecting fields to markets, seamlessly.
                     </p>
                 </div>
                 <div>
-                    <h4 className="font-semibold text-primary-foreground">Navigation</h4>
+                    <h4 className="font-semibold text-foreground">Navigation</h4>
                     <ul className="mt-4 space-y-2 text-sm">
-                        <li><a href="#features" className="text-primary-foreground/80 hover:text-primary-foreground">Features</a></li>
-                        <li><a href="#portals" className="text-primary-foreground/80 hover:text-primary-foreground">Portals</a></li>
-                        <li><a href="#contact" className="text-primary-foreground/80 hover:text-primary-foreground">Contact Us</a></li>
+                        <li><a href="#features" className="text-muted-foreground hover:text-foreground">Features</a></li>
+                        <li><a href="#portals" className="text-muted-foreground hover:text-foreground">Portals</a></li>
+                        <li><a href="#contact" className="text-muted-foreground hover:text-foreground">Contact Us</a></li>
                     </ul>
                 </div>
                  <div>
-                    <h4 className="font-semibold text-primary-foreground">Legal</h4>
+                    <h4 className="font-semibold text-foreground">Legal</h4>
                     <ul className="mt-4 space-y-2 text-sm">
-                        <li><a href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Privacy Policy</a></li>
-                        <li><a href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Terms of Service</a></li>
+                        <li><a href="#" className="text-muted-foreground hover:text-foreground">Privacy Policy</a></li>
+                        <li><a href="#" className="text-muted-foreground hover:text-foreground">Terms of Service</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 className="font-semibold text-primary-foreground">Follow Us</h4>
+                    <h4 className="font-semibold text-foreground">Follow Us</h4>
                     <div className="flex mt-4 space-x-4">
-                        <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground"><Twitter /></a>
-                        <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground"><Facebook /></a>
-                        <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground"><Instagram /></a>
+                        <a href="#" className="text-muted-foreground hover:text-foreground"><Twitter /></a>
+                        <a href="#" className="text-muted-foreground hover:text-foreground"><Facebook /></a>
+                        <a href="#" className="text-muted-foreground hover:text-foreground"><Instagram /></a>
                     </div>
                 </div>
             </div>
-            <div className="mt-8 border-t border-primary-foreground/20 pt-6 text-center text-primary-foreground/80 text-sm">
+            <div className="mt-8 border-t border-border pt-6 text-center text-muted-foreground text-sm">
                 <p>&copy; 2024 FarmLink. All rights reserved.</p>
             </div>
         </div>
@@ -424,4 +415,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
