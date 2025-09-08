@@ -93,7 +93,9 @@ export function MainSidebar() {
                   size="lg"
                   tooltip='Back to Portal Selection'
                 >
+                  <>
                   <span>Back to Portal Selection</span>
+                  </>
                 </SidebarMenuButton>
               </Link>
             </SidebarMenuItem>
