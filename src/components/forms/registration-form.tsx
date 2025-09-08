@@ -6,9 +6,6 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { auth, db } from '@/lib/firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { ref, set } from 'firebase/database';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
@@ -25,7 +22,6 @@ interface RegistrationFormProps {
 
 export function RegistrationForm({ title, description, icon, loginPath, dashboardPath }: RegistrationFormProps) {
   const router = useRouter();
-  const { toast } = useToast();
   const { registerAndRedirect } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,11 +37,14 @@ export function RegistrationForm({ title, description, icon, loginPath, dashboar
 
     try {
       await registerAndRedirect(email, password, name, role, dashboardPath);
-      // The redirect is handled by registerAndRedirect
     } catch (err: any) {
-        setError(err.message);
+      if (err.code === 'auth/email-already-in-use') {
+        setError('This email is already registered. Please login instead.');
+      } else {
+        setError(err.message || 'An unexpected error occurred.');
+      }
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 

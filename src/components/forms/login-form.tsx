@@ -6,11 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { auth, db } from '@/lib/firebase';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { ref, get } from 'firebase/database';
 import { useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Terminal, Loader2 } from 'lucide-react';
 import type { UserProfile } from '@/lib/types';
@@ -26,7 +22,6 @@ interface LoginFormProps {
 
 export function LoginForm({ title, description, icon, loginPath, role }: LoginFormProps) {
   const router = useRouter();
-  const { toast } = useToast();
   const { loginAndRedirect } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,9 +36,13 @@ export function LoginForm({ title, description, icon, loginPath, role }: LoginFo
 
     try {
       await loginAndRedirect(email, password, role, loginPath);
-      // The redirect is handled by loginAndRedirect
+      // The redirect is handled by the hook
     } catch (err: any) {
-       setError(err.message);
+       if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+            setError('Invalid email or password. Please try again.');
+       } else {
+            setError(err.message || "An unexpected error occurred.");
+       }
     } finally {
       setIsLoading(false);
     }
