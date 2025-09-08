@@ -10,13 +10,16 @@
       }
     },
     "produce": {
-      // Any authenticated user can read produce listings
-      ".read": "auth != null",
       ".indexOn": ["farmerId"],
+      // Allow reads if the user is authenticated. This is a general rule.
+      // Specific queries will need to be allowed as well.
+      // For retailer 'browse' page, they fetch all produce, so a general read is ok.
+      // For farmer 'my listings' page, we query by farmerId.
+      ".read": "auth != null",
       "$produceId": {
         // Data must be a valid produce object
         ".validate": "newData.hasChildren(['name', 'variety', 'quantity', 'price', 'description', 'farmerId', 'createdAt'])",
-        // Write access control
+        // Write access control: only a farmer can write to their own produce
         ".write": "auth != null && root.child('users/' + auth.uid).child('role').val() == 'farmer' && (newData.child('farmerId').val() == auth.uid || !newData.exists())"
       }
     },
