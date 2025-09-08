@@ -12,6 +12,7 @@
     "produce": {
       // Any authenticated user can read produce listings
       ".read": "auth != null",
+      ".indexOn": ["farmerId"],
       "$produceId": {
         // Data must be a valid produce object
         ".validate": "newData.hasChildren(['name', 'variety', 'quantity', 'price', 'description', 'farmerId', 'createdAt'])",
