@@ -85,9 +85,10 @@ export default function Page() {
               </Table>
             </div>
           ) : (
-            <div className="col-span-full text-center py-12 flex flex-col items-center">
-              <Users2 className="w-12 h-12 mb-4 text-muted-foreground" />
-              <p className="text-muted-foreground">No users have registered yet.</p>
+            <div className="text-center py-16 text-muted-foreground">
+              <Users2 className="mx-auto h-12 w-12" />
+              <h3 className="mt-4 text-lg font-semibold">No Users Found</h3>
+              <p className="mt-2 text-sm">No users have registered on the platform yet.</p>
             </div>
           )}
         </CardContent>
