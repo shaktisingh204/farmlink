@@ -10,18 +10,25 @@ import Image from 'next/image';
 import { ImageIcon, PlusCircle, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { getProduceListings } from './actions';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function MyProduceListingsPage() {
   const [produceList, setProduceList] = useState<Produce[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchProduce = async () => {
+      if (!user) {
+        setIsLoading(false);
+        // Don't set an error, just show the empty state. The empty state will guide them.
+        return;
+      }
       setIsLoading(true);
       setError(null);
       try {
-        const listings = await getProduceListings();
+        const listings = await getProduceListings(user.uid);
         setProduceList(listings.reverse()); // Show newest first
       } catch (err) {
         setError('Failed to fetch produce listings.');
@@ -32,7 +39,7 @@ export default function MyProduceListingsPage() {
     };
 
     fetchProduce();
-  }, []);
+  }, [user]);
 
   return (
     <div className="space-y-8">

@@ -14,30 +14,23 @@ import {
 import { Logo } from '@/components/logo';
 import {
   Settings,
-  User,
-  List,
-  Tags,
-  Receipt,
-  Wallet,
-  Bell,
-  Home,
-  Database,
-  Microscope,
+  Globe,
+  Users,
+  Building,
+  BarChart,
+  CircleDollarSign,
   Route,
 } from 'lucide-react';
 
 const mainLinks = [
-  { href: '/farmer-dashboard', label: 'Overview', icon: Home },
-  { href: '/farmer-dashboard/my-produce-listings', label: 'My Produce Listings', icon: List },
-  { href: '/farmer-dashboard/ai-price-advisor', label: 'AI Price Advisor', icon: Microscope },
-  { href: '/farmer-dashboard/market-price-suggestions', label: 'Market Price Suggestions', icon: Tags },
-  { href: '/farmer-dashboard/market-prices', label: 'Daily Market Prices', icon: Database },
-  { href: '/farmer-dashboard/orders-received', label: 'Orders Received', icon: Receipt },
-  { href: '/farmer-dashboard/payments-earnings', label: 'Payments & Earnings', icon: Wallet },
-  { href: '/farmer-dashboard/alerts', label: 'Alerts', icon: Bell },
+    { href: '/farmers', label: 'Farmers', icon: Users },
+    { href: '/markets', label: 'Markets', icon: Building },
+    { href: '/market-prices', label: 'Price Tracking', icon: BarChart },
+    { href: '/price-estimator', label: 'Price Estimator', icon: CircleDollarSign },
+    { href: '/distribution-optimizer', label: 'Distribution Optimizer', icon: Route },
 ]
 
-export function FarmerSidebar() {
+export function MainSidebar() {
   const pathname = usePathname();
 
   return (
@@ -47,7 +40,7 @@ export function FarmerSidebar() {
           <Logo className="w-7 h-7 text-primary" />
           <div className="flex flex-col">
             <span className="text-xl font-semibold font-headline">FarmLink</span>
-            <span className="text-xs text-muted-foreground flex items-center gap-1"><User className="w-3 h-3" /> Farmer Portal</span>
+             <span className="text-xs text-muted-foreground flex items-center gap-1"><Globe className="w-3 h-3" /> Main Site</span>
           </div>
         </div>
       </SidebarHeader>
@@ -57,7 +50,7 @@ export function FarmerSidebar() {
              <SidebarMenuItem key={item.href}>
              <Link href={item.href} legacyBehavior passHref>
                <SidebarMenuButton
-                 variant={pathname.startsWith(item.href) && (item.href !== '/farmer-dashboard' || pathname === item.href) ? 'primary' : 'ghost'}
+                 variant={pathname.startsWith(item.href) ? 'primary' : 'ghost'}
                  className="w-full justify-start"
                  size="lg"
                  tooltip={item.label}

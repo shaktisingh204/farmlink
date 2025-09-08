@@ -8,7 +8,7 @@ export interface Produce {
   description: string;
   variety?: string;
   imageUrl?: string;
-  farmerId?: string; // Added farmerId
+  farmerId?: string;
 }
 
 export interface Farmer {
@@ -38,6 +38,15 @@ export interface Order {
     totalPrice: number;
     status: 'placed' | 'confirmed' | 'shipped' | 'delivered';
     orderDate: string;
-    produce: Produce;
-    farmer: { name: string };
+    produce?: Produce;
+    farmer?: { name: string };
+    retailer?: { name: string };
+}
+
+export interface UserProfile {
+    uid: string;
+    email: string;
+    name: string;
+    role: 'farmer' | 'retailer' | 'admin' | 'market';
+    location?: string;
 }
