@@ -64,9 +64,9 @@ export function RegistrationForm({ title, description, icon, loginPath, dashboar
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-sm">
-      <Card className="border-none shadow-none">
-        <CardHeader className="text-center items-center">
+    <form onSubmit={handleSubmit}>
+      <Card className="w-full border-none shadow-none">
+        <CardHeader className="text-center items-center gap-2">
           {icon}
           <CardTitle className="font-headline text-2xl">{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
@@ -90,7 +90,7 @@ export function RegistrationForm({ title, description, icon, loginPath, dashboar
           <Button type="submit" className="w-full">
             Create Account
           </Button>
-          <p className="text-xs text-muted-foreground text-center">
+           <p className="text-xs text-muted-foreground text-center pt-2">
             <Link href="/" className="underline hover:text-primary">
               Back to portal selection
             </Link>

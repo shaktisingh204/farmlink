@@ -1,3 +1,4 @@
+
 import { RegistrationForm } from '@/components/forms/registration-form';
 import { ShoppingBag } from 'lucide-react';
 import Image from 'next/image';
@@ -21,19 +22,21 @@ export default function RetailerRegisterPage() {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center p-4">
-        <RegistrationForm
-          title="Retailer Registration"
-          description="Create an account to browse produce and place orders."
-          icon={<ShoppingBag className="w-12 h-12 text-primary" />}
-          loginPath="/retailer-login"
-          dashboardPath="/retailer-dashboard"
-        />
-        <p className="text-sm text-muted-foreground mt-4">
-          Already have an account?{' '}
-          <Link href="/retailer-login" className="font-semibold text-primary hover:underline">
-            Login here
-          </Link>
-        </p>
+        <div className="w-full max-w-sm">
+          <RegistrationForm
+            title="Retailer Registration"
+            description="Create an account to browse produce and place orders."
+            icon={<ShoppingBag className="w-12 h-12 text-primary" />}
+            loginPath="/retailer-login"
+            dashboardPath="/retailer-dashboard"
+          />
+          <p className="text-sm text-center text-muted-foreground mt-6">
+            Already have an account?{' '}
+            <Link href="/retailer-login" className="font-semibold text-primary hover:underline">
+              Login here
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

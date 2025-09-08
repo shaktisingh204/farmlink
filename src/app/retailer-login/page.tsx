@@ -1,3 +1,4 @@
+
 import { LoginForm } from '@/components/forms/login-form';
 import { ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
@@ -21,18 +22,20 @@ export default function RetailerLoginPage() {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center p-4">
-        <LoginForm
-          title="Retailer Portal"
-          description="Login to browse produce and place orders."
-          icon={<ShoppingBag className="w-12 h-12 text-primary" />}
-          loginPath="/retailer-dashboard"
-        />
-       <p className="text-sm text-muted-foreground mt-4">
-        Don&apos;t have an account?{' '}
-        <Link href="/retailer-register" className="font-semibold text-primary hover:underline">
-          Register here
-        </Link>
-      </p>
+        <div className="w-full max-w-sm">
+          <LoginForm
+            title="Retailer Portal"
+            description="Login to browse produce and place orders."
+            icon={<ShoppingBag className="w-12 h-12 text-primary" />}
+            loginPath="/retailer-dashboard"
+          />
+         <p className="text-sm text-center text-muted-foreground mt-6">
+          Don&apos;t have an account?{' '}
+          <Link href="/retailer-register" className="font-semibold text-primary hover:underline">
+            Register here
+          </Link>
+        </p>
+        </div>
       </div>
     </div>
   );

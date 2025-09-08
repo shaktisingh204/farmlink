@@ -1,3 +1,4 @@
+
 import { RegistrationForm } from '@/components/forms/registration-form';
 import { Building } from 'lucide-react';
 import Image from 'next/image';
@@ -21,19 +22,21 @@ export default function MarketRegisterPage() {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center p-4">
-        <RegistrationForm
-          title="Market Registration"
-          description="Create an account to oversee market operations and logistics."
-          icon={<Building className="w-12 h-12 text-primary" />}
-          loginPath="/market-login"
-          dashboardPath="/local-market-dashboard"
-        />
-        <p className="text-sm text-muted-foreground mt-4">
-          Already have an account?{' '}
-          <Link href="/market-login" className="font-semibold text-primary hover:underline">
-            Login here
-          </Link>
-        </p>
+        <div className="w-full max-w-sm">
+          <RegistrationForm
+            title="Market Registration"
+            description="Create an account to oversee market operations and logistics."
+            icon={<Building className="w-12 h-12 text-primary" />}
+            loginPath="/market-login"
+            dashboardPath="/local-market-dashboard"
+          />
+          <p className="text-sm text-center text-muted-foreground mt-6">
+            Already have an account?{' '}
+            <Link href="/market-login" className="font-semibold text-primary hover:underline">
+              Login here
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

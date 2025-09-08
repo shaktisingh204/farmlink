@@ -1,3 +1,4 @@
+
 import { PageHeader } from '@/components/page-header';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Search, Receipt, Tags, Wallet, Heart } from 'lucide-react';
