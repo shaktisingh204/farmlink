@@ -175,12 +175,14 @@ export default function LandingPage() {
                 </div>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
                     {features.map(feature => (
-                        <Card key={feature.title} className="text-center bg-background">
-                            <CardHeader className="items-center">
-                                {feature.icon}
+                        <Card key={feature.title} className="text-center bg-background border-2 border-transparent hover:border-primary hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                            <CardHeader className="items-center p-8">
+                                <div className="p-4 bg-primary/10 rounded-full">
+                                    {feature.icon}
+                                </div>
                                 <CardTitle className="font-headline mt-4">{feature.title}</CardTitle>
                             </CardHeader>
-                            <CardContent>
+                            <CardContent className="px-8 pb-8">
                                 <p className="text-muted-foreground">{feature.description}</p>
                             </CardContent>
                         </Card>
@@ -399,3 +401,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
