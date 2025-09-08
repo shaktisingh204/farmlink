@@ -90,7 +90,9 @@ export default function MyProduceListingsPage() {
                     <CardDescription>{item.description}</CardDescription>
                   </CardContent>
                   <CardFooter>
-                      <Button variant="outline" className="w-full">Edit Listing</Button>
+                      <Button variant="outline" className="w-full" asChild>
+                        <Link href={`/farmer-dashboard/my-produce-listings/edit/${item.id}`}>Edit Listing</Link>
+                      </Button>
                   </CardFooter>
                 </Card>
               ))

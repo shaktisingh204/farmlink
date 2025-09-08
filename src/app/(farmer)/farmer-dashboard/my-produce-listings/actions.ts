@@ -2,7 +2,7 @@
 'use server';
 
 import { db } from '@/lib/firebase';
-import { ref, push, set, get, query, orderByChild, equalTo } from 'firebase/database';
+import { ref, push, set, get, query, orderByChild, equalTo, update } from 'firebase/database';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 
@@ -57,6 +57,38 @@ export async function addProduceAction(
   }
 }
 
+export async function updateProduceAction(
+  produceId: string,
+  prevState: AddProduceState,
+  formData: FormData
+): Promise<AddProduceState> {
+  try {
+    const validatedFields = ProduceSchema.safeParse(Object.fromEntries(formData.entries()));
+
+    if (!validatedFields.success) {
+      return {
+        error: 'Invalid form data. Please check your inputs.',
+        fieldErrors: validatedFields.error.flatten().fieldErrors,
+      };
+    }
+    
+    if (!validatedFields.data.farmerId) {
+        return { error: 'You must be logged in to update produce.' };
+    }
+
+    const produceRef = ref(db, `produce/${produceId}`);
+    await update(produceRef, validatedFields.data);
+
+    revalidatePath('/farmer-dashboard/my-produce-listings');
+    revalidatePath(`/farmer-dashboard/my-produce-listings/edit/${produceId}`);
+    revalidatePath('/retailer-dashboard/browse-produce');
+    return { success: true };
+  } catch (e: any) {
+    console.error(e);
+    return { error: 'An unexpected error occurred. Please try again.' };
+  }
+}
+
 export async function getProduceListings(farmerId: string) {
     try {
         const produceRef = ref(db, 'produce');
@@ -74,5 +106,21 @@ export async function getProduceListings(farmerId: string) {
     } catch (error) {
         console.error("Error fetching produce listings:", error);
         return [];
+    }
+}
+
+
+export async function getProduceListingById(produceId: string) {
+    try {
+        const produceRef = ref(db, `produce/${produceId}`);
+        const snapshot = await get(produceRef);
+
+        if (snapshot.exists()) {
+            return { id: produceId, ...snapshot.val() };
+        }
+        return null;
+    } catch (error) {
+        console.error("Error fetching produce by ID:", error);
+        return null;
     }
 }
