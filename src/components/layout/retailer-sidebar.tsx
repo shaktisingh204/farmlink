@@ -53,6 +53,7 @@ export function RetailerSidebar() {
              <SidebarMenuItem key={item.href}>
              <Link href={item.href}>
                <SidebarMenuButton
+                 asChild
                  variant={pathname === item.href ? 'primary' : 'ghost'}
                  className="w-full justify-start"
                  size="lg"
@@ -71,6 +72,7 @@ export function RetailerSidebar() {
            <SidebarMenuItem>
             <Link href="/retailer-dashboard/profile">
               <SidebarMenuButton
+                  asChild
                   variant={pathname === '/retailer-dashboard/profile' ? 'primary' : 'ghost'}
                   className="w-full justify-start"
                   size="lg"
@@ -84,6 +86,7 @@ export function RetailerSidebar() {
             <SidebarMenuItem>
               <Link href="/">
                 <SidebarMenuButton
+                  asChild
                   variant='outline'
                   className="w-full justify-start"
                   size="lg"

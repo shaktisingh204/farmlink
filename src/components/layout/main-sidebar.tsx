@@ -50,6 +50,7 @@ export function MainSidebar() {
              <SidebarMenuItem key={item.href}>
              <Link href={item.href}>
                <SidebarMenuButton
+                 asChild
                  variant={pathname.startsWith(item.href) ? 'primary' : 'ghost'}
                  className="w-full justify-start"
                  size="lg"
@@ -68,6 +69,7 @@ export function MainSidebar() {
            <SidebarMenuItem>
             <Link href="/settings">
               <SidebarMenuButton
+                  asChild
                   variant={pathname === '/settings' ? 'primary' : 'ghost'}
                   className="w-full justify-start"
                   size="lg"
@@ -81,6 +83,7 @@ export function MainSidebar() {
             <SidebarMenuItem>
               <Link href="/">
                 <SidebarMenuButton
+                  asChild
                   variant='outline'
                   className="w-full justify-start"
                   size="lg"

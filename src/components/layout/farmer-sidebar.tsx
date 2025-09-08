@@ -60,6 +60,7 @@ export function FarmerSidebar() {
              <SidebarMenuItem key={item.href}>
              <Link href={item.href}>
                <SidebarMenuButton
+                 asChild
                  variant={pathname.startsWith(item.href) && (item.href !== '/farmer-dashboard' || pathname === item.href) ? 'primary' : 'ghost'}
                  className="w-full justify-start"
                  size="lg"
@@ -78,6 +79,7 @@ export function FarmerSidebar() {
            <SidebarMenuItem>
             <Link href="/farmer-dashboard/profile">
               <SidebarMenuButton
+                  asChild
                   variant={pathname === '/farmer-dashboard/profile' ? 'primary' : 'ghost'}
                   className="w-full justify-start"
                   size="lg"
@@ -91,6 +93,7 @@ export function FarmerSidebar() {
             <SidebarMenuItem>
               <Link href="/">
                 <SidebarMenuButton
+                  asChild
                   variant='outline'
                   className="w-full justify-start"
                   size="lg"

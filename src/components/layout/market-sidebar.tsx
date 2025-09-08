@@ -55,6 +55,7 @@ export function MarketSidebar() {
              <SidebarMenuItem key={item.href}>
              <Link href={item.href}>
                <SidebarMenuButton
+                 asChild
                  variant={pathname === item.href ? 'primary' : 'ghost'}
                  className="w-full justify-start"
                  size="lg"
@@ -73,6 +74,7 @@ export function MarketSidebar() {
            <SidebarMenuItem>
             <Link href="/local-market-dashboard/profile">
               <SidebarMenuButton
+                  asChild
                   variant={pathname === '/local-market-dashboard/profile' ? 'primary' : 'ghost'}
                   className="w-full justify-start"
                   size="lg"
@@ -86,6 +88,7 @@ export function MarketSidebar() {
             <SidebarMenuItem>
               <Link href="/">
                 <SidebarMenuButton
+                  asChild
                   variant='outline'
                   className="w-full justify-start"
                   size="lg"
