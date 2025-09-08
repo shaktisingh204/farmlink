@@ -9,6 +9,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { Logo } from '@/components/logo';
 import {
@@ -20,6 +21,8 @@ import {
   Truck,
   Settings,
 } from 'lucide-react';
+import { Button } from '../ui/button';
+import { Separator } from '../ui/separator';
 
 const menuItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -32,6 +35,7 @@ const menuItems = [
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const { state } = useSidebar();
 
   return (
     <Sidebar>
@@ -47,10 +51,11 @@ export function AppSidebar() {
             <SidebarMenuItem key={item.href}>
               <Link href={item.href} legacyBehavior passHref>
                 <SidebarMenuButton
-                  isActive={pathname === item.href}
-                  tooltip={item.label}
+                  variant={pathname.startsWith(item.href) ? 'primary' : 'ghost'}
+                  className="w-full justify-start"
+                  size="lg"
                 >
-                  <item.icon />
+                  <item.icon className="w-5 h-5" />
                   <span>{item.label}</span>
                 </SidebarMenuButton>
               </Link>
@@ -58,15 +63,37 @@ export function AppSidebar() {
           ))}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="mt-auto">
+        <div
+          className={`p-4 ${
+            state === 'collapsed' ? 'hidden' : 'block'
+          } space-y-4`}
+        >
+          <Separator />
+          <div className="p-4 rounded-lg bg-sidebar-accent text-sidebar-accent-foreground">
+            <h3 className="font-bold">Upgrade to Pro</h3>
+            <p className="text-sm">
+              Get access to exclusive features and premium support.
+            </p>
+            <Button
+              variant="primary"
+              className="w-full mt-2"
+              size="sm"
+            >
+              Upgrade
+            </Button>
+          </div>
+        </div>
+        <Separator className={`${state === 'collapsed' ? 'hidden' : 'block'}`} />
         <SidebarMenu>
            <SidebarMenuItem>
             <Link href="/settings" legacyBehavior passHref>
               <SidebarMenuButton
-                  isActive={pathname === '/settings'}
-                  tooltip="Settings"
+                  variant={pathname === '/settings' ? 'primary' : 'ghost'}
+                  className="w-full justify-start"
+                  size="lg"
                 >
-                <Settings />
+                <Settings className="w-5 h-5"/>
                 <span>Settings</span>
               </SidebarMenuButton>
             </Link>
