@@ -15,6 +15,9 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { INDIAN_STATES, PRODUCE_TYPES } from '@/lib/placeholder-data';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const DEBOUNCE_DELAY = 500;
 const RECORDS_PER_PAGE = 10;
@@ -66,7 +69,12 @@ function MarketPricesTable() {
     loadData();
   }, [debouncedFilters, offset, date]);
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterChange = (name: string, value: string) => {
+    setFilters(prev => ({ ...prev, [name]: value }));
+    setOffset(0); // Reset to first page on filter change
+  };
+  
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFilters(prev => ({ ...prev, [name]: value }));
     setOffset(0); // Reset to first page on filter change
@@ -82,7 +90,9 @@ function MarketPricesTable() {
   
   const resetFilters = () => {
     setFilters({ State: '', District: '', Commodity: ''});
-    setDate(undefined);
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    setDate(yesterday);
     setOffset(0);
   }
 
@@ -94,15 +104,37 @@ function MarketPricesTable() {
          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           <div className='space-y-2'>
             <Label htmlFor="State">State</Label>
-            <Input id="State" name="State" placeholder="e.g. Maharashtra" value={filters.State} onChange={handleFilterChange} />
+            <Select value={filters.State} onValueChange={(value) => handleFilterChange('State', value)}>
+                <SelectTrigger id="State">
+                    <SelectValue placeholder="Select a state" />
+                </SelectTrigger>
+                <SelectContent>
+                     <ScrollArea className="h-72">
+                        {INDIAN_STATES.map((state) => (
+                            <SelectItem key={state} value={state}>{state}</SelectItem>
+                        ))}
+                    </ScrollArea>
+                </SelectContent>
+            </Select>
           </div>
           <div className='space-y-2'>
             <Label htmlFor="District">District</Label>
-            <Input id="District" name="District" placeholder="e.g. Nashik" value={filters.District} onChange={handleFilterChange} />
+            <Input id="District" name="District" placeholder="e.g. Nashik" value={filters.District} onChange={handleInputChange} />
           </div>
           <div className='space-y-2'>
             <Label htmlFor="Commodity">Commodity</Label>
-            <Input id="Commodity" name="Commodity" placeholder="e.g. Mataki" value={filters.Commodity} onChange={handleFilterChange} />
+            <Select value={filters.Commodity} onValueChange={(value) => handleFilterChange('Commodity', value)}>
+                <SelectTrigger id="Commodity">
+                    <SelectValue placeholder="Select a commodity" />
+                </SelectTrigger>
+                <SelectContent>
+                     <ScrollArea className="h-72">
+                        {PRODUCE_TYPES.map((type) => (
+                            <SelectItem key={type.name} value={type.name}>{type.name}</SelectItem>
+                        ))}
+                    </ScrollArea>
+                </SelectContent>
+            </Select>
           </div>
            <div className="space-y-2">
             <Label htmlFor="date">Arrival Date</Label>

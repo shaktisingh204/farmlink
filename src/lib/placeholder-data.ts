@@ -2,6 +2,38 @@
 import type { Farmer, Market, Produce } from '@/lib/types';
 import { Apple, Carrot, Leaf, Wheat } from 'lucide-react';
 
+export const INDIAN_STATES = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal"
+];
+
+
 export const PRODUCE_TYPES = [
   { name: 'Apple', icon: Leaf },
   { name: 'Apricot', icon: Leaf },
