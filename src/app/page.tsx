@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Link from 'next/link';
@@ -143,7 +144,7 @@ export default function LandingPage() {
              <Image 
                 src="https://picsum.photos/1920/1080?random=42" 
                 alt="A vibrant farm landscape at sunrise" 
-                layout="fill"
+                fill
                 objectFit="cover"
                 className="opacity-50"
                 data-ai-hint="farm landscape"
@@ -202,7 +203,7 @@ export default function LandingPage() {
                         <p className="text-lg text-muted-foreground">
                             FarmLink integrates cutting-edge AI to provide instant support and expert advice. Whether you're a farmer needing crop advice or a new user exploring the platform, our AI assistants are here to help.
                         </p>
-                        <div className="flex gap-4 pt-4">
+                        <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <div className="flex items-start gap-3">
                                 <CheckCircle className="w-6 h-6 text-primary mt-1 flex-shrink-0"/>
                                 <div>
@@ -219,13 +220,47 @@ export default function LandingPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="relative h-96">
-                        <Image src="https://picsum.photos/800/600?random=50" alt="AI Chatbot Interface" layout="fill" objectFit="cover" className="rounded-lg shadow-xl" data-ai-hint="futuristic user interface"/>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg"></div>
-                        <div className="absolute bottom-4 left-4 text-white">
-                            <Bot className="w-10 h-10 mb-2"/>
-                            <h3 className="text-2xl font-bold">Instant, Intelligent Support</h3>
-                        </div>
+                    <div className="bg-secondary/50 p-1.5 rounded-2xl shadow-lg">
+                       <div className="bg-background rounded-xl p-4 border h-[450px] flex flex-col">
+                            <div className="flex items-center gap-2 mb-4">
+                                <span className="p-2 bg-primary/10 rounded-full"><Bot className="w-5 h-5 text-primary"/></span>
+                                <h3 className="font-semibold font-headline">Agri-Assistant</h3>
+                            </div>
+                            <div className="space-y-4 flex-1">
+                                <div className="flex items-start gap-3 justify-start">
+                                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
+                                        <Bot className="w-5 h-5" />
+                                    </span>
+                                    <div className="p-3 rounded-lg bg-background border max-w-xs">
+                                        <p className="text-sm">Hello! How can I help you with your crops today?</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-3 justify-end">
+                                    <div className="p-3 rounded-lg bg-secondary max-w-xs">
+                                        <p className="text-sm">My tomatoes have yellow spots on their leaves. What could be the cause?</p>
+                                    </div>
+                                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center">
+                                        <User className="w-5 h-5" />
+                                    </span>
+                                </div>
+                                 <div className="flex items-start gap-3 justify-start">
+                                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
+                                        <Bot className="w-5 h-5" />
+                                    </span>
+                                    <div className="p-3 rounded-lg bg-background border max-w-xs animate-pulse">
+                                       <div className="space-y-2">
+                                         <div className="h-2 bg-muted-foreground/30 rounded"></div>
+                                         <div className="h-2 bg-muted-foreground/30 rounded w-5/6"></div>
+                                         <div className="h-2 bg-muted-foreground/30 rounded w-3/4"></div>
+                                       </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mt-4 flex items-center gap-2">
+                                <Input placeholder="Typing..." className="bg-secondary" disabled />
+                                <Button disabled><ArrowRight/></Button>
+                            </div>
+                       </div>
                     </div>
                 </div>
             </div>
@@ -362,7 +397,7 @@ export default function LandingPage() {
         <Image 
             src="https://picsum.photos/1920/1080?random=101"
             alt="Abstract footer background"
-            layout="fill"
+            fill
             objectFit="cover"
             className="opacity-20"
             data-ai-hint="dark farm"
@@ -413,3 +448,5 @@ export default function LandingPage() {
 }
 
     
+
+
