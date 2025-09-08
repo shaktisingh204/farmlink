@@ -108,26 +108,25 @@ export async function updateProduceAction(
   }
 }
 
-export async function getProduceListings(farmerId: string): Promise<{ produce: Produce[], raw: any }> {
+export async function getProduceListings(farmerId: string): Promise<{ produce: Produce[] }> {
     try {
         const produceRef = ref(db, 'produce');
         const q = query(produceRef, orderByChild('farmerId'), equalTo(farmerId));
         const snapshot = await get(q);
         
-        const rawData = snapshot.val();
-
         if (snapshot.exists()) {
             const data = snapshot.val();
             const produceArray: Produce[] = Object.keys(data).map(key => ({
                 id: key,
                 ...data[key]
             })).reverse(); // show newest first
-            return { produce: produceArray, raw: rawData };
+            return { produce: produceArray };
         }
-        return { produce: [], raw: rawData };
+        return { produce: [] };
     } catch (error) {
         console.error("Error fetching produce listings:", error);
-        return { produce: [], raw: { error: (error as Error).message } };
+        // Returning an empty array for the UI to handle gracefully
+        return { produce: [] };
     }
 }
 

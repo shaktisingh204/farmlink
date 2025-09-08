@@ -16,28 +16,32 @@ import { cn } from '@/lib/utils';
 
 export default function MyProduceListingsPage() {
   const [produceList, setProduceList] = useState<Produce[]>([]);
-  const [rawData, setRawData] = useState<any>(null); // For debugging
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { user, loading: authLoading } = useAuth();
 
   const fetchProduce = useCallback(async () => {
     if (!user) {
-      setError("User not authenticated.");
+      // Don't set an error here, the auth hook will handle redirect.
       setIsLoading(false);
       return;
     }
 
     setIsLoading(true);
     setError(null);
-    setRawData(null);
     try {
-      // The action now returns the raw snapshot value for debugging
       const result = await getProduceListings(user.uid);
-      setRawData(result.raw); // Store raw data for display
-      setProduceList(result.produce || []);
+      if (result.produce) {
+        setProduceList(result.produce);
+      } else {
+        // This handles cases where `produce` is undefined but no explicit error is thrown,
+        // like permission errors that are caught and returned as an object.
+        setError('Could not fetch produce listings. Check database rules and connection.');
+        setProduceList([]);
+      }
     } catch (err: any) {
       setError(`Failed to fetch produce listings: ${err.message}`);
+      setProduceList([]);
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -46,11 +50,7 @@ export default function MyProduceListingsPage() {
 
   useEffect(() => {
     if (authLoading) {
-      setIsLoading(true);
-      return;
-    }
-    if (!user) {
-      setIsLoading(false);
+      // Wait for auth to finish loading
       return;
     }
     fetchProduce();
@@ -75,22 +75,6 @@ export default function MyProduceListingsPage() {
             </Button>
         </div>
       </div>
-      
-       {/* Debugging Panel */}
-      <Card className="bg-destructive/10 border-destructive">
-          <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-destructive"><AlertTriangle className="w-5 h-5"/> Debugging Information</CardTitle>
-              <CardDescription className="text-destructive/80">This panel shows the raw data response from the database to help diagnose issues.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {isLoading && <p>Fetching data...</p>}
-            {error && <p>Error: {error}</p>}
-            <pre className="text-xs bg-background p-4 rounded-md overflow-x-auto">
-                {JSON.stringify(rawData, null, 2) || "No raw data received yet."}
-            </pre>
-          </CardContent>
-      </Card>
-
 
        {isLoading ? (
         <div className="flex justify-center items-center py-12">
