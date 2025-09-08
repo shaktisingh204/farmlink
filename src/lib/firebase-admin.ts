@@ -8,6 +8,7 @@ if (!admin.apps.length) {
         admin.initializeApp({
             credential: admin.credential.cert(JSON.parse(serviceAccount!)),
             databaseURL: "https://shivamproject-288ca-default-rtdb.asia-southeast1.firebasedatabase.app/",
+            projectId: "shivamproject-288ca",
         });
     } catch (e) {
         console.error("Firebase admin initialization error", e);
@@ -21,4 +22,3 @@ export const getFirebaseAdminApp = () => {
     }
     return admin.app();
 }
-
