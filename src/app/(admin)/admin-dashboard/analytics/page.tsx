@@ -105,20 +105,22 @@ export default function Page() {
                 <CardDescription>A summary of sales revenue over the last 30 days.</CardDescription>
             </CardHeader>
             <CardContent>
-                 <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-                    <BarChart accessibilityLayer data={stats.salesData}>
-                        <CartesianGrid vertical={false} />
-                        <XAxis
-                            dataKey="date"
-                            tickLine={false}
-                            tickMargin={10}
-                            axisLine={false}
-                        />
-                         <YAxis />
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="totalSales" fill="var(--color-totalSales)" radius={4} />
-                    </BarChart>
-                </ChartContainer>
+                <ResponsiveContainer width="100%" height={200}>
+                    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+                        <BarChart accessibilityLayer data={stats.salesData}>
+                            <CartesianGrid vertical={false} />
+                            <XAxis
+                                dataKey="date"
+                                tickLine={false}
+                                tickMargin={10}
+                                axisLine={false}
+                            />
+                            <YAxis />
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Bar dataKey="totalSales" fill="var(--color-totalSales)" radius={4} />
+                        </BarChart>
+                    </ChartContainer>
+                </ResponsiveContainer>
             </CardContent>
         </Card>
 
