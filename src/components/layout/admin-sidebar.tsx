@@ -51,18 +51,18 @@ export function AdminSidebar() {
         <SidebarMenu>
           {mainLinks.map((item) => (
              <SidebarMenuItem key={item.href}>
-             <SidebarMenuButton
-               asChild
-               variant={pathname === item.href ? 'primary' : 'ghost'}
-               className="w-full justify-start"
-               size="lg"
-               tooltip={item.label}
-             >
               <Link href={item.href}>
-               <item.icon className="w-5 h-5" />
-               <span>{item.label}</span>
+                <SidebarMenuButton
+                  variant={pathname === item.href ? 'primary' : 'ghost'}
+                  className="w-full justify-start"
+                  size="lg"
+                  tooltip={item.label}
+                  isActive={pathname === item.href}
+                >
+                  <item.icon className="w-5 h-5" />
+                  <span>{item.label}</span>
+                </SidebarMenuButton>
               </Link>
-             </SidebarMenuButton>
            </SidebarMenuItem>
           ))}
         </SidebarMenu>
@@ -70,31 +70,31 @@ export function AdminSidebar() {
       <SidebarFooter className="mt-auto">
         <SidebarMenu>
            <SidebarMenuItem>
-            <SidebarMenuButton
-                asChild
-                variant={pathname === '/admin-dashboard/profile' ? 'primary' : 'ghost'}
-                className="w-full justify-start"
-                size="lg"
-                tooltip='Profile'
-              >
-              <Link href="/admin-dashboard/profile">
-                <UserCircle className="w-5 h-5"/>
-                <span>Profile</span>
+             <Link href="/admin-dashboard/profile">
+                <SidebarMenuButton
+                    variant={pathname === '/admin-dashboard/profile' ? 'primary' : 'ghost'}
+                    className="w-full justify-start"
+                    size="lg"
+                    tooltip='Profile'
+                    isActive={pathname === '/admin-dashboard/profile'}
+                  >
+                  <UserCircle className="w-5 h-5"/>
+                  <span>Profile</span>
+                </SidebarMenuButton>
               </Link>
-            </SidebarMenuButton>
            </SidebarMenuItem>
            <SidebarMenuItem>
-              <SidebarMenuButton
-                asChild
-                variant='outline'
-                className="w-full justify-start"
-                size="lg"
-                tooltip='Back to Portal Selection'
-              >
-                <Link href="/">
-                <span>Back to Portal Selection</span>
-                </Link>
-              </SidebarMenuButton>
+              <Link href="/">
+                <SidebarMenuButton
+                  asChild
+                  variant='outline'
+                  className="w-full justify-start"
+                  size="lg"
+                  tooltip='Back to Portal Selection'
+                >
+                  <span>Back to Portal Selection</span>
+                </SidebarMenuButton>
+              </Link>
             </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

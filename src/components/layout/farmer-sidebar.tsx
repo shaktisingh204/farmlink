@@ -43,6 +43,11 @@ const mainLinks = [
 export function FarmerSidebar() {
   const pathname = usePathname();
 
+  const isActive = (href: string) => {
+    if (href === '/farmer-dashboard') return pathname === href;
+    return pathname.startsWith(href);
+  };
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -58,18 +63,18 @@ export function FarmerSidebar() {
         <SidebarMenu>
           {mainLinks.map((item) => (
              <SidebarMenuItem key={item.href}>
-             <SidebarMenuButton
-               asChild
-               variant={pathname.startsWith(item.href) && (item.href !== '/farmer-dashboard' || pathname === item.href) ? 'primary' : 'ghost'}
-               className="w-full justify-start"
-               size="lg"
-               tooltip={item.label}
-             >
               <Link href={item.href}>
-               <item.icon className="w-5 h-5" />
-               <span>{item.label}</span>
+                <SidebarMenuButton
+                  variant={isActive(item.href) ? 'primary' : 'ghost'}
+                  className="w-full justify-start"
+                  size="lg"
+                  tooltip={item.label}
+                  isActive={isActive(item.href)}
+                >
+                 <item.icon className="w-5 h-5" />
+                 <span>{item.label}</span>
+                </SidebarMenuButton>
               </Link>
-             </SidebarMenuButton>
            </SidebarMenuItem>
           ))}
         </SidebarMenu>
@@ -77,31 +82,31 @@ export function FarmerSidebar() {
       <SidebarFooter className="mt-auto">
         <SidebarMenu>
            <SidebarMenuItem>
-            <SidebarMenuButton
-                asChild
-                variant={pathname === '/farmer-dashboard/profile' ? 'primary' : 'ghost'}
-                className="w-full justify-start"
-                size="lg"
-                tooltip='Profile'
-              >
               <Link href="/farmer-dashboard/profile">
-                <UserCircle className="w-5 h-5"/>
-                <span>Profile</span>
+                <SidebarMenuButton
+                  variant={pathname === '/farmer-dashboard/profile' ? 'primary' : 'ghost'}
+                  className="w-full justify-start"
+                  size="lg"
+                  tooltip='Profile'
+                  isActive={pathname === '/farmer-dashboard/profile'}
+                >
+                  <UserCircle className="w-5 h-5"/>
+                  <span>Profile</span>
+                </SidebarMenuButton>
               </Link>
-            </SidebarMenuButton>
            </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton
-                asChild
-                variant='outline'
-                className="w-full justify-start"
-                size="lg"
-                tooltip='Back to Portal Selection'
-              >
-                <Link href="/">
-                <span>Back to Portal Selection</span>
-                </Link>
-              </SidebarMenuButton>
+              <Link href="/">
+                <SidebarMenuButton
+                  asChild
+                  variant='outline'
+                  className="w-full justify-start"
+                  size="lg"
+                  tooltip='Back to Portal Selection'
+                >
+                  <span>Back to Portal Selection</span>
+                </SidebarMenuButton>
+              </Link>
             </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

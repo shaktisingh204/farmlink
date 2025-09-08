@@ -53,50 +53,50 @@ export function MarketSidebar() {
         <SidebarMenu>
           {mainLinks.map((item) => (
              <SidebarMenuItem key={item.href}>
-             <SidebarMenuButton
-               asChild
-               variant={pathname === item.href ? 'primary' : 'ghost'}
-               className="w-full justify-start"
-               size="lg"
-               tooltip={item.label}
-             >
-              <Link href={item.href}>
-               <item.icon className="w-5 h-5" />
-               <span>{item.label}</span>
-              </Link>
-             </SidebarMenuButton>
-           </SidebarMenuItem>
+                <Link href={item.href}>
+                  <SidebarMenuButton
+                    variant={pathname === item.href ? 'primary' : 'ghost'}
+                    className="w-full justify-start"
+                    size="lg"
+                    tooltip={item.label}
+                    isActive={pathname === item.href}
+                  >
+                  <item.icon className="w-5 h-5" />
+                  <span>{item.label}</span>
+                  </SidebarMenuButton>
+                </Link>
+             </SidebarMenuItem>
           ))}
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter className="mt-auto">
         <SidebarMenu>
            <SidebarMenuItem>
-            <SidebarMenuButton
-                asChild
-                variant={pathname === '/local-market-dashboard/profile' ? 'primary' : 'ghost'}
-                className="w-full justify-start"
-                size="lg"
-                tooltip='Profile'
-              >
-              <Link href="/local-market-dashboard/profile">
+            <Link href="/local-market-dashboard/profile">
+              <SidebarMenuButton
+                  variant={pathname === '/local-market-dashboard/profile' ? 'primary' : 'ghost'}
+                  className="w-full justify-start"
+                  size="lg"
+                  tooltip='Profile'
+                  isActive={pathname === '/local-market-dashboard/profile'}
+                >
                 <UserCircle className="w-5 h-5"/>
                 <span>Profile</span>
-              </Link>
-            </SidebarMenuButton>
+              </SidebarMenuButton>
+            </Link>
            </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton
-                asChild
-                variant='outline'
-                className="w-full justify-start"
-                size="lg"
-                tooltip='Back to Portal Selection'
-              >
-                <Link href="/">
-                <span>Back to Portal Selection</span>
-                </Link>
-              </SidebarMenuButton>
+              <Link href="/">
+                <SidebarMenuButton
+                  asChild
+                  variant='outline'
+                  className="w-full justify-start"
+                  size="lg"
+                  tooltip='Back to Portal Selection'
+                >
+                  <span>Back to Portal Selection</span>
+                </SidebarMenuButton>
+              </Link>
             </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
