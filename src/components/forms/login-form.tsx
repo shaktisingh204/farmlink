@@ -56,10 +56,11 @@ export function LoginForm({ title, description, icon, loginPath, role }: LoginFo
         setError(`This account is not registered as a ${role}. Please use the correct portal or register a new account.`);
       }
     } catch (error: any) {
-      console.error(error);
       let errorMessage = 'An unexpected error occurred. Please try again.';
       if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
         errorMessage = 'Invalid email or password. Please try again.';
+      } else {
+         console.error(error);
       }
       setError(errorMessage);
     } finally {
