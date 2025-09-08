@@ -13,7 +13,7 @@ const firebaseConfig = {
   messagingSenderId: "1060221387669",
   appId: "1:1060221387669:web:bdd0650aa372c9af3d6c9c",
   measurementId: "G-Y2T9Q2SF02",
-  databaseURL: "https://shivamproject-288ca.firebaseio.com" // Ensure databaseURL is present
+  databaseURL: "https://shivamproject-288ca-default-rtdb.asia-southeast1.firebasedatabase.app/"
 };
 
 // Initialize Firebase
