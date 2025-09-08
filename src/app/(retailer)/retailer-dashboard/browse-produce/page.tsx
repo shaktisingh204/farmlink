@@ -12,6 +12,7 @@ import { getBrowseableProduce, createOrder, toggleFavorite } from './actions';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/use-auth';
+import { cn } from '@/lib/utils';
 
 export default function BrowseProducePage() {
   const [produceList, setProduceList] = useState<ProduceWithFarmer[]>([]);
