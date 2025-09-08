@@ -118,15 +118,12 @@ export async function getProduceListings(farmerId: string) {
 
         if (snapshot.exists()) {
             const data = snapshot.val();
+            // Firebase returns an object, so we convert it to an array
             const produceArray: Produce[] = Object.keys(data).map(key => ({
                 id: key,
                 ...data[key]
             }));
-             // Firebase returns an object for single results, so we need to handle that.
-            if (Array.isArray(produceArray)) {
-                return produceArray;
-            }
-            return [produceArray];
+            return produceArray;
         }
         return [];
     } catch (error) {
