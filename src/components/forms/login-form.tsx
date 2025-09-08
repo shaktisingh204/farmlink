@@ -54,6 +54,7 @@ export function LoginForm({ title, description, icon, loginPath, role }: LoginFo
       } else {
         await signOut(auth); // Sign out the user
         setError(`This account is not registered as a ${role}. Please use the correct portal or register a new account.`);
+        setIsLoading(false);
       }
     } catch (error: any) {
       let errorMessage = 'An unexpected error occurred. Please try again.';
@@ -63,8 +64,7 @@ export function LoginForm({ title, description, icon, loginPath, role }: LoginFo
          console.error(error);
       }
       setError(errorMessage);
-    } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 

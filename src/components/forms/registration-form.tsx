@@ -35,6 +35,7 @@ export function RegistrationForm({ title, description, icon, loginPath, dashboar
     const name = event.currentTarget.name.value;
     const email = event.currentTarget.email.value;
     const password = event.currentTarget.password.value;
+    const role = title.split(' ')[0].toLowerCase();
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -44,7 +45,7 @@ export function RegistrationForm({ title, description, icon, loginPath, dashboar
       await set(ref(db, 'users/' + user.uid), {
         name: name,
         email: email,
-        role: title.split(' ')[0].toLowerCase(), // e.g., 'farmer', 'admin'
+        role: role,
       });
       
       toast({
@@ -62,7 +63,6 @@ export function RegistrationForm({ title, description, icon, loginPath, dashboar
         errorMessage = 'The password is too weak. Please choose a stronger password.';
       }
       setError(errorMessage);
-    } finally {
       setIsLoading(false);
     }
   };
