@@ -14,52 +14,55 @@ FarmLink is built with a modern, robust, and scalable technology stack:
 
 ## Key Features
 
-The platform is divided into four distinct user portals and a public-facing website, each tailored with specific features.
+The platform's features are tailored to the specific needs of each user role, leveraging AI to provide actionable insights and streamline operations.
 
-### 1. Public-Facing Website
+### For Farmers:
 
-The main entry point for users, showcasing the platform's capabilities.
+#### 1. AI Price Advisor
+-   **How it Works:** Farmers upload a photo of their produce, specify the commodity, and provide their location. The AI analyzes the image to assess quality (freshness, ripeness, defects) and fetches real-time prices from market data APIs for that commodity. It then recommends a fair market price per kg based on both the quality assessment and the market data.
+-   **Tech Used:** Genkit, Gemini Vision model, Firebase Realtime Database, Next.js Server Actions.
 
--   **Engaging Landing Page:** A visually rich introduction to FarmLink's features and mission.
--   **User Portals:** Clear navigation to dedicated login and registration pages for each user role.
--   **AI-Powered FAQ Chatbot:** An interactive bot, powered by Gemini, that answers visitor questions about the platform's features.
--   **Feature Showcases:** Detailed sections for public-facing tools like the AI Price Estimator and Distribution Optimizer.
+#### 2. Agri-Assistant Chatbot
+-   **How it Works:** A conversational AI chatbot where farmers can ask any farming-related question. The AI, powered by a Gemini model fine-tuned for agricultural expertise, provides instant, actionable advice on topics like crop diseases, soil health, and pest control.
+-   **Tech Used:** Genkit, Gemini, React.
 
-### 2. Farmer Portal
+#### 3. Produce Listings Management
+-   **How it Works:** Farmers can easily create, view, and manage their produce listings. They can set the name, variety, quantity, price, and description, and upload an image. All listings are stored in Firebase Realtime Database and are instantly available to retailers on the platform.
+-   **Tech Used:** Firebase Realtime Database, Next.js Server Actions, React.
 
-A comprehensive dashboard for farmers to manage their business.
+#### 4. AI Market Suggestions
+-   **How it Works:** Farmers select a commodity they wish to sell. The AI uses a Genkit tool to query a government market data API for the latest prices across different regions. It then analyzes this data to provide a summary of market conditions and suggests the most profitable markets for that specific produce.
+-   **Tech Used:** Genkit, Gemini, External Data API, Next.js Server Actions.
 
--   **AI Price Advisor:** Upload a photo of produce to get an AI-driven quality assessment and a fair market price recommendation.
--   **Agri-Assistant Chatbot:** A specialized AI expert that answers any farming-related question, from crop diseases to soil management.
--   **Produce Listings Management:** Easily create, view, and manage produce listings for sale.
--   **AI Market Suggestions:** Get AI-analyzed suggestions on the best markets to sell specific produce based on real-time price data.
--   **Order & Earnings Management:** Track incoming orders and review payment history.
+### For Retailers:
 
-### 3. Retailer Portal
+#### 1. Browse and Order Produce
+-   **How it Works:** Retailers can view a comprehensive, real-time catalog of all produce listed by every farmer on the platform. They can see details like price, quantity, and farmer information, and place orders directly.
+-   **Tech Used:** Firebase Realtime Database, React.
 
-Tools for retailers to source the best local produce.
+#### 2. AI Recommended Deals
+-   **How it Works:** The AI analyzes a retailer's order history and favorited items to understand their preferences. It then compares these preferences with all currently available produce to generate a personalized list of 2-3 recommended deals, complete with a reason for each suggestion.
+-   **Tech Used:** Genkit, Gemini, Firebase Realtime Database, Next.js Server Actions.
 
--   **Browse Produce:** A comprehensive and filterable view of all produce available from every farmer on the platform.
--   **AI Recommended Deals:** The platform uses AI to analyze purchasing history and favorites to generate personalized deal recommendations.
--   **Direct Ordering:** Place orders directly with farmers through the platform.
--   **Favorites:** Save preferred produce items for quick access.
+#### 3. Favorites Management
+-   **How it Works:** Retailers can mark any produce item as a favorite. This creates a personalized list for quick access and also provides data for the AI Deal Recommender.
+-   **Tech Used:** Firebase Realtime Database, React.
 
-### 4. Market Manager Portal
+### For Market Managers & Admins:
 
-A high-level dashboard for overseeing market operations.
+#### 1. Centralized Analytics Dashboards
+-   **How it Works:** Both Market Managers and Admins have access to dashboards that provide a high-level view of platform activity. These dashboards display key metrics like total revenue, user counts (farmers and retailers), active listings, and sales trends visualized with charts.
+-   **Tech Used:** Firebase Realtime Database, Recharts, React.
 
--   **Market Overview Analytics:** A dashboard with key metrics on platform activity, including total revenue, user participation, and sales trends visualized with charts.
--   **Farmer & Retailer Activity:** Monitor the participation and activity levels of all farmers and retailers.
--   **Logistics Snapshot:** A real-time view of all orders and deliveries across the market.
--   **Revenue Tracking:** A complete log of all transactions and revenue flowing through the platform.
+#### 2. User and Transaction Monitoring
+-   **How it Works:** Admins and Market Managers can view detailed tables listing all users (farmers, retailers) and all transactions (orders) that have occurred on the platform. This allows for complete oversight and logistical management.
+-   **Tech Used:** Firebase Realtime Database, Next.js Server Actions, React.
 
-### 5. Admin Portal
+### Public Features:
 
-The central control panel for platform administrators.
-
--   **User Management:** View a list of all registered users (farmers, retailers, etc.) and their roles.
--   **Platform-Wide Analytics:** Access high-level analytics and data visualizations for the entire ecosystem.
--   **Transaction Monitoring:** A complete log of all transactions occurring on the platform.
+#### 1. AI-Powered FAQ Chatbot
+-   **How it Works:** An interactive chatbot on the main landing page, powered by a Gemini model, is trained on platform-specific information to answer visitor questions about FarmLink's features and mission.
+-   **Tech Used:** Genkit, Gemini, React.
 
 ## Getting Started
 
