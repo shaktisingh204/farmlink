@@ -8,8 +8,12 @@ import { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useDebounce } from '@/hooks/use-debounce';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Calendar as CalendarIcon, X } from 'lucide-react';
 import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 const DEBOUNCE_DELAY = 500;
 const RECORDS_PER_PAGE = 10;
@@ -20,6 +24,7 @@ function MarketPricesTable() {
   const [error, setError] = useState<string | null>(null);
   
   const [filters, setFilters] = useState({ State: '', District: '', Commodity: '' });
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const [offset, setOffset] = useState(0);
 
   const debouncedFilters = useDebounce(filters, DEBOUNCE_DELAY);
@@ -36,6 +41,7 @@ function MarketPricesTable() {
             State: debouncedFilters.State || undefined,
             District: debouncedFilters.District || undefined,
             Commodity: debouncedFilters.Commodity || undefined,
+            Arrival_Date: date ? date.toISOString() : undefined,
           }
         });
         setData(result);
@@ -47,7 +53,7 @@ function MarketPricesTable() {
       }
     }
     loadData();
-  }, [debouncedFilters, offset]);
+  }, [debouncedFilters, offset, date]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -62,14 +68,19 @@ function MarketPricesTable() {
   const handlePrevPage = () => {
     setOffset(prev => Math.max(0, prev - RECORDS_PER_PAGE));
   };
-
+  
+  const resetFilters = () => {
+    setFilters({ State: '', District: '', Commodity: ''});
+    setDate(undefined);
+    setOffset(0);
+  }
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Daily Market Prices</CardTitle>
         <CardDescription>Filter and browse daily market prices from data.gov.in.</CardDescription>
-         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           <div className='space-y-2'>
             <Label htmlFor="State">State</Label>
             <Input id="State" name="State" placeholder="e.g. Maharashtra" value={filters.State} onChange={handleFilterChange} />
@@ -82,6 +93,35 @@ function MarketPricesTable() {
             <Label htmlFor="Commodity">Commodity</Label>
             <Input id="Commodity" name="Commodity" placeholder="e.g. Mataki" value={filters.Commodity} onChange={handleFilterChange} />
           </div>
+           <div className="space-y-2">
+            <Label htmlFor="date">Arrival Date</Label>
+             <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  id="date"
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {date ? format(date, "PPP") : <span>Pick a date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={(d) => { setDate(d); setOffset(0); }}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+        </div>
+        <div className="flex justify-end pt-2">
+            <Button variant="ghost" size="sm" onClick={resetFilters}><X className="mr-2 h-4 w-4" /> Reset Filters</Button>
         </div>
       </CardHeader>
       <CardContent>

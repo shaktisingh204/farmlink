@@ -1,6 +1,7 @@
 'use server';
 
 import { XMLParser } from 'fast-xml-parser';
+import { format } from 'date-fns';
 
 export interface MarketRecord {
   State: string;
@@ -42,7 +43,14 @@ export async function getMarketData(params: MarketDataParams = {}): Promise<Mark
   if (filters.State) urlParams.append('filters[State]', filters.State);
   if (filters.District) urlParams.append('filters[District]', filters.District);
   if (filters.Commodity) urlParams.append('filters[Commodity]', filters.Commodity);
-  if (filters.Arrival_Date) urlParams.append('filters[Arrival_Date]', filters.Arrival_Date);
+  if (filters.Arrival_Date) {
+    try {
+      const formattedDate = format(new Date(filters.Arrival_Date), 'dd/MM/yyyy');
+      urlParams.append('filters[Arrival_Date]', formattedDate);
+    } catch (e) {
+      console.error("Invalid date provided for filter", e);
+    }
+  }
 
   try {
     const response = await fetch(`${baseUrl}?${urlParams.toString()}`);
