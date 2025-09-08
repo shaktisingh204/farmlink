@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { getProduceListings } from './actions';
 import { useAuth } from '@/hooks/use-auth';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { cn } from '@/lib/utils';
 
 export default function MyProduceListingsPage() {
   const [produceList, setProduceList] = useState<Produce[]>([]);
@@ -151,4 +152,3 @@ export default function MyProduceListingsPage() {
     </div>
   );
 }
-
