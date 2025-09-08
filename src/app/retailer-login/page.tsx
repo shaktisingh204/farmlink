@@ -28,6 +28,7 @@ export default function RetailerLoginPage() {
             description="Login to browse produce and place orders."
             icon={<ShoppingBag className="w-12 h-12 text-primary" />}
             loginPath="/retailer-dashboard"
+            role="retailer"
           />
          <p className="text-sm text-center text-muted-foreground mt-6">
           Don&apos;t have an account?{' '}

@@ -28,6 +28,7 @@ export default function MarketLoginPage() {
             description="Login to oversee market operations and logistics."
             icon={<Building className="w-12 h-12 text-primary" />}
             loginPath="/local-market-dashboard"
+            role="market"
           />
           <p className="text-sm text-center text-muted-foreground mt-6">
             Don&apos;t have an account?{' '}

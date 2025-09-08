@@ -6,38 +6,55 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { auth } from '@/lib/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from '@/lib/firebase';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { ref, get } from 'firebase/database';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Terminal } from 'lucide-react';
+import type { UserProfile } from '@/lib/types';
 
 interface LoginFormProps {
   title: string;
   description: string;
   icon: React.ReactNode;
   loginPath: string;
+  role: UserProfile['role'];
 }
 
-export function LoginForm({ title, description, icon, loginPath }: LoginFormProps) {
+export function LoginForm({ title, description, icon, loginPath, role }: LoginFormProps) {
   const router = useRouter();
   const { toast } = useToast();
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
+    setIsLoading(true);
+
     const email = event.currentTarget.email.value;
     const password = event.currentTarget.password.value;
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      toast({
-        title: 'Success!',
-        description: 'You have successfully logged in.',
-      });
-      router.push(loginPath);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Check user role from database
+      const userRef = ref(db, `users/${user.uid}`);
+      const snapshot = await get(userRef);
+
+      if (snapshot.exists() && snapshot.val().role === role) {
+        toast({
+          title: 'Success!',
+          description: 'You have successfully logged in.',
+        });
+        router.push(loginPath);
+      } else {
+        await signOut(auth); // Sign out the user
+        setError(`This account is not registered as a ${role}. Please use the correct portal or register a new account.`);
+      }
     } catch (error: any) {
       console.error(error);
       let errorMessage = 'An unexpected error occurred. Please try again.';
@@ -45,6 +62,8 @@ export function LoginForm({ title, description, icon, loginPath }: LoginFormProp
         errorMessage = 'Invalid email or password. Please try again.';
       }
       setError(errorMessage);
+    } finally {
+        setIsLoading(false);
     }
   };
 
@@ -68,8 +87,8 @@ export function LoginForm({ title, description, icon, loginPath }: LoginFormProp
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
           {error && <Alert variant="destructive"><Terminal className="h-4 w-4" /><AlertTitle>Login Failed</AlertTitle><AlertDescription>{error}</AlertDescription></Alert>}
-          <Button type="submit" className="w-full">
-            Login
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? 'Logging in...' : 'Login'}
           </Button>
           <p className="text-xs text-muted-foreground text-center pt-2">
             <Link href="/" className="underline hover:text-primary">

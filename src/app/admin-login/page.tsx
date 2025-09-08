@@ -28,6 +28,7 @@ export default function AdminLoginPage() {
             description="Login to manage the FarmLink platform."
             icon={<Shield className="w-12 h-12 text-primary" />}
             loginPath="/admin-dashboard"
+            role="admin"
           />
           <p className="text-sm text-center text-muted-foreground mt-6">
             Don&apos;t have an account?{' '}
