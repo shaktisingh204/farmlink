@@ -22,6 +22,7 @@ import {
   Shield,
   Home,
   UserCircle,
+  Mail,
 } from 'lucide-react';
 
 const mainLinks = [
@@ -30,6 +31,7 @@ const mainLinks = [
   { href: '/admin-dashboard/transactions', label: 'Transactions', icon: BarChart },
   { href: '/admin-dashboard/analytics', label: 'Analytics', icon: AreaChart },
   { href: '/admin-dashboard/complaints', label: 'Complaints', icon: FileWarning },
+  { href: '/admin-dashboard/contact-messages', label: 'Contact Messages', icon: Mail },
   { href: '/admin-dashboard/system-health', label: 'System Health', icon: Server },
 ]
 

@@ -4,18 +4,22 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { User, ShoppingBag, Building, Shield, ArrowRight, TrendingUp, Cpu, Truck, Lightbulb, Users, CheckCircle, Facebook, Twitter, Instagram, MessageSquare, Bot } from 'lucide-react';
+import { User, ShoppingBag, Building, Shield, ArrowRight, TrendingUp, Cpu, Truck, Lightbulb, Users, CheckCircle, Facebook, Twitter, Instagram, MessageSquare, Bot, Terminal, Loader2 } from 'lucide-react';
 import { PageHeader } from '@/components/page-header';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useState } from 'react';
+import { useState, useActionState, useEffect } from 'react';
 import { Chatbot } from '@/components/chatbot';
-import { getFaqBotResponse } from './actions';
+import { getFaqBotResponse, saveContactMessageAction, type ContactFormState } from './actions';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useFormStatus } from 'react-dom';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useToast } from '@/hooks/use-toast';
+import React from 'react';
 
 
 const portals = [
@@ -136,6 +140,67 @@ function FaqChatbot() {
             </PopoverContent>
         </Popover>
     )
+}
+
+function ContactSubmitButton() {
+    const { pending } = useFormStatus();
+    return (
+        <Button type="submit" disabled={pending}>
+             {pending ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...</> : 'Send Message'}
+        </Button>
+    )
+}
+
+
+function ContactForm() {
+    const initialState: ContactFormState = {};
+    const [state, dispatch] = useActionState(saveContactMessageAction, initialState);
+    const { toast } = useToast();
+    const formRef = React.useRef<HTMLFormElement>(null);
+
+    useEffect(() => {
+        if(state.success) {
+            toast({
+                title: "Message Sent!",
+                description: "Thank you for your feedback. We'll get back to you soon.",
+            });
+            formRef.current?.reset();
+        }
+    }, [state.success, toast])
+
+    return (
+        <form action={dispatch} ref={formRef}>
+            <Card className="max-w-2xl mx-auto mt-12 bg-background">
+                <CardHeader>
+                    <CardTitle>Contact Form</CardTitle>
+                    <CardDescription>Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="grid sm:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="name">Name</Label>
+                            <Input id="name" name="name" placeholder="Your Name" required />
+                             {state.fieldErrors?.name && <p className="text-sm text-destructive">{state.fieldErrors.name}</p>}
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input id="email" name="email" type="email" placeholder="your@email.com" required/>
+                             {state.fieldErrors?.email && <p className="text-sm text-destructive">{state.fieldErrors.email}</p>}
+                        </div>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="message">Message</Label>
+                        <Textarea id="message" name="message" placeholder="Your message..." rows={5} required />
+                        {state.fieldErrors?.message && <p className="text-sm text-destructive">{state.fieldErrors.message}</p>}
+                    </div>
+                </CardContent>
+                <CardFooter className="flex flex-col items-start gap-4">
+                     {state.error && <Alert variant="destructive"><Terminal className="h-4 w-4" /><AlertTitle>Error</AlertTitle><AlertDescription>{state.error}</AlertDescription></Alert>}
+                    <ContactSubmitButton />
+                </CardFooter>
+            </Card>
+        </form>
+    );
 }
 
 
@@ -308,31 +373,7 @@ export default function LandingPage() {
                         Have questions or feedback? We'd love to hear from you.
                     </p>
                 </div>
-                <Card className="max-w-2xl mx-auto mt-12 bg-background">
-                    <CardHeader>
-                        <CardTitle>Contact Form</CardTitle>
-                        <CardDescription>Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="grid sm:grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="name">Name</Label>
-                                <Input id="name" placeholder="Your Name" />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="email">Email</Label>
-                                <Input id="email" type="email" placeholder="your@email.com" />
-                            </div>
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="message">Message</Label>
-                            <Textarea id="message" placeholder="Your message..." rows={5}/>
-                        </div>
-                    </CardContent>
-                    <CardFooter>
-                        <Button>Send Message</Button>
-                    </CardFooter>
-                </Card>
+                <ContactForm />
             </div>
         </section>
 

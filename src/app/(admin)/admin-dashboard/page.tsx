@@ -2,7 +2,7 @@
 'use client';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Users, BarChart, AreaChart, FileWarning, Server } from 'lucide-react';
+import { Users, BarChart, AreaChart, FileWarning, Server, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
@@ -16,6 +16,7 @@ const features = [
     { href: '/admin-dashboard/transactions', label: 'Transactions', icon: BarChart },
     { href: '/admin-dashboard/analytics', label: 'Analytics', icon: AreaChart },
     { href: '/admin-dashboard/complaints', label: 'Complaints', icon: FileWarning },
+    { href: '/admin-dashboard/contact-messages', label: 'Contact Messages', icon: Mail },
     { href: '/admin-dashboard/system-health', label: 'System Health', icon: Server },
 ];
 
