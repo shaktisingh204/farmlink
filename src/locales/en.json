@@ -5,6 +5,103 @@
         "headline": "Connecting Fields to Markets, Seamlessly.",
         "tagline": "FarmLink is the all-in-one platform empowering farmers, retailers, and local markets with AI-driven insights for a more efficient and fair agricultural ecosystem.",
         "getStarted": "Get Started",
-        "learnMore": "Learn More"
+        "learnMore": "Learn More",
+        "choosePortal": "Choose Your Portal"
+    },
+    "portals": {
+        "farmer": {
+            "title": "Farmer Portal",
+            "description": "Manage your produce, track earnings, and connect with markets.",
+            "hero": "Join our network of local farmers, manage your produce, and reach more buyers."
+        },
+        "retailer": {
+            "title": "Retailer Portal",
+            "description": "Browse produce, place orders, and discover new local suppliers.",
+            "hero": "Discover the freshest local produce, connect with farmers, and place orders with ease."
+        },
+        "market": {
+            "title": "Market Portal",
+            "description": "Oversee market operations, participation, and logistics.",
+            "hero": "Manage operations, track farmer participation, and streamline logistics."
+        },
+        "admin": {
+            "title": "Admin Portal",
+            "description": "System administration, user management, and analytics.",
+            "hero": "Oversee the entire platform, manage users, and ensure everything runs smoothly."
+        }
+    },
+    "login": {
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "loginButton": "Login",
+        "loggingIn": "Logging in...",
+        "failed": "Login Failed",
+        "noAccount": "Don't have an account?",
+        "registerHere": "Register here",
+        "backToPortals": "Back to portal selection"
+    },
+    "register": {
+        "nameLabel": "Full Name",
+        "namePlaceholder": "John Doe",
+        "createButton": "Create Account",
+        "creatingAccount": "Creating Account...",
+        "failed": "Registration Failed",
+        "haveAccount": "Already have an account?",
+        "loginHere": "Login here",
+        "farmerTitle": "Farmer Registration",
+        "farmerDescription": "Create an account to manage your produce and earnings.",
+        "farmerHero": "Join our network of local farmers, manage your produce, and reach more buyers.",
+        "retailerTitle": "Retailer Registration",
+        "retailerDescription": "Create an account to browse produce and place orders.",
+        "retailerHero": "Discover the freshest local produce, connect with farmers, and place orders with ease.",
+        "marketTitle": "Market Registration",
+        "marketDescription": "Create an account to oversee market operations and logistics.",
+        "marketHero": "Manage operations, track farmer participation, and streamline logistics.",
+        "adminTitle": "Admin Registration",
+        "adminDescription": "Create an account to manage the FarmLink platform.",
+        "adminHero": "Create an account to oversee the entire platform, manage users, and ensure everything runs smoothly."
+    },
+    "sidebar": {
+        "common": {
+            "profile": "Profile",
+            "backToPortals": "Back to Portal Selection"
+        },
+        "farmer": {
+            "overview": "Overview",
+            "myProduce": "My Produce Listings",
+            "priceAdvisor": "AI Price Advisor",
+            "marketSuggestions": "Market Price Suggestions",
+            "agriAssist": "Agri-Assistant",
+            "marketPrices": "Daily Market Prices",
+            "ordersReceived": "Orders Received",
+            "payments": "Payments & Earnings",
+            "alerts": "Alerts"
+        },
+        "retailer": {
+            "overview": "Overview",
+            "browseProduce": "Browse Produce",
+            "myOrders": "My Orders",
+            "recommendedDeals": "Recommended Deals",
+            "payments": "Payments",
+            "favorites": "Favorites"
+        },
+        "market": {
+            "overview": "Overview",
+            "marketOverview": "Market Overview",
+            "farmerParticipation": "Farmer Participation",
+            "retailerActivity": "Retailer Activity",
+            "logistics": "Logistics Snapshot",
+            "revenue": "Revenue & Payments",
+            "alerts": "Alerts"
+        },
+        "admin": {
+            "overview": "Overview",
+            "userManagement": "User Management",
+            "transactions": "Transactions",
+            "analytics": "Analytics",
+            "complaints": "Complaints",
+            "contactMessages": "Contact Messages",
+            "systemHealth": "System Health"
+        }
     }
 }

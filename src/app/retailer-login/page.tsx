@@ -1,10 +1,15 @@
 
+'use client';
+
 import { LoginForm } from '@/components/forms/login-form';
 import { ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useLanguage } from '@/hooks/use-language';
 
 export default function RetailerLoginPage() {
+  const { t } = useLanguage();
+
   return (
     <div className="grid md:grid-cols-2 min-h-screen bg-background">
        <div className="hidden md:block relative">
@@ -17,23 +22,23 @@ export default function RetailerLoginPage() {
         />
          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
         <div className="absolute bottom-8 left-8 text-white">
-          <h2 className="text-4xl font-bold font-headline">Source the Best</h2>
-          <p className="text-lg mt-2 max-w-md">Discover the freshest local produce, connect with farmers, and place orders with ease.</p>
+          <h2 className="text-4xl font-bold font-headline">{t('portals.retailer.title')}</h2>
+          <p className="text-lg mt-2 max-w-md">{t('portals.retailer.hero')}</p>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center p-4">
         <div className="w-full max-w-sm">
           <LoginForm
-            title="Retailer Portal"
-            description="Login to browse produce and place orders."
+            title={t('portals.retailer.title')}
+            description={t('portals.retailer.description')}
             icon={<ShoppingBag className="w-12 h-12 text-primary" />}
             loginPath="/retailer-dashboard"
             role="retailer"
           />
          <p className="text-sm text-center text-muted-foreground mt-6">
-          Don&apos;t have an account?{' '}
+          {t('login.noAccount')}{' '}
           <Link href="/retailer-register" className="font-semibold text-primary hover:underline">
-            Register here
+            {t('login.registerHere')}
           </Link>
         </p>
         </div>
