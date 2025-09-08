@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import {
   getMarketSuggestionAction,
   type MarketSuggestionState,
@@ -34,6 +35,7 @@ import {
   ListChecks,
 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useActionState } from 'react';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -53,7 +55,7 @@ function SubmitButton() {
 
 export default function Page() {
   const initialState: MarketSuggestionState = {};
-  const [state, dispatch] = useFormState(getMarketSuggestionAction, initialState);
+  const [state, dispatch] = useActionState(getMarketSuggestionAction, initialState);
 
   return (
     <div className="space-y-8">

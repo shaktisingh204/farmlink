@@ -1,6 +1,6 @@
 
 'use client';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { getPriceAdviceAction, type PriceAdvisorState } from './actions';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,7 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Terminal, Sparkles, UploadCloud, CircleDollarSign, Microscope, CheckCircle, XCircle } from 'lucide-react';
 import { PRODUCE_TYPES } from '@/lib/placeholder-data';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useState } from 'react';
+import { useState, useActionState } from 'react';
 import Image from 'next/image';
 
 function SubmitButton() {
@@ -25,7 +25,7 @@ function SubmitButton() {
 
 export default function AiPriceAdvisorPage() {
   const initialState: PriceAdvisorState = {};
-  const [state, dispatch] = useFormState(getPriceAdviceAction, initialState);
+  const [state, dispatch] = useActionState(getPriceAdviceAction, initialState);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageData, setImageData] = useState<string>('');
 

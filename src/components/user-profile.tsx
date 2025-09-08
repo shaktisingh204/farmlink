@@ -1,13 +1,14 @@
+
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useActionState } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2, UserCircle, Terminal, CheckCircle } from 'lucide-react';
 import { getUserProfile, updateProfileAction, type UpdateProfileState } from '@/lib/actions/user-actions';
 import type { UserProfile as UserProfileType } from '@/lib/types';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -32,7 +33,7 @@ export function UserProfile() {
     const { toast } = useToast();
     const initialState: UpdateProfileState = {};
     const updateUserActionWithId = updateProfileAction.bind(null, user?.uid || '');
-    const [state, dispatch] = useFormState(updateUserActionWithId, initialState);
+    const [state, dispatch] = useActionState(updateUserActionWithId, initialState);
 
     useEffect(() => {
         if (authLoading) return;

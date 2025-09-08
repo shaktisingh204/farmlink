@@ -9,9 +9,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PRODUCE_TYPES } from '@/lib/placeholder-data';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { updateProduceAction, type AddProduceState } from '../../actions';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useActionState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -32,7 +32,7 @@ function SubmitButton() {
 export function EditProduceForm({ produce }: { produce: Produce }) {
   const initialState: AddProduceState = {};
   const updateProduceWithId = updateProduceAction.bind(null, produce.id);
-  const [state, dispatch] = useFormState(updateProduceWithId, initialState);
+  const [state, dispatch] = useActionState(updateProduceWithId, initialState);
   
   const { toast } = useToast();
   const router = useRouter();

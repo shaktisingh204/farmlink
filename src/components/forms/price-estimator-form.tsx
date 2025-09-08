@@ -1,6 +1,6 @@
 
 'use client';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { estimatePriceAction, type PriceEstimatorState } from '@/app/(main)/price-estimator/actions';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -11,6 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Terminal, CircleDollarSign, Sparkles, Lightbulb } from 'lucide-react';
 import { PRODUCE_TYPES } from '@/lib/placeholder-data';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useActionState } from 'react';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -23,7 +24,7 @@ function SubmitButton() {
 
 export function PriceEstimatorForm() {
   const initialState: PriceEstimatorState = {};
-  const [state, dispatch] = useFormState(estimatePriceAction, initialState);
+  const [state, dispatch] = useActionState(estimatePriceAction, initialState);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
