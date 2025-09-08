@@ -42,13 +42,13 @@ export async function producePriceAdvisor(input: ProducePriceAdvisorInput): Prom
 const getMarketPriceTool = ai.defineTool(
     {
         name: 'getMarketPrice',
-        description: 'Get the min and max price for a given commodity from the market data API.',
+        description: 'Get the min and max price for a given commodity from the market data API. The prices from the API are per 100kg (quintal).',
         inputSchema: z.object({
             commodity: z.string().describe("The commodity to search for."),
         }),
         outputSchema: z.object({
-            minPrice: z.number().optional(),
-            maxPrice: z.number().optional(),
+            minPricePerKg: z.number().optional(),
+            maxPricePerKg: z.number().optional(),
         }),
     },
     async (input) => {
@@ -62,9 +62,10 @@ const getMarketPriceTool = ai.defineTool(
 
         if (marketData.length > 0) {
             const record = marketData[0];
+            // Prices from the API are per 100kg (quintal), so we divide by 100 for per-kg price.
             return {
-                minPrice: parseFloat(record.Min_Price),
-                maxPrice: parseFloat(record.Max_Price),
+                minPricePerKg: parseFloat(record.Min_Price) / 100,
+                maxPricePerKg: parseFloat(record.Max_Price) / 100,
             };
         }
         return {};
@@ -77,7 +78,7 @@ const prompt = ai.definePrompt({
   input: {schema: ProducePriceAdvisorInputSchema},
   output: {schema: ProducePriceAdvisorOutputSchema},
   tools: [getMarketPriceTool],
-  prompt: `You are an expert agricultural analyst. Your task is to analyze an image of produce, identify it, assess its quality, and recommend a fair market price.
+  prompt: `You are an expert agricultural analyst. Your task is to analyze an image of produce, identify it, assess its quality, and recommend a fair market price per kg in Indian Rupees (₹).
 
   User-provided information:
   - Commodity: {{{commodity}}}
@@ -89,7 +90,7 @@ const prompt = ai.definePrompt({
   1.  **Identify the produce in the photo.** Determine what the item is (e.g., "Tomato", "Apple").
   2.  **Compare your identification** with the user-provided "Commodity". Set the 'isMatch' field to true if they are the same, and false otherwise.
   3.  **Assess the quality** of the produce from the image. Look for factors like freshness, ripeness, size, color, and any visible defects like bruises, blemishes, or signs of disease. Provide a detailed description in the 'quality' field.
-  4.  **Determine a fair price.** Use the 'getMarketPrice' tool with the user-provided commodity to get the current minimum and maximum market prices.
+  4.  **Determine a fair price.** Use the 'getMarketPrice' tool with the user-provided commodity to get the current minimum and maximum market prices per kg.
   5.  **Calculate a recommended price.** Based on your quality assessment and the fetched market prices, calculate a specific recommended price per kg. For example, if the quality is premium, the price should be closer to the max price. If the quality is poor, it should be closer to the min price.
   6.  **Provide reasoning.** In the 'priceReasoning' field, explain how you arrived at the recommended price, referencing the visual quality, market data, and your identification.
   `,
