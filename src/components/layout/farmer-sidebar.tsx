@@ -58,7 +58,7 @@ export function FarmerSidebar() {
         <SidebarMenu>
           {mainLinks.map((item) => (
              <SidebarMenuItem key={item.href}>
-             <Link href={item.href} legacyBehavior passHref>
+             <Link href={item.href}>
                <SidebarMenuButton
                  variant={pathname.startsWith(item.href) && (item.href !== '/farmer-dashboard' || pathname === item.href) ? 'primary' : 'ghost'}
                  className="w-full justify-start"
@@ -76,7 +76,7 @@ export function FarmerSidebar() {
       <SidebarFooter className="mt-auto">
         <SidebarMenu>
            <SidebarMenuItem>
-            <Link href="/farmer-dashboard/profile" legacyBehavior passHref>
+            <Link href="/farmer-dashboard/profile">
               <SidebarMenuButton
                   variant={pathname === '/farmer-dashboard/profile' ? 'primary' : 'ghost'}
                   className="w-full justify-start"
@@ -89,7 +89,7 @@ export function FarmerSidebar() {
             </Link>
            </SidebarMenuItem>
             <SidebarMenuItem>
-              <Link href="/" legacyBehavior passHref>
+              <Link href="/">
                 <SidebarMenuButton
                   variant='outline'
                   className="w-full justify-start"

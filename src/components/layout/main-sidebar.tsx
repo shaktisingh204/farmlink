@@ -48,7 +48,7 @@ export function MainSidebar() {
         <SidebarMenu>
           {mainLinks.map((item) => (
              <SidebarMenuItem key={item.href}>
-             <Link href={item.href} legacyBehavior passHref>
+             <Link href={item.href}>
                <SidebarMenuButton
                  variant={pathname.startsWith(item.href) ? 'primary' : 'ghost'}
                  className="w-full justify-start"
@@ -66,7 +66,7 @@ export function MainSidebar() {
       <SidebarFooter className="mt-auto">
         <SidebarMenu>
            <SidebarMenuItem>
-            <Link href="/settings" legacyBehavior passHref>
+            <Link href="/settings">
               <SidebarMenuButton
                   variant={pathname === '/settings' ? 'primary' : 'ghost'}
                   className="w-full justify-start"
@@ -79,7 +79,7 @@ export function MainSidebar() {
             </Link>
            </SidebarMenuItem>
             <SidebarMenuItem>
-              <Link href="/" legacyBehavior passHref>
+              <Link href="/">
                 <SidebarMenuButton
                   variant='outline'
                   className="w-full justify-start"

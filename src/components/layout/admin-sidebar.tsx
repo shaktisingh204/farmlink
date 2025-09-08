@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -50,7 +51,7 @@ export function AdminSidebar() {
         <SidebarMenu>
           {mainLinks.map((item) => (
              <SidebarMenuItem key={item.href}>
-             <Link href={item.href} legacyBehavior passHref>
+             <Link href={item.href}>
                <SidebarMenuButton
                  variant={pathname === item.href ? 'primary' : 'ghost'}
                  className="w-full justify-start"
@@ -68,7 +69,7 @@ export function AdminSidebar() {
       <SidebarFooter className="mt-auto">
         <SidebarMenu>
            <SidebarMenuItem>
-            <Link href="/admin-dashboard/profile" legacyBehavior passHref>
+            <Link href="/admin-dashboard/profile">
               <SidebarMenuButton
                   variant={pathname === '/admin-dashboard/profile' ? 'primary' : 'ghost'}
                   className="w-full justify-start"
@@ -81,7 +82,7 @@ export function AdminSidebar() {
             </Link>
            </SidebarMenuItem>
            <SidebarMenuItem>
-              <Link href="/" legacyBehavior passHref>
+              <Link href="/">
                 <SidebarMenuButton
                   variant='outline'
                   className="w-full justify-start"
