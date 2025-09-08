@@ -30,9 +30,9 @@ export function FarmerCard({ farmer }: FarmerCardProps) {
         <p className="text-sm text-muted-foreground">{farmer.bio}</p>
       </CardContent>
       <CardFooter>
-        <Link href={`/farmers/${farmer.id}`} passHref className="w-full">
-          <Button className="w-full">View Profile</Button>
-        </Link>
+        <Button className="w-full" asChild>
+          <Link href={`/farmers/${farmer.id}`}>View Profile</Link>
+        </Button>
       </CardFooter>
     </Card>
   );
