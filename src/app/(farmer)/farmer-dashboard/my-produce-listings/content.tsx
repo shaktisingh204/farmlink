@@ -13,10 +13,10 @@ import { useLanguage } from '@/hooks/use-language';
 interface MyProduceListingsContentProps {
   produceList: Produce[];
   error: string | null;
+  isFarmer: boolean;
 }
 
-export function MyProduceListingsContent({ produceList, error }: MyProduceListingsContentProps) {
-  // The client component gets the translation function from the hook.
+export function MyProduceListingsContent({ produceList, error, isFarmer }: MyProduceListingsContentProps) {
   const { t } = useLanguage();
 
   return (
@@ -26,14 +26,16 @@ export function MyProduceListingsContent({ produceList, error }: MyProduceListin
           title={t('farmerDashboard_myProduceListings')}
           description="Manage your produce listings."
         />
-        <div className="flex items-center gap-2">
-          <Button asChild>
-            <Link href="/farmer-dashboard/my-produce-listings/add">
-              <PlusCircle className="mr-2" />
-              Add New Listing
-            </Link>
-          </Button>
-        </div>
+        {isFarmer && (
+            <div className="flex items-center gap-2">
+            <Button asChild>
+                <Link href="/farmer-dashboard/my-produce-listings/add">
+                <PlusCircle className="mr-2" />
+                Add New Listing
+                </Link>
+            </Button>
+            </div>
+        )}
       </div>
 
       {error ? (
@@ -69,22 +71,26 @@ export function MyProduceListingsContent({ produceList, error }: MyProduceListin
                   <p className="text-sm text-muted-foreground mb-1">{item.quantity} kg available</p>
                   <CardDescription>{item.description}</CardDescription>
                 </CardContent>
-                <CardFooter>
-                  <Button variant="outline" className="w-full" asChild>
-                    <Link href={`/farmer-dashboard/my-produce-listings/edit/${item.id}`}>Edit Listing</Link>
-                  </Button>
-                </CardFooter>
+                {isFarmer && (
+                    <CardFooter>
+                        <Button variant="outline" className="w-full" asChild>
+                        <Link href={`/farmer-dashboard/my-produce-listings/edit/${item.id}`}>Edit Listing</Link>
+                        </Button>
+                    </CardFooter>
+                )}
               </Card>
             ))
           ) : (
             <div className="col-span-full text-center py-12">
               <p className="text-muted-foreground">You haven&apos;t listed any produce yet.</p>
-              <Button asChild className="mt-4">
-                <Link href="/farmer-dashboard/my-produce-listings/add">
-                  <PlusCircle className="mr-2" />
-                  Add Your First Listing
-                </Link>
-              </Button>
+              {isFarmer && (
+                 <Button asChild className="mt-4">
+                    <Link href="/farmer-dashboard/my-produce-listings/add">
+                    <PlusCircle className="mr-2" />
+                    Add Your First Listing
+                    </Link>
+                </Button>
+              )}
             </div>
           )}
         </div>

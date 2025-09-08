@@ -108,11 +108,20 @@ export async function updateProduceAction(
   }
 }
 
-export async function getProduceListings(farmerId: string): Promise<{ produce: Produce[] }> {
+export async function getProduceListings(farmerId?: string | null): Promise<{ produce: Produce[] }> {
     try {
         const produceRef = ref(db, 'produce');
-        const q = query(produceRef, orderByChild('farmerId'), equalTo(farmerId));
-        const snapshot = await get(q);
+        let dataQuery;
+
+        if (farmerId) {
+            // If a farmerId is provided, fetch only their produce
+            dataQuery = query(produceRef, orderByChild('farmerId'), equalTo(farmerId));
+        } else {
+            // If no farmerId, fetch all produce
+            dataQuery = produceRef;
+        }
+
+        const snapshot = await get(dataQuery);
         
         if (snapshot.exists()) {
             const data = snapshot.val();
@@ -125,7 +134,6 @@ export async function getProduceListings(farmerId: string): Promise<{ produce: P
         return { produce: [] };
     } catch (error) {
         console.error("Error fetching produce listings:", error);
-        // Returning an empty array for the UI to handle gracefully
         return { produce: [] };
     }
 }
