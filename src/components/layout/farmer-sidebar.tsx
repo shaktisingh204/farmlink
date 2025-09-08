@@ -20,12 +20,14 @@ import {
   Wallet,
   Bell,
   Home,
+  Database,
 } from 'lucide-react';
 
 const mainLinks = [
   { href: '/farmer-dashboard', label: 'Overview', icon: Home },
   { href: '/farmer-dashboard/my-produce-listings', label: 'My Produce Listings', icon: List },
   { href: '/farmer-dashboard/market-price-suggestions', label: 'Market Price Suggestions', icon: Tags },
+  { href: '/farmer-dashboard/market-prices', label: 'Daily Market Prices', icon: Database },
   { href: '/farmer-dashboard/orders-received', label: 'Orders Received', icon: Receipt },
   { href: '/farmer-dashboard/payments-earnings', label: 'Payments & Earnings', icon: Wallet },
   { href: '/farmer-dashboard/alerts', label: 'Alerts', icon: Bell },
@@ -51,7 +53,7 @@ export function FarmerSidebar() {
              <SidebarMenuItem key={item.href}>
              <Link href={item.href} legacyBehavior passHref>
                <SidebarMenuButton
-                 variant={pathname === item.href ? 'primary' : 'ghost'}
+                 variant={pathname.startsWith(item.href) && item.href !== '/farmer-dashboard' || pathname === item.href ? 'primary' : 'ghost'}
                  className="w-full justify-start"
                  size="lg"
                  tooltip={item.label}

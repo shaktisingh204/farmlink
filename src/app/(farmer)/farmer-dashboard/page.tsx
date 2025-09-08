@@ -1,6 +1,6 @@
 import { PageHeader } from '@/components/page-header';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { List, Tags, Receipt, Wallet, Bell } from 'lucide-react';
+import { List, Tags, Receipt, Wallet, Bell, Database } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
@@ -8,6 +8,7 @@ import { ArrowRight } from 'lucide-react';
 const features = [
     { href: '/farmer-dashboard/my-produce-listings', label: 'My Produce Listings', icon: List },
     { href: '/farmer-dashboard/market-price-suggestions', label: 'Market Price Suggestions', icon: Tags },
+    { href: '/farmer-dashboard/market-prices', label: 'Daily Market Prices', icon: Database },
     { href: '/farmer-dashboard/orders-received', label: 'Orders Received', icon: Receipt },
     { href: '/farmer-dashboard/payments-earnings', label: 'Payments & Earnings', icon: Wallet },
     { href: '/farmer-dashboard/alerts', label: 'Alerts', icon: Bell },
