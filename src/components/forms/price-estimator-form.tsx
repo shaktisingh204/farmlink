@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Terminal, CircleDollarSign, Sparkles } from 'lucide-react';
+import { Terminal, CircleDollarSign, Sparkles, Lightbulb } from 'lucide-react';
 import { PRODUCE_TYPES } from '@/lib/placeholder-data';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -88,19 +88,22 @@ export function PriceEstimatorForm() {
             <CardDescription>The suggested price and reasoning will appear here.</CardDescription>
           </CardHeader>
           <CardContent>
-            {state.result ? (
+            {useFormStatus().pending ? (
+                 <div className="flex items-center justify-center p-8"><CircleDollarSign className="w-12 h-12 animate-pulse" /></div>
+            ) : state.result ? (
               <div className="space-y-4">
-                <div className="text-center p-6 bg-background rounded-lg">
+                <div className="text-center p-6 bg-background rounded-lg border">
                   <p className="text-sm text-muted-foreground">Recommended Price</p>
                   <p className="text-5xl font-bold text-primary">
                     INR {state.result.recommendedPrice.toFixed(2)}
                   </p>
                   <p className="text-sm text-muted-foreground">per unit/kg</p>
                 </div>
-                <div>
-                  <h3 className="font-semibold">Reasoning</h3>
-                  <p className="text-sm text-muted-foreground">{state.result.priceReasoning}</p>
-                </div>
+                 <Alert>
+                    <Lightbulb className="h-4 w-4" />
+                    <AlertTitle className='font-semibold'>Reasoning</AlertTitle>
+                    <AlertDescription>{state.result.priceReasoning}</AlertDescription>
+                </Alert>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg h-64">

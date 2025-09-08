@@ -77,10 +77,12 @@ export function MarketPricesForm() {
             <CardDescription>The summarized market prices will appear here.</CardDescription>
           </CardHeader>
           <CardContent>
-            {state.result ? (
+            {useFormStatus().pending ? (
+                <div className="flex items-center justify-center p-8"><LineChart className="w-12 h-12 animate-pulse" /></div>
+            ) : state.result ? (
               <div className="space-y-4">
                 <Alert>
-                  <AlertTitle>Price Analysis</AlertTitle>
+                  <AlertTitle className='font-semibold'>Price Analysis</AlertTitle>
                   <AlertDescription className="prose prose-sm text-muted-foreground">
                     <p>{state.result.summary}</p>
                   </AlertDescription>
