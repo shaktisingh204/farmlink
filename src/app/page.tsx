@@ -1,14 +1,22 @@
 
+'use client';
 
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { User, ShoppingBag, Building, Shield, ArrowRight, TrendingUp, Cpu, Truck, Lightbulb, Users, CheckCircle, Facebook, Twitter, Instagram } from 'lucide-react';
+import { User, ShoppingBag, Building, Shield, ArrowRight, TrendingUp, Cpu, Truck, Lightbulb, Users, CheckCircle, Facebook, Twitter, Instagram, MessageSquare } from 'lucide-react';
 import { PageHeader } from '@/components/page-header';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { CardFooter } from '@/components/ui/card';
+import { useState } from 'react';
+import { Chatbot } from '@/components/chatbot';
+import { getFaqBotResponse } from './actions';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+
 
 const portals = [
   {
@@ -87,6 +95,45 @@ const testimonials = [
         role: "Market Manager, Pune"
     }
 ]
+
+function FaqChatbot() {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+            <PopoverTrigger asChild>
+                 <Button
+                    variant="primary"
+                    className="fixed bottom-4 right-4 h-16 w-16 rounded-full shadow-lg z-50"
+                    aria-label="Open FAQ Chatbot"
+                >
+                    <MessageSquare className="h-8 w-8" />
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent 
+                side="top" 
+                align="end" 
+                className="w-[24rem] h-[36rem] p-0 border-0 mr-[-0.5rem] mb-2"
+                onInteractOutside={(e) => {
+                    // Prevent closing when clicking inside the chatbot
+                    if ((e.target as HTMLElement).closest('[data-chatbot-area]')) {
+                        e.preventDefault();
+                    }
+                }}
+            >
+               <div data-chatbot-area="true" className='h-full'>
+                 <Chatbot
+                    chatbotName="FarmLink FAQ"
+                    chatbotIcon={<Lightbulb />}
+                    getAiResponse={(input) => getFaqBotResponse({ question: input.message, history: input.history })}
+                    placeholder="Ask about FarmLink features..."
+                    className="h-full flex flex-col"
+                />
+               </div>
+            </PopoverContent>
+        </Popover>
+    )
+}
+
 
 export default function LandingPage() {
   return (
@@ -267,6 +314,8 @@ export default function LandingPage() {
                 </div>
             </div>
         </section>
+
+        <FaqChatbot />
       </main>
       <footer className="bg-card border-t">
         <div className="container mx-auto py-12 px-4">

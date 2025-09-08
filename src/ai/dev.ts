@@ -8,3 +8,5 @@ import '@/ai/flows/fair-price-estimator.ts';
 import '@/ai/flows/produce-pricer-flow.ts';
 import '@/ai/flows/market-suggestion-flow.ts';
 import '@/ai/flows/deal-recommender-flow.ts';
+import '@/ai/flows/faq-bot-flow.ts';
+import '@/ai/flows/agri-assist-flow.ts';
