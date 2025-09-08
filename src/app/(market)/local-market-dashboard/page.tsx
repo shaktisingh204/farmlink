@@ -9,19 +9,21 @@ import { ArrowRight } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-const features = [
-    { href: '/local-market-dashboard/market-overview', label: 'Market Overview', icon: AreaChart },
-    { href: '/local-market-dashboard/farmer-participation', label: 'Farmer Participation', icon: Users2 },
-    { href: '/local-market-dashboard/retailer-activity', label: 'Retailer Activity', icon: Activity },
-    { href: '/local-market-dashboard/logistics-snapshot', label: 'Logistics Snapshot', icon: TruckIcon },
-    { href: '/local-market-dashboard/revenue-payments', label: 'Revenue & Payments', icon: Wallet },
-    { href: '/local-market-dashboard/alerts', label: 'Alerts', icon: Bell },
-];
+import { useLanguage } from '@/hooks/use-language';
 
 export default function MarketDashboardPage() {
     const { user, loading, userProfile } = useAuth();
     const router = useRouter();
+    const { t } = useLanguage();
+
+    const features = [
+        { href: '/local-market-dashboard/market-overview', label: t('marketDashboard_marketOverview'), icon: AreaChart },
+        { href: '/local-market-dashboard/farmer-participation', label: t('marketDashboard_farmerParticipation'), icon: Users2 },
+        { href: '/local-market-dashboard/retailer-activity', label: t('marketDashboard_retailerActivity'), icon: Activity },
+        { href: '/local-market-dashboard/logistics-snapshot', label: t('marketDashboard_logisticsSnapshot'), icon: TruckIcon },
+        { href: '/local-market-dashboard/revenue-payments', label: t('marketDashboard_revenuePayments'), icon: Wallet },
+        { href: '/local-market-dashboard/alerts', label: t('marketDashboard_alerts'), icon: Bell },
+    ];
 
     useEffect(() => {
         if (!loading && !user) {
@@ -40,8 +42,8 @@ export default function MarketDashboardPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        title="Local Market Dashboard"
-        description="Welcome! Here's an overview of your market's performance."
+        title={t('marketDashboard_title')}
+        description={t('marketDashboard_description')}
       />
        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
@@ -55,7 +57,7 @@ export default function MarketDashboardPage() {
             <CardContent className="mt-auto">
               <Link href={feature.href} passHref>
                 <Button variant="outline" className="w-full">
-                  Go to page <ArrowRight className="ml-2 h-4 w-4" />
+                  {t('dashboard_goToPage')} <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </CardContent>
