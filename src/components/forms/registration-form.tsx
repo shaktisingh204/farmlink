@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Terminal, Loader2 } from 'lucide-react';
+import { useAuth } from '@/hooks/use-auth';
 
 interface RegistrationFormProps {
   title: string;
@@ -25,6 +26,7 @@ interface RegistrationFormProps {
 export function RegistrationForm({ title, description, icon, loginPath, dashboardPath }: RegistrationFormProps) {
   const router = useRouter();
   const { toast } = useToast();
+  const { registerAndRedirect } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -38,31 +40,10 @@ export function RegistrationForm({ title, description, icon, loginPath, dashboar
     const role = title.split(' ')[0].toLowerCase();
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      // Add user to Realtime Database
-      await set(ref(db, 'users/' + user.uid), {
-        name: name,
-        email: email,
-        role: role,
-      });
-      
-      toast({
-        title: 'Account Created!',
-        description: 'You have been successfully registered.',
-      });
-
-      router.push(dashboardPath);
-    } catch (error: any) {
-      console.error(error);
-      let errorMessage = 'An unexpected error occurred. Please try again.';
-      if (error.code === 'auth/email-already-in-use') {
-        errorMessage = 'This email address is already in use.';
-      } else if (error.code === 'auth/weak-password') {
-        errorMessage = 'The password is too weak. Please choose a stronger password.';
-      }
-      setError(errorMessage);
+      await registerAndRedirect(email, password, name, role, dashboardPath);
+      // The redirect is handled by registerAndRedirect
+    } catch (err: any) {
+        setError(err.message);
     } finally {
         setIsLoading(false);
     }

@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Terminal, Loader2 } from 'lucide-react';
 import type { UserProfile } from '@/lib/types';
+import { useAuth } from '@/hooks/use-auth';
 
 interface LoginFormProps {
   title: string;
@@ -26,6 +27,7 @@ interface LoginFormProps {
 export function LoginForm({ title, description, icon, loginPath, role }: LoginFormProps) {
   const router = useRouter();
   const { toast } = useToast();
+  const { loginAndRedirect } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -38,32 +40,11 @@ export function LoginForm({ title, description, icon, loginPath, role }: LoginFo
     const password = event.currentTarget.password.value;
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      // Check user role from database
-      const userRef = ref(db, `users/${user.uid}`);
-      const snapshot = await get(userRef);
-
-      if (snapshot.exists() && snapshot.val().role === role) {
-        toast({
-          title: 'Success!',
-          description: 'You have successfully logged in.',
-        });
-        router.push(loginPath);
-      } else {
-        await signOut(auth); // Sign out the user
-        setError(`This account is not registered as a '${role}'. Please use the correct portal or register a new account.`);
-        setIsLoading(false);
-      }
-    } catch (error: any) {
-      let errorMessage = 'An unexpected error occurred. Please try again.';
-      if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
-        errorMessage = 'Invalid email or password. Please try again.';
-      } else {
-         console.error(error);
-      }
-      setError(errorMessage);
+      await loginAndRedirect(email, password, role, loginPath);
+      // The redirect is handled by loginAndRedirect
+    } catch (err: any) {
+       setError(err.message);
+    } finally {
       setIsLoading(false);
     }
   };

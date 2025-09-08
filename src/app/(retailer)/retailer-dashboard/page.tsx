@@ -1,10 +1,15 @@
 
+'use client';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Search, Receipt, Tags, Wallet, Heart } from 'lucide-react';
+import { Search, Receipt, Tags, Wallet, Heart, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
 
 const features = [
     { href: '/retailer-dashboard/browse-produce', label: 'Browse Produce', icon: Search },
@@ -15,6 +20,24 @@ const features = [
 ];
 
 export default function RetailerDashboardPage() {
+    const { user, loading, userProfile } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!loading && !user) {
+            router.push('/retailer-login');
+        }
+    }, [user, loading, router]);
+
+    if (loading || !user || !userProfile) {
+        return <div className="flex h-screen items-center justify-center"><Loader2 className="h-16 w-16 animate-spin text-primary" /></div>;
+    }
+
+    if (userProfile.role !== 'retailer') {
+         router.push('/retailer-login');
+         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-16 w-16 animate-spin text-primary" /></div>;
+    }
+
   return (
     <div className="space-y-8">
       <PageHeader

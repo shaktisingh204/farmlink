@@ -1,10 +1,15 @@
 
+'use client';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Users, BarChart, AreaChart, FileWarning, Server } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
 
 const features = [
     { href: '/admin-dashboard/user-management', label: 'User Management', icon: Users },
@@ -15,6 +20,24 @@ const features = [
 ];
 
 export default function AdminDashboardPage() {
+    const { user, loading, userProfile } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!loading && !user) {
+            router.push('/admin-login');
+        }
+    }, [user, loading, router]);
+
+    if (loading || !user || !userProfile) {
+        return <div className="flex h-screen items-center justify-center"><Loader2 className="h-16 w-16 animate-spin text-primary" /></div>;
+    }
+  
+    if (userProfile.role !== 'admin') {
+         router.push('/admin-login');
+         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-16 w-16 animate-spin text-primary" /></div>;
+    }
+
   return (
     <div className="space-y-8">
       <PageHeader

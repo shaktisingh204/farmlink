@@ -1,10 +1,14 @@
 
+'use client';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { AreaChart, Users2, Activity, TruckIcon, Wallet, Bell } from 'lucide-react';
+import { AreaChart, Users2, Activity, TruckIcon, Wallet, Bell, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const features = [
     { href: '/local-market-dashboard/market-overview', label: 'Market Overview', icon: AreaChart },
@@ -16,6 +20,23 @@ const features = [
 ];
 
 export default function MarketDashboardPage() {
+    const { user, loading, userProfile } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!loading && !user) {
+            router.push('/market-login');
+        }
+    }, [user, loading, router]);
+
+    if (loading || !user || !userProfile) {
+        return <div className="flex h-screen items-center justify-center"><Loader2 className="h-16 w-16 animate-spin text-primary" /></div>;
+    }
+  
+    if (userProfile.role !== 'market') {
+         router.push('/market-login');
+         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-16 w-16 animate-spin text-primary" /></div>;
+    }
   return (
     <div className="space-y-8">
       <PageHeader
