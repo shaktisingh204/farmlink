@@ -108,18 +108,10 @@ export async function updateProduceAction(
   }
 }
 
-export async function getProduceListings(farmerId?: string | null): Promise<{ produce: Produce[] }> {
+export async function getProduceListings(farmerId: string): Promise<{ produce: Produce[], error?: string }> {
     try {
         const produceRef = ref(db, 'produce');
-        let dataQuery;
-
-        if (farmerId) {
-            // If a farmerId is provided, fetch only their produce
-            dataQuery = query(produceRef, orderByChild('farmerId'), equalTo(farmerId));
-        } else {
-            // If no farmerId, fetch all produce
-            dataQuery = produceRef;
-        }
+        const dataQuery = query(produceRef, orderByChild('farmerId'), equalTo(farmerId));
 
         const snapshot = await get(dataQuery);
         
@@ -134,7 +126,7 @@ export async function getProduceListings(farmerId?: string | null): Promise<{ pr
         return { produce: [] };
     } catch (error) {
         console.error("Error fetching produce listings:", error);
-        return { produce: [] };
+        return { produce: [], error: 'Failed to fetch listings from the database.' };
     }
 }
 
