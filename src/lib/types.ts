@@ -2,9 +2,9 @@
 export interface Produce {
   id: string;
   name: string;
-  icon: React.ComponentType<{ className?: string }>;
-  quantity: string;
-  price: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  quantity: number;
+  price: number;
   description: string;
   variety?: string;
   imageUrl?: string;
