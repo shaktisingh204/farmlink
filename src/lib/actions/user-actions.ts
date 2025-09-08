@@ -1,3 +1,4 @@
+
 'use server';
 
 import { db } from '@/lib/firebase';
@@ -5,6 +6,21 @@ import { ref, get, update } from 'firebase/database';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import type { UserProfile } from '@/lib/types';
+import { auth } from '@/lib/firebase';
+
+// NOTE: This function only works in Server Components and Server Actions.
+// It relies on the server-side auth state.
+export async function getCurrentUser(): Promise<UserProfile | null> {
+    const user = auth.currentUser;
+    if (!user) {
+        // This can happen during initial load or if user is not logged in.
+        // In many cases, onAuthStateChanged in a client component is better for UI.
+        return null;
+    }
+    const profile = await getUserProfile(user.uid);
+    return profile.profile || null;
+}
+
 
 export async function getUserProfile(userId: string): Promise<{ profile?: UserProfile; error?: string }> {
     if (!userId) {

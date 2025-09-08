@@ -1,72 +1,43 @@
 
-'use client';
-
 import { PageHeader } from '@/components/page-header';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useState, useEffect, useCallback } from 'react';
 import type { Produce } from '@/lib/types';
 import Image from 'next/image';
-import { ImageIcon, PlusCircle, Loader2, RefreshCw, AlertTriangle } from 'lucide-react';
+import { ImageIcon, PlusCircle, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { getProduceListings } from './actions';
-import { useAuth } from '@/hooks/use-auth';
+import { getCurrentUser } from '@/lib/actions/user-actions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { cn } from '@/lib/utils';
+import { useLanguage } from '@/hooks/use-language';
 
-export default function MyProduceListingsPage() {
-  const [produceList, setProduceList] = useState<Produce[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const { user, loading: authLoading } = useAuth();
+export default async function MyProduceListingsPage() {
+  const { t } = useLanguage();
+  const user = await getCurrentUser();
 
-  const fetchProduce = useCallback(async () => {
-    if (!user) {
-      // Don't set an error here, the auth hook will handle redirect.
-      setIsLoading(false);
-      return;
-    }
+  let produceList: Produce[] = [];
+  let error: string | null = null;
 
-    setIsLoading(true);
-    setError(null);
+  if (!user) {
+    error = "You must be logged in to view your listings.";
+  } else {
     try {
       const result = await getProduceListings(user.uid);
-      if (result.produce) {
-        setProduceList(result.produce);
-      } else {
-        // This handles cases where `produce` is undefined but no explicit error is thrown,
-        // like permission errors that are caught and returned as an object.
-        setError('Could not fetch produce listings. Check database rules and connection.');
-        setProduceList([]);
-      }
+      produceList = result.produce;
     } catch (err: any) {
-      setError(`Failed to fetch produce listings: ${err.message}`);
-      setProduceList([]);
+      error = `Failed to fetch produce listings: ${err.message}`;
       console.error(err);
-    } finally {
-      setIsLoading(false);
     }
-  }, [user]);
-
-  useEffect(() => {
-    if (authLoading) {
-      // Wait for auth to finish loading
-      return;
-    }
-    fetchProduce();
-  }, [user, authLoading, fetchProduce]);
+  }
 
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <PageHeader
-          title="My Produce Listings"
+          title={t('farmerDashboard_myProduceListings')}
           description="Manage your produce listings."
         />
         <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon" onClick={fetchProduce} disabled={isLoading}>
-                <RefreshCw className={cn("h-4 w-4", isLoading && "animate-spin")} />
-            </Button>
             <Button asChild>
                 <Link href="/farmer-dashboard/my-produce-listings/add">
                     <PlusCircle className="mr-2"/>
@@ -76,11 +47,7 @@ export default function MyProduceListingsPage() {
         </div>
       </div>
 
-       {isLoading ? (
-        <div className="flex justify-center items-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
-        ) : error ? (
+       {error ? (
             <Alert variant="destructive">
                 <AlertTriangle className="h-4 w-4"/>
                 <AlertTitle>Error Loading Listings</AlertTitle>
