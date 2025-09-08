@@ -1,10 +1,14 @@
 
+
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { User, ShoppingBag, Building, Shield, ArrowRight, TrendingUp, Cpu, Truck, Lightbulb, Users, CheckCircle } from 'lucide-react';
+import { User, ShoppingBag, Building, Shield, ArrowRight, TrendingUp, Cpu, Truck, Lightbulb, Users, CheckCircle, Facebook, Twitter, Instagram } from 'lucide-react';
 import { PageHeader } from '@/components/page-header';
 import Image from 'next/image';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 const portals = [
   {
@@ -194,9 +198,46 @@ export default function LandingPage() {
                  </div>
             </div>
         </section>
+        
+        {/* Contact Us Section */}
+        <section id="contact" className="py-16 md:py-24">
+            <div className="container mx-auto px-4">
+                <div className="text-center max-w-3xl mx-auto">
+                    <h2 className="text-4xl font-bold font-headline">Get In Touch</h2>
+                    <p className="mt-4 text-lg text-muted-foreground">
+                        Have questions or feedback? We'd love to hear from you.
+                    </p>
+                </div>
+                <Card className="max-w-2xl mx-auto mt-12">
+                    <CardHeader>
+                        <CardTitle>Contact Form</CardTitle>
+                        <CardDescription>Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="grid sm:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="name">Name</Label>
+                                <Input id="name" placeholder="Your Name" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="email">Email</Label>
+                                <Input id="email" type="email" placeholder="your@email.com" />
+                            </div>
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="message">Message</Label>
+                            <Textarea id="message" placeholder="Your message..." rows={5}/>
+                        </div>
+                    </CardContent>
+                    <CardFooter>
+                        <Button>Send Message</Button>
+                    </CardFooter>
+                </Card>
+            </div>
+        </section>
 
         {/* Portal Section */}
-        <section id="portals" className="py-16 md:py-24">
+        <section id="portals" className="py-16 md:py-24 bg-secondary/50">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-2xl mx-auto">
                     <PageHeader
@@ -227,10 +268,46 @@ export default function LandingPage() {
             </div>
         </section>
       </main>
-      <footer className="bg-background border-t">
-            <div className="container mx-auto py-6 px-4 text-center text-muted-foreground text-sm">
+      <footer className="bg-card border-t">
+        <div className="container mx-auto py-12 px-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div className="col-span-2 md:col-span-1">
+                    <div className="flex items-center gap-2">
+                        <User className="w-7 h-7 text-primary"/>
+                        <span className="text-xl font-semibold font-headline">FarmLink</span>
+                    </div>
+                    <p className="text-muted-foreground mt-4 text-sm">
+                        Connecting fields to markets, seamlessly.
+                    </p>
+                </div>
+                <div>
+                    <h4 className="font-semibold text-foreground">Navigation</h4>
+                    <ul className="mt-4 space-y-2 text-sm">
+                        <li><a href="#features" className="text-muted-foreground hover:text-primary">Features</a></li>
+                        <li><a href="#portals" className="text-muted-foreground hover:text-primary">Portals</a></li>
+                        <li><a href="#contact" className="text-muted-foreground hover:text-primary">Contact Us</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h4 className="font-semibold text-foreground">Legal</h4>
+                    <ul className="mt-4 space-y-2 text-sm">
+                        <li><a href="#" className="text-muted-foreground hover:text-primary">Privacy Policy</a></li>
+                        <li><a href="#" className="text-muted-foreground hover:text-primary">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 className="font-semibold text-foreground">Follow Us</h4>
+                    <div className="flex mt-4 space-x-4">
+                        <a href="#" className="text-muted-foreground hover:text-primary"><Twitter /></a>
+                        <a href="#" className="text-muted-foreground hover:text-primary"><Facebook /></a>
+                        <a href="#" className="text-muted-foreground hover:text-primary"><Instagram /></a>
+                    </div>
+                </div>
+            </div>
+            <div className="mt-8 border-t pt-6 text-center text-muted-foreground text-sm">
                 <p>&copy; 2024 FarmLink. All rights reserved.</p>
             </div>
+        </div>
       </footer>
     </div>
   );
