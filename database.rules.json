@@ -1,0 +1,47 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        // Users can read their own profile, but other authenticated users can read basic info.
+        ".read": "auth != null",
+        // Users can write to their own profile
+        ".write": "auth != null && auth.uid == $uid"
+      }
+    },
+    "produce": {
+      // Any authenticated user can read produce listings
+      ".read": "auth != null",
+      "$produceId": {
+        // Data must be a valid produce object
+        ".validate": "newData.hasChildren(['name', 'variety', 'quantity', 'price', 'description', 'farmerId', 'createdAt'])",
+        // Write access control
+        ".write": "auth != null && root.child('users/' + auth.uid).child('role').val() == 'farmer' && (newData.child('farmerId').val() == auth.uid || !newData.exists())"
+      }
+    },
+    "orders": {
+      // Users can only see their own orders
+      ".indexOn": ["farmerId", "retailerId"],
+      "$orderId": {
+        ".read": "auth != null && (data.child('retailerId').val() == auth.uid || data.child('farmerId').val() == auth.uid)",
+        // Only the retailer can create an order, and only involved parties can modify it
+        ".write": "auth != null && ((!data.exists() && newData.child('retailerId').val() == auth.uid) || (data.exists() && (data.child('retailerId').val() == auth.uid || data.child('farmerId').val() == auth.uid)))",
+         ".validate": "newData.hasChildren(['produceId', 'farmerId', 'retailerId', 'quantity', 'totalPrice', 'status', 'orderDate'])"
+      }
+    },
+    "favorites": {
+      "$retailerId": {
+        // Retailers can only manage their own favorites list
+        ".read": "auth != null && auth.uid == $retailerId",
+        ".write": "auth != null && auth.uid == $retailerId"
+      }
+    },
+    "alerts": {
+       ".indexOn": ["userId"],
+       "$alertId": {
+         // Users can only manage their own alerts
+        ".read": "auth != null && data.child('userId').val() == auth.uid",
+        ".write": "auth != null && (!data.exists() || data.child('userId').val() == auth.uid)"
+      }
+    }
+  }
+}
