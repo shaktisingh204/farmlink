@@ -7,19 +7,24 @@ import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import type { ProduceWithFarmer } from './actions';
 import Image from 'next/image';
-import { ImageIcon, ShoppingCart, Loader2, User } from 'lucide-react';
-import { getBrowseableProduce } from './actions';
+import { ImageIcon, ShoppingCart, Loader2, User, Heart } from 'lucide-react';
+import { getBrowseableProduce, createOrder, toggleFavorite } from './actions';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function BrowseProducePage() {
   const [produceList, setProduceList] = useState<ProduceWithFarmer[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   useEffect(() => {
-    const fetchProduce = async () => {
+    fetchProduce();
+  }, []);
+
+  const fetchProduce = async () => {
       setIsLoading(true);
       setError(null);
       try {
@@ -37,15 +42,44 @@ export default function BrowseProducePage() {
       }
     };
 
-    fetchProduce();
-  }, []);
-
-  const handleAddToCart = (produceName: string) => {
-    toast({
-      title: 'Added to Cart',
-      description: `${produceName} has been added to your cart.`,
-    });
+  const handleAddToCart = async (produceItem: ProduceWithFarmer) => {
+    if (!user) {
+        toast({ variant: 'destructive', title: 'Error', description: 'You must be logged in to place an order.' });
+        return;
+    }
+    try {
+        await createOrder({
+            retailerId: user.uid,
+            produceId: produceItem.id,
+            farmerId: produceItem.farmerId!,
+            quantity: 1, // Placeholder quantity
+            totalPrice: produceItem.price,
+        });
+        toast({
+            title: 'Order Placed!',
+            description: `An order for ${produceItem.name} has been placed.`,
+        });
+    } catch (e) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Failed to place order.' });
+    }
   };
+
+  const handleToggleFavorite = async (produceId: string, isFavorited: boolean) => {
+    if (!user) {
+        toast({ variant: 'destructive', title: 'Error', description: 'You must be logged in to manage favorites.' });
+        return;
+    }
+     try {
+        await toggleFavorite(user.uid, produceId);
+        toast({
+            title: isFavorited ? 'Removed from Favorites' : 'Added to Favorites',
+        });
+        // Refetch to update favorite status
+        fetchProduce();
+    } catch (e) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Could not update favorites.' });
+    }
+  }
 
   return (
     <div className="space-y-8">
@@ -64,7 +98,15 @@ export default function BrowseProducePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {produceList.length > 0 ? (
               produceList.map((item) => (
-                <Card key={item.id} className="flex flex-col">
+                <Card key={item.id} className="flex flex-col relative">
+                   <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="absolute top-2 right-2 z-10 rounded-full h-8 w-8 bg-black/30 hover:bg-black/50 text-white hover:text-white"
+                    onClick={() => handleToggleFavorite(item.id, !!item.isFavorited)}
+                   >
+                    <Heart className={cn("h-4 w-4", item.isFavorited ? 'fill-red-500 text-red-500' : 'text-white')} />
+                  </Button>
                   <CardHeader className="p-0">
                     {item.imageUrl ? (
                         <Image
@@ -98,7 +140,7 @@ export default function BrowseProducePage() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                      <Button className="w-full" onClick={() => handleAddToCart(item.name)}>
+                      <Button className="w-full" onClick={() => handleAddToCart(item)}>
                         <ShoppingCart className="mr-2"/>
                         Add to Cart
                       </Button>

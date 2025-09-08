@@ -1,5 +1,4 @@
 
-
 export interface Produce {
   id: string;
   name: string;
@@ -28,4 +27,17 @@ export interface Market {
   imageUrl: string;
   contact: string;
   operatingHours: string;
+}
+
+export interface Order {
+    id: string;
+    produceId: string;
+    farmerId: string;
+    retailerId: string;
+    quantity: number;
+    totalPrice: number;
+    status: 'placed' | 'confirmed' | 'shipped' | 'delivered';
+    orderDate: string;
+    produce: Produce;
+    farmer: { name: string };
 }

@@ -1,3 +1,4 @@
+
 import { config } from 'dotenv';
 config();
 
@@ -6,3 +7,4 @@ import '@/ai/flows/real-time-price-summarization.ts';
 import '@/ai/flows/fair-price-estimator.ts';
 import '@/ai/flows/produce-pricer-flow.ts';
 import '@/ai/flows/market-suggestion-flow.ts';
+import '@/ai/flows/deal-recommender-flow.ts';
