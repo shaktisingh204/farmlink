@@ -34,6 +34,18 @@ The platform's features are tailored to the specific needs of each user role, le
 -   **How it Works:** Farmers select a commodity they wish to sell. The AI uses a Genkit tool to query a government market data API for the latest prices across different regions. It then analyzes this data to provide a summary of market conditions and suggests the most profitable markets for that specific produce.
 -   **Tech Used:** Genkit, Gemini, External Data API, Next.js Server Actions.
 
+#### 5. Orders Received
+-   **How it Works:** Farmers can view and manage a real-time list of all incoming orders for their produce placed by retailers on the platform.
+-   **Tech Used:** Firebase Realtime Database, React.
+
+#### 6. Payments & Earnings
+-   **How it Works:** A dedicated dashboard for farmers to track their total revenue, number of orders, and average order value. It also provides a detailed transaction history for all completed sales.
+-   **Tech Used:** Firebase Realtime Database, React.
+
+#### 7. Alerts & Notifications
+-   **How it Works:** Farmers receive automated alerts for important events, such as new orders, low stock on their listings, and significant changes in market prices for their commodities.
+-   **Tech Used:** Firebase Realtime Database, React.
+
 ### For Retailers:
 
 #### 1. Browse and Order Produce
