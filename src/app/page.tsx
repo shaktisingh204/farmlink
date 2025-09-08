@@ -10,7 +10,7 @@ import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useState, useActionState, useEffect } from 'react';
+import React, { useState, useActionState, useEffect } from 'react';
 import { Chatbot } from '@/components/chatbot';
 import { getFaqBotResponse, saveContactMessageAction, type ContactFormState } from './actions';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -19,7 +19,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useFormStatus } from 'react-dom';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
-import React from 'react';
 
 
 const portals = [
@@ -219,6 +218,7 @@ export default function LandingPage() {
                 data-ai-hint="farm landscape"
              />
              <div className="relative z-10 p-4">
+                <h2 className="text-xl md:text-2xl font-semibold tracking-wide text-primary-foreground/80 mb-2">AI-Powered Agricultural Marketplace</h2>
                 <h1 className="text-5xl md:text-7xl font-bold font-headline tracking-tight">Connecting Fields to Markets, Seamlessly.</h1>
                 <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
                     FarmLink is the all-in-one platform empowering farmers, retailers, and local markets with AI-driven insights for a more efficient and fair agricultural ecosystem.
