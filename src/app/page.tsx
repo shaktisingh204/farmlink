@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { User, ShoppingBag, Building, Shield, ArrowRight, TrendingUp, Cpu, Truck, Lightbulb, Users, CheckCircle, Facebook, Twitter, Instagram, MessageSquare, Bot } from 'lucide-react';
 import { PageHeader } from '@/components/page-header';
@@ -175,7 +175,8 @@ export default function LandingPage() {
                 </div>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
                     {features.map(feature => (
-                        <Card key={feature.title} className="text-center bg-background border-2 border-transparent hover:border-primary hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                        <Card key={feature.title} className="text-center bg-background border-2 border-transparent hover:border-primary hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 group">
+                             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             <CardHeader className="items-center p-8">
                                 <div className="p-4 bg-primary/10 rounded-full">
                                     {feature.icon}
@@ -357,8 +358,17 @@ export default function LandingPage() {
 
         <FaqChatbot />
       </main>
-      <footer className="bg-card border-t">
-        <div className="container mx-auto py-12 px-4">
+      <footer className="relative bg-background border-t text-white">
+        <Image 
+            src="https://picsum.photos/1920/1080?random=101"
+            alt="Abstract footer background"
+            layout="fill"
+            objectFit="cover"
+            className="opacity-20"
+            data-ai-hint="dark farm"
+        />
+        <div className="absolute inset-0 bg-black/70"></div>
+        <div className="relative z-10 container mx-auto py-12 px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div className="col-span-2 md:col-span-1">
                     <div className="flex items-center gap-2">
@@ -393,7 +403,7 @@ export default function LandingPage() {
                     </div>
                 </div>
             </div>
-            <div className="mt-8 border-t pt-6 text-center text-muted-foreground text-sm">
+            <div className="mt-8 border-t border-white/10 pt-6 text-center text-muted-foreground text-sm">
                 <p>&copy; 2024 FarmLink. All rights reserved.</p>
             </div>
         </div>
