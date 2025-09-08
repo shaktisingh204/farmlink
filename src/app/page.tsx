@@ -2,15 +2,14 @@
 'use client';
 
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { User, ShoppingBag, Building, Shield, ArrowRight, TrendingUp, Cpu, Truck, Lightbulb, Users, CheckCircle, Facebook, Twitter, Instagram, MessageSquare } from 'lucide-react';
+import { User, ShoppingBag, Building, Shield, ArrowRight, TrendingUp, Cpu, Truck, Lightbulb, Users, CheckCircle, Facebook, Twitter, Instagram, MessageSquare, Bot } from 'lucide-react';
 import { PageHeader } from '@/components/page-header';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { CardFooter } from '@/components/ui/card';
 import { useState } from 'react';
 import { Chatbot } from '@/components/chatbot';
 import { getFaqBotResponse } from './actions';
@@ -72,9 +71,9 @@ const features = [
         description: "A transparent marketplace that directly connects farmers with retailers and local markets, fostering community."
     },
     {
-        icon: <ArrowRight className="w-10 h-10 text-primary" />,
-        title: "Platform Analytics",
-        description: "Powerful dashboards for market managers and admins to oversee participation, logistics, and revenue."
+        icon: <Bot className="w-10 h-10 text-primary" />,
+        title: "AI-Powered Assistants",
+        description: "Get instant answers to your questions with our platform-wide FAQ bot and specialized Agri-Assistant for farmers."
     }
 ]
 
@@ -90,9 +89,9 @@ const testimonials = [
         role: "Retailer, Mumbai"
     },
     {
-        quote: "Managing our local market is so much more efficient now. The logistics and participation dashboards are a game-changer.",
+        quote: "The Agri-Assistant chatbot is incredible. It's like having a farming expert in my pocket 24/7. I get instant advice on everything.",
         name: "Priya Singh",
-        role: "Market Manager, Pune"
+        role: "Farmer, Pune"
     }
 ]
 
@@ -189,9 +188,48 @@ export default function LandingPage() {
                 </div>
             </div>
         </section>
+        
+        {/* AI Showcase Section */}
+        <section className="py-16 md:py-24">
+            <div className="container mx-auto px-4">
+                <div className="grid lg:grid-cols-2 gap-12 items-center">
+                    <div className="space-y-4">
+                        <span className="text-primary font-semibold">AI-Powered Assistance</span>
+                        <h2 className="text-4xl font-bold font-headline">Your Agricultural Expert is Here, 24/7</h2>
+                        <p className="text-lg text-muted-foreground">
+                            FarmLink integrates cutting-edge AI to provide instant support and expert advice. Whether you're a farmer needing crop advice or a new user exploring the platform, our AI assistants are here to help.
+                        </p>
+                        <div className="flex gap-4 pt-4">
+                            <div className="flex items-start gap-3">
+                                <CheckCircle className="w-6 h-6 text-primary mt-1 flex-shrink-0"/>
+                                <div>
+                                    <h3 className="font-semibold">Agri-Assistant</h3>
+                                    <p className="text-muted-foreground text-sm">Get expert answers to your farming questions, from pest control to market trends.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <CheckCircle className="w-6 h-6 text-primary mt-1 flex-shrink-0"/>
+                                <div>
+                                    <h3 className="font-semibold">Platform FAQ Bot</h3>
+                                    <p className="text-muted-foreground text-sm">Have a question about a feature? Our FAQ bot provides instant answers.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="relative h-96">
+                        <Image src="https://picsum.photos/800/600?random=50" alt="AI Chatbot Interface" layout="fill" objectFit="cover" className="rounded-lg shadow-xl" data-ai-hint="futuristic user interface"/>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg"></div>
+                        <div className="absolute bottom-4 left-4 text-white">
+                            <Bot className="w-10 h-10 mb-2"/>
+                            <h3 className="text-2xl font-bold">Instant, Intelligent Support</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         {/* How It Works Section */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24 bg-secondary/50">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto">
                     <h2 className="text-4xl font-bold font-headline">Get Started in 3 Easy Steps</h2>
@@ -226,14 +264,14 @@ export default function LandingPage() {
         </section>
 
         {/* Testimonials Section */}
-        <section className="py-16 md:py-24 bg-secondary/50">
+        <section className="py-16 md:py-24">
             <div className="container mx-auto px-4">
                  <div className="text-center max-w-3xl mx-auto">
                     <h2 className="text-4xl font-bold font-headline">Trusted by the Community</h2>
                  </div>
                  <div className="grid md:grid-cols-3 gap-8 mt-12">
                      {testimonials.map(t => (
-                         <Card key={t.name} className="bg-background">
+                         <Card key={t.name} className="bg-secondary/50 border-0">
                             <CardContent className="pt-6">
                                 <blockquote className="text-lg text-foreground/80 italic">"{t.quote}"</blockquote>
                             </CardContent>
@@ -247,7 +285,7 @@ export default function LandingPage() {
         </section>
         
         {/* Contact Us Section */}
-        <section id="contact" className="py-16 md:py-24">
+        <section id="contact" className="py-16 md:py-24 bg-secondary/50">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto">
                     <h2 className="text-4xl font-bold font-headline">Get In Touch</h2>
@@ -255,7 +293,7 @@ export default function LandingPage() {
                         Have questions or feedback? We'd love to hear from you.
                     </p>
                 </div>
-                <Card className="max-w-2xl mx-auto mt-12">
+                <Card className="max-w-2xl mx-auto mt-12 bg-background">
                     <CardHeader>
                         <CardTitle>Contact Form</CardTitle>
                         <CardDescription>Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
@@ -284,7 +322,7 @@ export default function LandingPage() {
         </section>
 
         {/* Portal Section */}
-        <section id="portals" className="py-16 md:py-24 bg-secondary/50">
+        <section id="portals" className="py-16 md:py-24">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-2xl mx-auto">
                     <PageHeader
@@ -322,7 +360,7 @@ export default function LandingPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div className="col-span-2 md:col-span-1">
                     <div className="flex items-center gap-2">
-                        <User className="w-7 h-7 text-primary"/>
+                        <Bot className="w-7 h-7 text-primary"/>
                         <span className="text-xl font-semibold font-headline">FarmLink</span>
                     </div>
                     <p className="text-muted-foreground mt-4 text-sm">
