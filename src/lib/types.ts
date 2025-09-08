@@ -1,3 +1,4 @@
+
 export interface Produce {
   id: string;
   name: string;
@@ -5,6 +6,8 @@ export interface Produce {
   quantity: string;
   price: string;
   description: string;
+  variety?: string;
+  imageUrl?: string;
 }
 
 export interface Farmer {

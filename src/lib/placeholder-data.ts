@@ -1,3 +1,4 @@
+
 import type { Farmer, Market, Produce } from '@/lib/types';
 import { Apple, Carrot, Leaf, Wheat } from 'lucide-react';
 
@@ -17,6 +18,8 @@ export const produce: Produce[] = [
     quantity: '50kg available',
     price: '$3.50/kg',
     description: 'Fresh, sun-ripened organic tomatoes, perfect for salads and sauces.',
+    variety: 'Roma',
+    imageUrl: 'https://picsum.photos/400/300?random=10'
   },
   {
     id: 'p2',
@@ -25,6 +28,8 @@ export const produce: Produce[] = [
     quantity: '30 heads available',
     price: '$1.50/head',
     description: 'Crisp and fresh romaine lettuce, grown locally without pesticides.',
+    variety: 'Romaine',
+    imageUrl: 'https://picsum.photos/400/300?random=11'
   },
   {
     id: 'p3',
@@ -33,6 +38,8 @@ export const produce: Produce[] = [
     quantity: '120kg available',
     price: '$4.00/kg',
     description: 'Sweet and juicy Gala apples, ideal for snacking or baking.',
+    variety: 'Gala',
+    imageUrl: 'https://picsum.photos/400/300?random=12'
   },
   {
     id: 'p4',
@@ -41,6 +48,8 @@ export const produce: Produce[] = [
     quantity: '75kg available',
     price: '$2.00/kg',
     description: 'Vibrant orange carrots, great for roasting, steaming, or eating raw.',
+    variety: 'Nantes',
+    imageUrl: 'https://picsum.photos/400/300?random=13'
   },
 ];
 
