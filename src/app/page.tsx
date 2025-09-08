@@ -220,47 +220,14 @@ export default function LandingPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-secondary/50 p-1.5 rounded-2xl shadow-lg">
-                       <div className="bg-background rounded-xl p-4 border h-[450px] flex flex-col">
-                            <div className="flex items-center gap-2 mb-4">
-                                <span className="p-2 bg-primary/10 rounded-full"><Bot className="w-5 h-5 text-primary"/></span>
-                                <h3 className="font-semibold font-headline">Agri-Assistant</h3>
-                            </div>
-                            <div className="space-y-4 flex-1">
-                                <div className="flex items-start gap-3 justify-start">
-                                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
-                                        <Bot className="w-5 h-5" />
-                                    </span>
-                                    <div className="p-3 rounded-lg bg-background border max-w-xs">
-                                        <p className="text-sm">Hello! How can I help you with your crops today?</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-3 justify-end">
-                                    <div className="p-3 rounded-lg bg-secondary max-w-xs">
-                                        <p className="text-sm">My tomatoes have yellow spots on their leaves. What could be the cause?</p>
-                                    </div>
-                                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center">
-                                        <User className="w-5 h-5" />
-                                    </span>
-                                </div>
-                                 <div className="flex items-start gap-3 justify-start">
-                                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
-                                        <Bot className="w-5 h-5" />
-                                    </span>
-                                    <div className="p-3 rounded-lg bg-background border max-w-xs animate-pulse">
-                                       <div className="space-y-2">
-                                         <div className="h-2 bg-muted-foreground/30 rounded"></div>
-                                         <div className="h-2 bg-muted-foreground/30 rounded w-5/6"></div>
-                                         <div className="h-2 bg-muted-foreground/30 rounded w-3/4"></div>
-                                       </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="mt-4 flex items-center gap-2">
-                                <Input placeholder="Typing..." className="bg-secondary" disabled />
-                                <Button disabled><ArrowRight/></Button>
-                            </div>
-                       </div>
+                     <div className="bg-secondary/50 p-1.5 rounded-2xl shadow-lg h-[480px]">
+                        <Chatbot
+                            chatbotName="FarmLink FAQ"
+                            chatbotIcon={<Lightbulb />}
+                            getAiResponse={(input) => getFaqBotResponse({ question: input.message, history: input.history })}
+                            placeholder="Ask about FarmLink..."
+                            className="h-full"
+                        />
                     </div>
                 </div>
             </div>
@@ -448,5 +415,6 @@ export default function LandingPage() {
 }
 
     
+
 
 
