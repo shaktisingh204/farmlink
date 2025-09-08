@@ -106,8 +106,8 @@ export const produce: Produce[] = [
     id: 'p1',
     name: 'Organic Tomatoes',
     icon: Leaf,
-    quantity: '50kg available',
-    price: '$3.50/kg',
+    quantity: 50,
+    price: 250,
     description: 'Fresh, sun-ripened organic tomatoes, perfect for salads and sauces.',
     variety: 'Roma',
     imageUrl: 'https://picsum.photos/400/300?random=10'
@@ -116,8 +116,8 @@ export const produce: Produce[] = [
     id: 'p2',
     name: 'Crisp Lettuce',
     icon: Leaf,
-    quantity: '30 heads available',
-    price: '$1.50/head',
+    quantity: 30,
+    price: 120,
     description: 'Crisp and fresh romaine lettuce, grown locally without pesticides.',
     variety: 'Romaine',
     imageUrl: 'https://picsum.photos/400/300?random=11'
@@ -126,8 +126,8 @@ export const produce: Produce[] = [
     id: 'p3',
     name: 'Gala Apples',
     icon: Apple,
-    quantity: '120kg available',
-    price: '$4.00/kg',
+    quantity: 120,
+    price: 300,
     description: 'Sweet and juicy Gala apples, ideal for snacking or baking.',
     variety: 'Gala',
     imageUrl: 'https://picsum.photos/400/300?random=12'
@@ -136,8 +136,8 @@ export const produce: Produce[] = [
     id: 'p4',
     name: 'Sweet Carrots',
     icon: Carrot,
-    quantity: '75kg available',
-    price: '$2.00/kg',
+    quantity: 75,
+    price: 150,
     description: 'Vibrant orange carrots, great for roasting, steaming, or eating raw.',
     variety: 'Nantes',
     imageUrl: 'https://picsum.photos/400/300?random=13'

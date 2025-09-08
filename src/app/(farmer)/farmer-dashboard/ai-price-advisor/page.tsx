@@ -1,3 +1,4 @@
+
 'use client';
 import { useFormState, useFormStatus } from 'react-dom';
 import { getPriceAdviceAction, type PriceAdvisorState } from './actions';
@@ -134,7 +135,7 @@ export default function AiPriceAdvisorPage() {
                    <div className="text-center p-6 bg-background rounded-lg border">
                         <p className="text-sm text-muted-foreground">Recommended Price</p>
                         <p className="text-5xl font-bold text-primary">
-                            ${state.result.recommendedPrice.toFixed(2)}
+                            ₹{state.result.recommendedPrice.toFixed(2)}
                         </p>
                         <p className="text-sm text-muted-foreground">per kg</p>
                     </div>

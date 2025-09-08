@@ -78,7 +78,7 @@ export default function MyProduceListingsPage() {
                   </CardHeader>
                   <CardContent className="flex-grow p-6">
                     <CardTitle className="font-headline text-xl mb-2">{item.name}</CardTitle>
-                    <p className="font-semibold text-lg text-primary mb-2">${item.price}/kg</p>
+                    <p className="font-semibold text-lg text-primary mb-2">₹{item.price}/kg</p>
                     <p className="text-sm text-muted-foreground mb-1">{item.quantity} kg available</p>
                     <CardDescription>{item.description}</CardDescription>
                   </CardContent>

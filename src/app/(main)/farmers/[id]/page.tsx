@@ -1,3 +1,4 @@
+
 import { farmers } from '@/lib/placeholder-data';
 import { notFound } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -46,8 +47,8 @@ export default function FarmerDetailPage({ params }: { params: { id: string } })
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <p className="font-semibold text-accent">{item.price}</p>
-                  <p className="text-sm text-muted-foreground">{item.quantity}</p>
+                  <p className="font-semibold text-accent">₹{item.price}/kg</p>
+                  <p className="text-sm text-muted-foreground">{item.quantity} kg available</p>
                   <CardDescription>{item.description}</CardDescription>
                 </CardContent>
               </Card>
