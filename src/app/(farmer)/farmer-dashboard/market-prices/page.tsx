@@ -31,9 +31,11 @@ function MarketPricesTable() {
   const debouncedFilters = useDebounce(filters, DEBOUNCE_DELAY);
   
   useEffect(() => {
-    // Set today's date on initial render for client-side
+    // Set yesterday's date on initial render for client-side
     if(date === undefined) {
-      setDate(new Date());
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      setDate(yesterday);
     }
   }, []);
 
