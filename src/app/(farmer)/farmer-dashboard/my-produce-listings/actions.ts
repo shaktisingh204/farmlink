@@ -97,10 +97,13 @@ export async function getProduceListings(farmerId: string) {
 
         if (snapshot.exists()) {
             const data = snapshot.val();
-            return Object.keys(data).map(key => ({
-                id: key,
-                ...data[key]
-            }));
+            // Firebase returns an object when there's one item, so we must ensure it's always an array.
+            if (typeof data === 'object' && data !== null) {
+                return Object.keys(data).map(key => ({
+                    id: key,
+                    ...data[key]
+                }));
+            }
         }
         return [];
     } catch (error) {
