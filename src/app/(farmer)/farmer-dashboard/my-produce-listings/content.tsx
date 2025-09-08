@@ -8,14 +8,17 @@ import Image from 'next/image';
 import { ImageIcon, PlusCircle, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useLanguage } from '@/hooks/use-language';
 
 interface MyProduceListingsContentProps {
   produceList: Produce[];
   error: string | null;
-  t: (key: string) => string;
 }
 
-export function MyProduceListingsContent({ produceList, error, t }: MyProduceListingsContentProps) {
+export function MyProduceListingsContent({ produceList, error }: MyProduceListingsContentProps) {
+  // The client component gets the translation function from the hook.
+  const { t } = useLanguage();
+
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">

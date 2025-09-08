@@ -5,7 +5,7 @@ import type { Produce } from '@/lib/types';
 import { getTranslations } from '@/lib/i18n';
 
 export default async function MyProduceListingsPage() {
-  const { t } = await getTranslations();
+  // This server component is now only responsible for fetching data.
   const user = await getCurrentUser();
 
   let produceList: Produce[] = [];
@@ -23,5 +23,7 @@ export default async function MyProduceListingsPage() {
     }
   }
 
-  return <MyProduceListingsContent produceList={produceList} error={error} t={t} />;
+  // The data is passed to the client component.
+  // The client component will handle translations using the useLanguage hook.
+  return <MyProduceListingsContent produceList={produceList} error={error} />;
 }
