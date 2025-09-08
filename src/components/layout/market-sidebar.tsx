@@ -21,6 +21,7 @@ import {
   Wallet,
   Bell,
   Home,
+  UserCircle,
 } from 'lucide-react';
 
 const mainLinks = [
@@ -69,15 +70,15 @@ export function MarketSidebar() {
       <SidebarFooter className="mt-auto">
         <SidebarMenu>
            <SidebarMenuItem>
-            <Link href="/settings" legacyBehavior passHref>
+            <Link href="/local-market-dashboard/profile" legacyBehavior passHref>
               <SidebarMenuButton
-                  variant={pathname === '/settings' ? 'primary' : 'ghost'}
+                  variant={pathname === '/local-market-dashboard/profile' ? 'primary' : 'ghost'}
                   className="w-full justify-start"
                   size="lg"
-                  tooltip='Settings'
+                  tooltip='Profile'
                 >
-                <Settings className="w-5 h-5"/>
-                <span>Settings</span>
+                <UserCircle className="w-5 h-5"/>
+                <span>Profile</span>
               </SidebarMenuButton>
             </Link>
            </SidebarMenuItem>

@@ -20,6 +20,7 @@ import {
   Server,
   Shield,
   Home,
+  UserCircle,
 } from 'lucide-react';
 
 const mainLinks = [
@@ -67,15 +68,15 @@ export function AdminSidebar() {
       <SidebarFooter className="mt-auto">
         <SidebarMenu>
            <SidebarMenuItem>
-            <Link href="/settings" legacyBehavior passHref>
+            <Link href="/admin-dashboard/profile" legacyBehavior passHref>
               <SidebarMenuButton
-                  variant={pathname === '/settings' ? 'primary' : 'ghost'}
+                  variant={pathname === '/admin-dashboard/profile' ? 'primary' : 'ghost'}
                   className="w-full justify-start"
                   size="lg"
-                  tooltip='Settings'
+                  tooltip='Profile'
                 >
-                <Settings className="w-5 h-5"/>
-                <span>Settings</span>
+                <UserCircle className="w-5 h-5"/>
+                <span>Profile</span>
               </SidebarMenuButton>
             </Link>
            </SidebarMenuItem>
