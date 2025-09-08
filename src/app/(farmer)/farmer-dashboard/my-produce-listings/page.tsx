@@ -16,9 +16,14 @@ export default function MyProduceListingsPage() {
   const [produceList, setProduceList] = useState<Produce[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
+    if (authLoading) {
+        // Wait until the authentication state is resolved
+        return;
+    }
+
     const fetchProduce = async () => {
       if (!user) {
         setIsLoading(false);
@@ -39,7 +44,7 @@ export default function MyProduceListingsPage() {
     };
 
     fetchProduce();
-  }, [user]);
+  }, [user, authLoading]);
 
   return (
     <div className="space-y-8">
