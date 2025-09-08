@@ -12,7 +12,7 @@
       ".read": true,
       "$produceId": {
         ".validate": "newData.hasChildren(['name', 'variety', 'quantity', 'price', 'description', 'farmerId', 'createdAt'])",
-        ".write": true
+        ".write": "auth != null && newData.child('farmerId').val() === auth.uid"
       }
     },
     "orders": {
