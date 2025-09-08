@@ -63,7 +63,8 @@ export function RegistrationForm({ title, description, icon, loginPath, dashboar
         errorMessage = 'The password is too weak. Please choose a stronger password.';
       }
       setError(errorMessage);
-      setIsLoading(false);
+    } finally {
+        setIsLoading(false);
     }
   };
 

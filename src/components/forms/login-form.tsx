@@ -53,7 +53,7 @@ export function LoginForm({ title, description, icon, loginPath, role }: LoginFo
         router.push(loginPath);
       } else {
         await signOut(auth); // Sign out the user
-        setError(`This account is not registered as a ${role}. Please use the correct portal or register a new account.`);
+        setError(`This account is not registered as a '${role}'. Please use the correct portal or register a new account.`);
         setIsLoading(false);
       }
     } catch (error: any) {
