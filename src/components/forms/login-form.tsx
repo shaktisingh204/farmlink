@@ -11,7 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Terminal, Loader2 } from 'lucide-react';
 import type { UserProfile } from '@/lib/types';
 import { useAuth } from '@/hooks/use-auth';
-import { useLanguage } from '@/hooks/use-language';
+import { useLanguage, LanguageSwitcher } from '@/hooks/use-language';
 
 interface LoginFormProps {
   title: string;
@@ -51,7 +51,10 @@ export function LoginForm({ title, description, icon, loginPath, role }: LoginFo
   return (
     <form onSubmit={handleSubmit}>
       <Card className="w-full border-none shadow-none">
-        <CardHeader className="text-center items-center gap-2">
+        <CardHeader className="text-center items-center gap-2 relative">
+          <div className="absolute top-0 right-0">
+             <LanguageSwitcher />
+          </div>
           {icon}
           <CardTitle className="font-headline text-2xl">{title}</CardTitle>
           <CardDescription>{description}</CardDescription>

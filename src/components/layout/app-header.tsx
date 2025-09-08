@@ -18,7 +18,7 @@ import { CircleUser } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/hooks/use-auth"
 import { usePathname } from "next/navigation"
-import { useLanguage } from "@/hooks/use-language";
+import { useLanguage, LanguageSwitcher } from "@/hooks/use-language";
 
 export function AppHeader() {
   const { user, logout } = useAuth();
@@ -44,6 +44,7 @@ export function AppHeader() {
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <div className="ml-auto flex-1 sm:flex-initial">
         </div>
+         <LanguageSwitcher />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
