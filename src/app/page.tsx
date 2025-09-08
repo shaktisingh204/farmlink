@@ -20,6 +20,7 @@ import { useFormStatus } from 'react-dom';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { LanguageSwitcher, useLanguage } from '@/hooks/use-language';
+import { Logo } from '@/components/logo';
 
 function FaqChatbot() {
     const [isOpen, setIsOpen] = useState(false);
@@ -476,3 +477,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
