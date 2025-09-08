@@ -1,3 +1,4 @@
+
 'use client';
 import {
   SidebarTrigger,
@@ -19,7 +20,7 @@ import { useAuth } from "@/hooks/use-auth"
 import { usePathname } from "next/navigation"
 
 export function AppHeader() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const pathname = usePathname();
 
   const getProfileLink = () => {
@@ -61,7 +62,7 @@ export function AppHeader() {
             </DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => logout()}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
