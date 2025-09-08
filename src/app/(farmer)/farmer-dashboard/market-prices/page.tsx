@@ -1,3 +1,4 @@
+
 'use client';
 
 import { PageHeader } from '@/components/page-header';
@@ -24,13 +25,21 @@ function MarketPricesTable() {
   const [error, setError] = useState<string | null>(null);
   
   const [filters, setFilters] = useState({ State: '', District: '', Commodity: '' });
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const [offset, setOffset] = useState(0);
 
   const debouncedFilters = useDebounce(filters, DEBOUNCE_DELAY);
+  
+  useEffect(() => {
+    // Set today's date on initial render for client-side
+    if(date === undefined) {
+      setDate(new Date());
+    }
+  }, []);
 
   useEffect(() => {
     async function loadData() {
+      if (!date) return; // Don't fetch until date is set
       setIsLoading(true);
       setError(null);
       try {
