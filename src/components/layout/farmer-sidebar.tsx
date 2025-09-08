@@ -27,22 +27,20 @@ import {
   UserCircle,
   Bot,
 } from 'lucide-react';
-import { useLanguage } from '@/hooks/use-language';
 
 export function FarmerSidebar() {
   const pathname = usePathname();
-  const { t } = useLanguage();
 
   const mainLinks = [
-    { href: '/farmer-dashboard', label: t('sidebar.farmer.overview'), icon: Home },
-    { href: '/farmer-dashboard/my-produce-listings', label: t('sidebar.farmer.myProduce'), icon: List },
-    { href: '/farmer-dashboard/ai-price-advisor', label: t('sidebar.farmer.priceAdvisor'), icon: Microscope },
-    { href: '/farmer-dashboard/market-price-suggestions', label: t('sidebar.farmer.marketSuggestions'), icon: Tags },
-    { href: '/farmer-dashboard/agri-assist', label: t('sidebar.farmer.agriAssist'), icon: Bot },
-    { href: '/farmer-dashboard/market-prices', label: t('sidebar.farmer.marketPrices'), icon: Database },
-    { href: '/farmer-dashboard/orders-received', label: t('sidebar.farmer.ordersReceived'), icon: Receipt },
-    { href: '/farmer-dashboard/payments-earnings', label: t('sidebar.farmer.payments'), icon: Wallet },
-    { href: '/farmer-dashboard/alerts', label: t('sidebar.farmer.alerts'), icon: Bell },
+    { href: '/farmer-dashboard', label: 'Overview', icon: Home },
+    { href: '/farmer-dashboard/my-produce-listings', label: 'My Produce Listings', icon: List },
+    { href: '/farmer-dashboard/ai-price-advisor', label: 'AI Price Advisor', icon: Microscope },
+    { href: '/farmer-dashboard/market-price-suggestions', label: 'Market Price Suggestions', icon: Tags },
+    { href: '/farmer-dashboard/agri-assist', label: 'Agri-Assistant', icon: Bot },
+    { href: '/farmer-dashboard/market-prices', label: 'Daily Market Prices', icon: Database },
+    { href: '/farmer-dashboard/orders-received', label: 'Orders Received', icon: Receipt },
+    { href: '/farmer-dashboard/payments-earnings', label: 'Payments & Earnings', icon: Wallet },
+    { href: '/farmer-dashboard/alerts', label: 'Alerts', icon: Bell },
   ];
 
   const isActive = (href: string) => {
@@ -57,7 +55,7 @@ export function FarmerSidebar() {
           <Logo className="w-7 h-7 text-primary" />
           <div className="flex flex-col">
             <span className="text-xl font-semibold font-headline">FarmLink</span>
-            <span className="text-xs text-muted-foreground flex items-center gap-1"><User className="w-3 h-3" /> {t('portals.farmer.title')}</span>
+            <span className="text-xs text-muted-foreground flex items-center gap-1"><User className="w-3 h-3" /> Farmer Portal</span>
           </div>
         </div>
       </SidebarHeader>
@@ -89,11 +87,11 @@ export function FarmerSidebar() {
                   variant={pathname === '/farmer-dashboard/profile' ? 'primary' : 'ghost'}
                   className="w-full justify-start"
                   size="lg"
-                  tooltip={t('sidebar.common.profile')}
+                  tooltip='Profile'
                   isActive={pathname === '/farmer-dashboard/profile'}
                 >
                   <UserCircle className="w-5 h-5"/>
-                  <span>{t('sidebar.common.profile')}</span>
+                  <span>Profile</span>
                 </SidebarMenuButton>
               </Link>
            </SidebarMenuItem>
@@ -104,9 +102,9 @@ export function FarmerSidebar() {
                   variant='outline'
                   className="w-full justify-start"
                   size="lg"
-                  tooltip={t('sidebar.common.backToPortals')}
+                  tooltip='Back to Portal Selection'
                 >
-                  <span>{t('sidebar.common.backToPortals')}</span>
+                  <span>Back to Portal Selection</span>
                 </SidebarMenuButton>
               </Link>
             </SidebarMenuItem>

@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { User, ShoppingBag, Building, Shield, ArrowRight, TrendingUp, Cpu, Truck, Lightbulb, Users, CheckCircle, Facebook, Twitter, Instagram, MessageSquare, Bot, Terminal, Loader2, Languages } from 'lucide-react';
+import { User, ShoppingBag, Building, Shield, ArrowRight, TrendingUp, Cpu, Truck, Lightbulb, Users, CheckCircle, Facebook, Twitter, Instagram, MessageSquare, Bot, Terminal, Loader2 } from 'lucide-react';
 import { PageHeader } from '@/components/page-header';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
@@ -19,8 +19,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useFormStatus } from 'react-dom';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
-import { useLanguage } from '@/hooks/use-language';
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 
 const portals = [
@@ -204,28 +202,7 @@ function ContactForm() {
     );
 }
 
-function LanguageSwitcher() {
-    const { setLanguage } = useLanguage();
-    return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                    <Languages />
-                    <span className="sr-only">Change language</span>
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setLanguage('en')}>English</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setLanguage('hi')}>हिन्दी (Hindi)</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setLanguage('pa')}>ਪੰਜਾਬੀ (Punjabi)</DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    );
-}
-
-
 export default function LandingPage() {
-  const { t } = useLanguage();
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <main className="flex-1">
@@ -240,17 +217,17 @@ export default function LandingPage() {
                 data-ai-hint="farm landscape"
              />
              <div className="relative z-10 p-4">
-                <h2 className="text-xl md:text-2xl font-semibold tracking-wide text-primary-foreground/80 mb-2">{t('landing.subHeadline')}</h2>
-                <h1 className="text-5xl md:text-7xl font-bold font-headline tracking-tight">{t('landing.headline')}</h1>
+                <h2 className="text-xl md:text-2xl font-semibold tracking-wide text-primary-foreground/80 mb-2">AI-Powered Agricultural Marketplace</h2>
+                <h1 className="text-5xl md:text-7xl font-bold font-headline tracking-tight">Connecting Fields to Markets, Seamlessly.</h1>
                 <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
-                    {t('landing.tagline')}
+                    FarmLink is the all-in-one platform empowering farmers, retailers, and local markets with AI-driven insights for a more efficient and fair agricultural ecosystem.
                 </p>
                 <div className="mt-8 flex justify-center gap-4">
                     <Button size="lg" asChild>
-                        <Link href="#portals">{t('landing.getStarted')}</Link>
+                        <Link href="#portals">Get Started</Link>
                     </Button>
                     <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-black">
-                        {t('landing.learnMore')}
+                        Learn More
                     </Button>
                 </div>
              </div>
@@ -435,8 +412,8 @@ export default function LandingPage() {
       </main>
       <footer className="bg-background border-t">
         <div className="container mx-auto py-12 px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
-                <div className="col-span-2 md:col-span-4 lg:col-span-1">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div className="col-span-2 md:col-span-4 lg:col-span-2">
                     <div className="flex items-center gap-2">
                         <Bot className="w-7 h-7 text-primary"/>
                         <span className="text-xl font-semibold font-headline text-foreground">FarmLink</span>
@@ -466,12 +443,6 @@ export default function LandingPage() {
                         <a href="#" className="text-muted-foreground hover:text-foreground"><Twitter /></a>
                         <a href="#" className="text-muted-foreground hover:text-foreground"><Facebook /></a>
                         <a href="#" className="text-muted-foreground hover:text-foreground"><Instagram /></a>
-                    </div>
-                </div>
-                <div>
-                    <h4 className="font-semibold text-foreground">Language</h4>
-                    <div className="mt-4">
-                        <LanguageSwitcher />
                     </div>
                 </div>
             </div>

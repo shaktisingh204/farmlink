@@ -11,7 +11,6 @@ import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Terminal, Loader2 } from 'lucide-react';
 import type { UserProfile } from '@/lib/types';
 import { useAuth } from '@/hooks/use-auth';
-import { useLanguage } from '@/hooks/use-language';
 
 interface LoginFormProps {
   title: string;
@@ -25,7 +24,6 @@ export function LoginForm({ title, description, icon, loginPath, role }: LoginFo
   const { loginAndRedirect } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { t } = useLanguage();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -58,23 +56,23 @@ export function LoginForm({ title, description, icon, loginPath, role }: LoginFo
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">{t('login.emailLabel')}</Label>
+            <Label htmlFor="email">Email</Label>
             <Input id="email" type="email" placeholder="m@example.com" required disabled={isLoading} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">{t('login.passwordLabel')}</Label>
+            <Label htmlFor="password">Password</Label>
             <Input id="password" type="password" required disabled={isLoading}/>
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          {error && <Alert variant="destructive"><Terminal className="h-4 w-4" /><AlertTitle>{t('login.failed')}</AlertTitle><AlertDescription>{error}</AlertDescription></Alert>}
+          {error && <Alert variant="destructive"><Terminal className="h-4 w-4" /><AlertTitle>Login Failed</AlertTitle><AlertDescription>{error}</AlertDescription></Alert>}
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isLoading ? t('login.loggingIn') : t('login.loginButton')}
+            {isLoading ? 'Logging in...' : 'Login'}
           </Button>
           <p className="text-xs text-muted-foreground text-center pt-2">
             <Link href="/" className="underline hover:text-primary">
-              {t('login.backToPortals')}
+              Back to portal selection
             </Link>
           </p>
         </CardFooter>

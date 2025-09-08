@@ -24,20 +24,17 @@ import {
   UserCircle,
   Mail,
 } from 'lucide-react';
-import { useLanguage } from '@/hooks/use-language';
 
 export function AdminSidebar() {
   const pathname = usePathname();
-  const { t } = useLanguage();
-
   const mainLinks = [
-    { href: '/admin-dashboard', label: t('sidebar.admin.overview'), icon: Home },
-    { href: '/admin-dashboard/user-management', label: t('sidebar.admin.userManagement'), icon: Users },
-    { href: '/admin-dashboard/transactions', label: t('sidebar.admin.transactions'), icon: BarChart },
-    { href: '/admin-dashboard/analytics', label: t('sidebar.admin.analytics'), icon: AreaChart },
-    { href: '/admin-dashboard/complaints', label: t('sidebar.admin.complaints'), icon: FileWarning },
-    { href: '/admin-dashboard/contact-messages', label: t('sidebar.admin.contactMessages'), icon: Mail },
-    { href: '/admin-dashboard/system-health', label: t('sidebar.admin.systemHealth'), icon: Server },
+    { href: '/admin-dashboard', label: 'Overview', icon: Home },
+    { href: '/admin-dashboard/user-management', label: 'User Management', icon: Users },
+    { href: '/admin-dashboard/transactions', label: 'Transactions', icon: BarChart },
+    { href: '/admin-dashboard/analytics', label: 'Analytics', icon: AreaChart },
+    { href: '/admin-dashboard/complaints', label: 'Complaints', icon: FileWarning },
+    { href: '/admin-dashboard/contact-messages', label: 'Contact Messages', icon: Mail },
+    { href: '/admin-dashboard/system-health', label: 'System Health', icon: Server },
   ];
 
   return (
@@ -47,7 +44,7 @@ export function AdminSidebar() {
           <Logo className="w-7 h-7 text-primary" />
           <div className="flex flex-col">
             <span className="text-xl font-semibold font-headline">FarmLink</span>
-            <span className="text-xs text-muted-foreground flex items-center gap-1"><Shield className="w-3 h-3" /> {t('portals.admin.title')}</span>
+            <span className="text-xs text-muted-foreground flex items-center gap-1"><Shield className="w-3 h-3" /> Admin Portal</span>
           </div>
         </div>
       </SidebarHeader>
@@ -79,11 +76,11 @@ export function AdminSidebar() {
                     variant={pathname === '/admin-dashboard/profile' ? 'primary' : 'ghost'}
                     className="w-full justify-start"
                     size="lg"
-                    tooltip={t('sidebar.common.profile')}
+                    tooltip='Profile'
                     isActive={pathname === '/admin-dashboard/profile'}
                   >
                   <UserCircle className="w-5 h-5"/>
-                  <span>{t('sidebar.common.profile')}</span>
+                  <span>Profile</span>
                 </SidebarMenuButton>
               </Link>
            </SidebarMenuItem>
@@ -94,9 +91,9 @@ export function AdminSidebar() {
                   variant='outline'
                   className="w-full justify-start"
                   size="lg"
-                  tooltip={t('sidebar.common.backToPortals')}
+                  tooltip='Back to Portal Selection'
                 >
-                  <span>{t('sidebar.common.backToPortals')}</span>
+                  <span>Back to Portal Selection</span>
                 </SidebarMenuButton>
               </Link>
             </SidebarMenuItem>
