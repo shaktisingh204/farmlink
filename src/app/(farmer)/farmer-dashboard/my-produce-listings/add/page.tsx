@@ -1,3 +1,4 @@
+
 'use client';
 
 import { PageHeader } from '@/components/page-header';
@@ -15,6 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Terminal } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -70,7 +72,9 @@ export default function AddProducePage() {
               <Select name="name" required>
                 <SelectTrigger id="name"><SelectValue placeholder="Select produce" /></SelectTrigger>
                 <SelectContent>
-                  {PRODUCE_TYPES.map(type => <SelectItem key={type.name} value={type.name}>{type.name}</SelectItem>)}
+                  <ScrollArea className="h-72">
+                    {PRODUCE_TYPES.map(type => <SelectItem key={type.name} value={type.name}>{type.name}</SelectItem>)}
+                  </ScrollArea>
                 </SelectContent>
               </Select>
               {state.fieldErrors?.name && <p className="text-sm text-destructive">{state.fieldErrors.name}</p>}
