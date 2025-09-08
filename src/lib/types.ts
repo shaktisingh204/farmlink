@@ -9,6 +9,7 @@ export interface Produce {
   variety?: string;
   imageUrl?: string;
   farmerId: string;
+  createdAt: string;
 }
 
 export interface Farmer {

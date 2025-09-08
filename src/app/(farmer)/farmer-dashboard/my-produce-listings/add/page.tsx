@@ -11,13 +11,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { PRODUCE_TYPES } from '@/lib/placeholder-data';
 import { useFormStatus } from 'react-dom';
 import { addProduceAction, type AddProduceState } from '../actions';
-import { useEffect, useState, useActionState } from 'react';
+import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Terminal } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks/use-auth';
+import React from 'react';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -30,7 +31,7 @@ function SubmitButton() {
 
 export default function AddProducePage() {
   const initialState: AddProduceState = {};
-  const [state, dispatch] = useActionState(addProduceAction, initialState);
+  const [state, dispatch] = React.useActionState(addProduceAction, initialState);
   const { toast } = useToast();
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string | null>(null);

@@ -14,6 +14,7 @@ const ProduceSchema = z.object({
   description: z.string().min(1, 'Description is required.'),
   imageUrl: z.string().optional(),
   farmerId: z.string().min(1, "Farmer ID is required."),
+  createdAt: z.string(),
 });
 
 export type AddProduceState = {
@@ -29,7 +30,10 @@ export async function addProduceAction(
   formData: FormData
 ): Promise<AddProduceState> {
   try {
-    const validatedFields = ProduceSchema.safeParse(Object.fromEntries(formData.entries()));
+    const validatedFields = ProduceSchema.safeParse({
+      ...Object.fromEntries(formData.entries()),
+      createdAt: new Date().toISOString(),
+    });
 
     if (!validatedFields.success) {
       return {
@@ -43,10 +47,7 @@ export async function addProduceAction(
     }
 
     const newProduceRef = push(ref(db, 'produce'));
-    await set(newProduceRef, {
-      ...validatedFields.data,
-      createdAt: new Date().toISOString(),
-    });
+    await set(newProduceRef, validatedFields.data);
 
     revalidatePath('/farmer-dashboard/my-produce-listings');
     revalidatePath('/retailer-dashboard/browse-produce'); // Revalidate retailer page
