@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Terminal } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useAuth } from '@/hooks/use-auth';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -34,6 +35,7 @@ export default function AddProducePage() {
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageData, setImageData] = useState<string>('');
+  const { user } = useAuth();
 
   useEffect(() => {
     if (state.success) {
@@ -65,6 +67,9 @@ export default function AddProducePage() {
         description="Fill out the details below to add a new item to your listings."
       />
       <form action={dispatch}>
+        {/* Add hidden input for farmerId */}
+        <input type="hidden" name="farmerId" value={user?.uid || ''} />
+
         <Card>
           <CardContent className="pt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
