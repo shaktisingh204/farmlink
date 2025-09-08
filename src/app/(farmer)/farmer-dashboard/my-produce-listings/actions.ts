@@ -14,8 +14,8 @@ const ProduceSchema = z.object({
   price: z.coerce.number().min(0.01, 'Price is required.'),
   description: z.string().min(1, 'Description is required.'),
   // If imageUrl is an empty string, transform it to undefined so it's omitted
-  imageUrl: z.string().optional().transform(val => val === '' ? undefined : val),
-  farmerId: z.string().min(1, "Farmer ID is required."),
+  imageUrl: z.string().optional().transform(val => (val === '' ? undefined : val)),
+  farmerId: z.string().min(1, 'Farmer ID is required.'),
   createdAt: z.string(),
 });
 
@@ -55,8 +55,9 @@ export async function addProduceAction(
     revalidatePath('/farmer-dashboard/my-produce-listings');
     revalidatePath('/retailer-dashboard/browse-produce'); // Revalidate retailer page
     return { success: true };
-  } catch (e: any) {
-    console.error("Error in addProduceAction:", e);
+  } catch (e: any)
+  {
+    console.error('Error in addProduceAction:', e);
     return { error: 'An unexpected error occurred. Please try again.' };
   }
 }
@@ -121,7 +122,11 @@ export async function getProduceListings(farmerId: string) {
                 id: key,
                 ...data[key]
             }));
-            return produceArray;
+             // Firebase returns an object for single results, so we need to handle that.
+            if (Array.isArray(produceArray)) {
+                return produceArray;
+            }
+            return [produceArray];
         }
         return [];
     } catch (error) {
