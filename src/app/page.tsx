@@ -106,7 +106,7 @@ function FaqChatbot() {
                     className="fixed bottom-4 right-4 h-16 w-16 rounded-full shadow-lg z-50"
                     aria-label="Open FAQ Chatbot"
                 >
-                    <MessageSquare className="h-8 w-8" />
+                    <Bot className="h-8 w-8" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent 
@@ -127,6 +127,7 @@ function FaqChatbot() {
                     getAiResponse={(input) => getFaqBotResponse({ question: input.message, history: input.history })}
                     placeholder="Ask about FarmLink features..."
                     className="h-full flex flex-col"
+                    initialMessage="Hello! How can I help you learn about FarmLink today?"
                 />
                </div>
             </PopoverContent>
@@ -222,11 +223,12 @@ export default function LandingPage() {
                     </div>
                      <div className="bg-secondary/50 p-1.5 rounded-2xl shadow-lg h-[480px]">
                         <Chatbot
-                            chatbotName="FarmLink FAQ"
-                            chatbotIcon={<Lightbulb />}
+                            chatbotName="Agri-Assistant"
+                            chatbotIcon={<Bot />}
                             getAiResponse={(input) => getFaqBotResponse({ question: input.message, history: input.history })}
-                            placeholder="Ask about FarmLink..."
+                            placeholder="Ask about your crops..."
                             className="h-full"
+                            initialMessage="Hello! Your Agricultural Expert is Here, 24/7. Ask me about your crops."
                         />
                     </div>
                 </div>
@@ -234,7 +236,7 @@ export default function LandingPage() {
         </section>
 
         {/* How It Works Section */}
-        <section className="py-16 md:py-24 bg-secondary/50">
+        <section className="py-16 md-py-24 bg-secondary/50">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto">
                     <h2 className="text-4xl font-bold font-headline">Get Started in 3 Easy Steps</h2>
@@ -415,6 +417,7 @@ export default function LandingPage() {
 }
 
     
+
 
 
 

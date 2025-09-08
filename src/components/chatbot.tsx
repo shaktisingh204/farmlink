@@ -21,6 +21,7 @@ type ChatbotProps = {
     getAiResponse: (input: any) => Promise<{ answer: string } | { error: string }>;
     placeholder?: string;
     className?: string;
+    initialMessage?: string;
 };
 
 export function Chatbot({
@@ -28,9 +29,12 @@ export function Chatbot({
     chatbotIcon,
     getAiResponse,
     placeholder = "Type your message...",
-    className
+    className,
+    initialMessage,
 }: ChatbotProps) {
-    const [messages, setMessages] = useState<Message[]>([]);
+    const [messages, setMessages] = useState<Message[]>(
+        initialMessage ? [{ role: 'model', content: initialMessage }] : []
+    );
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const scrollAreaRef = useRef<HTMLDivElement>(null);
