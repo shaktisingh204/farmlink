@@ -6,6 +6,13 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { auth, db } from '@/lib/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import { Terminal } from 'lucide-react';
 
 interface RegistrationFormProps {
   title: string;
@@ -17,12 +24,43 @@ interface RegistrationFormProps {
 
 export function RegistrationForm({ title, description, icon, loginPath, dashboardPath }: RegistrationFormProps) {
   const router = useRouter();
+  const { toast } = useToast();
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // In a real app, you'd have registration logic here.
-    // For this prototype, we'll just navigate to the dashboard.
-    router.push(dashboardPath);
+    setError(null);
+    const name = event.currentTarget.name.value;
+    const email = event.currentTarget.email.value;
+    const password = event.currentTarget.password.value;
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Add user to Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        name: name,
+        email: email,
+        role: title.split(' ')[0].toLowerCase(), // e.g., 'farmer', 'admin'
+      });
+      
+      toast({
+        title: 'Account Created!',
+        description: 'You have been successfully registered.',
+      });
+
+      router.push(dashboardPath);
+    } catch (error: any) {
+      console.error(error);
+      let errorMessage = 'An unexpected error occurred. Please try again.';
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'This email address is already in use.';
+      } else if (error.code === 'auth/weak-password') {
+        errorMessage = 'The password is too weak. Please choose a stronger password.';
+      }
+      setError(errorMessage);
+    }
   };
 
   return (
@@ -48,6 +86,7 @@ export function RegistrationForm({ title, description, icon, loginPath, dashboar
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
+          {error && <Alert variant="destructive"><Terminal className="h-4 w-4" /><AlertTitle>Registration Failed</AlertTitle><AlertDescription>{error}</AlertDescription></Alert>}
           <Button type="submit" className="w-full">
             Create Account
           </Button>

@@ -5,6 +5,12 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { auth } from '@/lib/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import { Terminal } from 'lucide-react';
 
 interface LoginFormProps {
   title: string;
@@ -15,12 +21,30 @@ interface LoginFormProps {
 
 export function LoginForm({ title, description, icon, loginPath }: LoginFormProps) {
   const router = useRouter();
+  const { toast } = useToast();
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // In a real app, you'd have authentication logic here.
-    // For this prototype, we'll just navigate to the dashboard.
-    router.push(loginPath);
+    setError(null);
+    const email = event.currentTarget.email.value;
+    const password = event.currentTarget.password.value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      toast({
+        title: 'Success!',
+        description: 'You have successfully logged in.',
+      });
+      router.push(loginPath);
+    } catch (error: any) {
+      console.error(error);
+      let errorMessage = 'An unexpected error occurred. Please try again.';
+      if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+        errorMessage = 'Invalid email or password. Please try again.';
+      }
+      setError(errorMessage);
+    }
   };
 
   return (
@@ -42,6 +66,7 @@ export function LoginForm({ title, description, icon, loginPath }: LoginFormProp
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
+          {error && <Alert variant="destructive"><Terminal className="h-4 w-4" /><AlertTitle>Login Failed</AlertTitle><AlertDescription>{error}</AlertDescription></Alert>}
           <Button type="submit" className="w-full">
             Login
           </Button>
