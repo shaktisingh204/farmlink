@@ -65,9 +65,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         location: '',
       };
       await set(ref(db, 'users/' + user.uid), userProfileData);
-      setUserProfile(userProfileData);
+      // The onAuthStateChanged listener will handle setting the user and profile state.
+      // We just need to redirect.
       toast({ title: 'Success', description: 'Your account has been created.' });
-      router.push(dashboardPath);
+      router.replace(dashboardPath);
   }
 
   const loginAndRedirect = async (email: string, password: string, role: UserProfile['role'], loginPath: string) => {
@@ -87,8 +88,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             await signOut(auth);
             throw new Error(`You are not authorized to access the ${role} portal.`);
         }
-        setUserProfile({ uid: user.uid, ...dbProfile});
-        router.push(loginPath);
+        // The onAuthStateChanged listener will handle setting the user and profile state.
+        // We just need to redirect.
+        router.replace(loginPath);
   };
 
   const logout = async () => {
