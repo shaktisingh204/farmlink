@@ -59,8 +59,10 @@ export function AdminSidebar() {
                  size="lg"
                  tooltip={item.label}
                >
+                <>
                  <item.icon className="w-5 h-5" />
                  <span>{item.label}</span>
+                </>
                </SidebarMenuButton>
              </Link>
            </SidebarMenuItem>
@@ -78,8 +80,10 @@ export function AdminSidebar() {
                   size="lg"
                   tooltip='Profile'
                 >
-                <UserCircle className="w-5 h-5"/>
-                <span>Profile</span>
+                <>
+                  <UserCircle className="w-5 h-5"/>
+                  <span>Profile</span>
+                </>
               </SidebarMenuButton>
             </Link>
            </SidebarMenuItem>

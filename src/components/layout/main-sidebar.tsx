@@ -56,8 +56,10 @@ export function MainSidebar() {
                  size="lg"
                  tooltip={item.label}
                >
+                <>
                  <item.icon className="w-5 h-5" />
                  <span>{item.label}</span>
+                </>
                </SidebarMenuButton>
              </Link>
            </SidebarMenuItem>
@@ -75,8 +77,10 @@ export function MainSidebar() {
                   size="lg"
                   tooltip='Settings'
                 >
-                <Settings className="w-5 h-5"/>
-                <span>Settings</span>
+                <>
+                  <Settings className="w-5 h-5"/>
+                  <span>Settings</span>
+                </>
               </SidebarMenuButton>
             </Link>
            </SidebarMenuItem>
