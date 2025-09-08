@@ -27,6 +27,20 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+// This server-side function can be used in Server Components to get translations
+export const getTranslations = async () => {
+    // Dynamically import 'next/headers' only on the server
+    const { cookies } = await import('next/headers');
+    const cookieStore = cookies();
+    const langCookie = cookieStore.get('language');
+    const language: Language = (langCookie?.value as Language) || 'en';
+    const t = (key: string): string => {
+        return translations[language]?.[key] || key;
+    };
+    return { t, language };
+};
+
+
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>('en');
 
@@ -34,16 +48,22 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const savedLanguage = localStorage.getItem('language') as Language;
     if (savedLanguage && ['en', 'hi', 'pa'].includes(savedLanguage)) {
       setLanguageState(savedLanguage);
+      document.cookie = `language=${savedLanguage};path=/;max-age=31536000`;
+    } else {
+      document.cookie = `language=en;path=/;max-age=31536000`;
     }
   }, []);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem('language', lang);
+    document.cookie = `language=${lang};path=/;max-age=31536000`;
+     // We can reload to ensure server components also re-render with the new language
+    window.location.reload();
   };
 
   const t = useCallback((key: string): string => {
-    return translations[language][key] || key;
+    return translations[language]?.[key] || key;
   }, [language]);
 
   return (
