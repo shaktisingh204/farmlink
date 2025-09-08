@@ -9,22 +9,20 @@ import { ArrowRight, Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { useLanguage } from '@/hooks/use-language';
 
 export default function FarmerDashboardPage() {
     const { user, loading, userProfile } = useAuth();
     const router = useRouter();
-    const { t } = useLanguage();
 
     const features = [
-        { href: '/farmer-dashboard/my-produce-listings', label: t('farmerDashboard_myProduceListings'), icon: List },
-        { href: '/farmer-dashboard/ai-price-advisor', label: t('farmerDashboard_aiPriceAdvisor'), icon: Microscope },
-        { href: '/farmer-dashboard/market-price-suggestions', label: t('farmerDashboard_marketPriceSuggestions'), icon: Tags },
-        { href: '/farmer-dashboard/agri-assist', label: t('farmerDashboard_agriAssistant'), icon: Bot },
-        { href: '/farmer-dashboard/market-prices', label: t('farmerDashboard_dailyMarketPrices'), icon: Database },
-        { href: '/farmer-dashboard/orders-received', label: t('farmerDashboard_ordersReceived'), icon: Receipt },
-        { href: '/farmer-dashboard/payments-earnings', label: t('farmerDashboard_paymentsEarnings'), icon: Wallet },
-        { href: '/farmer-dashboard/alerts', label: t('farmerDashboard_alerts'), icon: Bell },
+        { href: '/farmer-dashboard/my-produce-listings', label: "My Produce Listings", icon: List },
+        { href: '/farmer-dashboard/ai-price-advisor', label: "AI Price Advisor", icon: Microscope },
+        { href: '/farmer-dashboard/market-price-suggestions', label: "Market Price Suggestions", icon: Tags },
+        { href: '/farmer-dashboard/agri-assist', label: "Agri-Assistant", icon: Bot },
+        { href: '/farmer-dashboard/market-prices', label: "Daily Market Prices", icon: Database },
+        { href: '/farmer-dashboard/orders-received', label: "Orders Received", icon: Receipt },
+        { href: '/farmer-dashboard/payments-earnings', label: "Payments & Earnings", icon: Wallet },
+        { href: '/farmer-dashboard/alerts', label: "Alerts", icon: Bell },
     ]
 
     useEffect(() => {
@@ -45,8 +43,8 @@ export default function FarmerDashboardPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        title={t('farmerDashboard_title')}
-        description={t('farmerDashboard_description')}
+        title="Farmer Dashboard"
+        description="Welcome back! Here's an overview of your farming activities."
       />
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
@@ -60,7 +58,7 @@ export default function FarmerDashboardPage() {
             <CardContent className="mt-auto">
               <Link href={feature.href} passHref>
                 <Button variant="outline" className="w-full">
-                  {t('dashboard_goToPage')} <ArrowRight className="ml-2 h-4 w-4" />
+                  Go to page <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </CardContent>

@@ -19,10 +19,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useFormStatus } from 'react-dom';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
-import { useLanguage, LanguageSwitcher } from '@/hooks/use-language';
 
 function FaqChatbot() {
-    const { t } = useLanguage();
     const [isOpen, setIsOpen] = useState(false);
     return (
         <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -48,12 +46,12 @@ function FaqChatbot() {
             >
                <div data-chatbot-area="true" className='h-full'>
                  <Chatbot
-                    chatbotName={t('faqBot_name')}
+                    chatbotName="FarmLink FAQ"
                     chatbotIcon={<Lightbulb />}
                     getAiResponse={(input) => getFaqBotResponse({ question: input.message, history: input.history })}
-                    placeholder={t('faqBot_placeholder')}
+                    placeholder="Ask about FarmLink features..."
                     className="h-full flex flex-col"
-                    initialMessage={t('faqBot_initialMessage')}
+                    initialMessage="Hello! How can I help you learn about FarmLink today?"
                 />
                </div>
             </PopoverContent>
@@ -62,18 +60,16 @@ function FaqChatbot() {
 }
 
 function ContactSubmitButton() {
-    const { t } = useLanguage();
     const { pending } = useFormStatus();
     return (
         <Button type="submit" disabled={pending}>
-             {pending ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {t('contactForm_sending')}</> : t('contactForm_sendMessage')}
+             {pending ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...</> : 'Send Message'}
         </Button>
     )
 }
 
 
 function ContactForm() {
-    const { t } = useLanguage();
     const initialState: ContactFormState = {};
     const [state, dispatch] = useActionState(saveContactMessageAction, initialState);
     const { toast } = useToast();
@@ -82,36 +78,36 @@ function ContactForm() {
     useEffect(() => {
         if(state.success) {
             toast({
-                title: t('contactForm_success_title'),
-                description: t('contactForm_success_description'),
+                title: "Message Sent!",
+                description: "Thank you for your feedback. We'll get back to you soon.",
             });
             formRef.current?.reset();
         }
-    }, [state.success, toast, t])
+    }, [state.success, toast])
 
     return (
         <form action={dispatch} ref={formRef}>
             <Card className="max-w-2xl mx-auto mt-12 bg-background">
                 <CardHeader>
-                    <CardTitle>{t('contactForm_title')}</CardTitle>
-                    <CardDescription>{t('contactForm_description')}</CardDescription>
+                    <CardTitle>Contact Form</CardTitle>
+                    <CardDescription>Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="grid sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label htmlFor="name">{t('contactForm_nameLabel')}</Label>
-                            <Input id="name" name="name" placeholder={t('contactForm_namePlaceholder')} required />
+                            <Label htmlFor="name">Name</Label>
+                            <Input id="name" name="name" placeholder="Your Name" required />
                              {state.fieldErrors?.name && <p className="text-sm text-destructive">{state.fieldErrors.name}</p>}
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="email">{t('contactForm_emailLabel')}</Label>
-                            <Input id="email" name="email" type="email" placeholder={t('contactForm_emailPlaceholder')} required/>
+                            <Label htmlFor="email">Email</Label>
+                            <Input id="email" name="email" type="email" placeholder="your@email.com" required/>
                              {state.fieldErrors?.email && <p className="text-sm text-destructive">{state.fieldErrors.email}</p>}
                         </div>
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="message">{t('contactForm_messageLabel')}</Label>
-                        <Textarea id="message" name="message" placeholder={t('contactForm_messagePlaceholder')} rows={5} required />
+                        <Label htmlFor="message">Message</Label>
+                        <Textarea id="message" name="message" placeholder="Your message..." rows={5} required />
                         {state.fieldErrors?.message && <p className="text-sm text-destructive">{state.fieldErrors.message}</p>}
                     </div>
                 </CardContent>
@@ -125,30 +121,29 @@ function ContactForm() {
 }
 
 export default function LandingPage() {
-    const { t } = useLanguage();
 
     const portals = [
         {
-            title: t('portal_farmer_title'),
-            description: t('portal_farmer_description'),
+            title: "Farmer Portal",
+            description: "Manage your produce, track earnings, and connect with markets.",
             href: '/farmer-login',
             icon: <User className="w-12 h-12 text-primary" />,
         },
         {
-            title: t('portal_retailer_title'),
-            description: t('portal_retailer_description'),
+            title: "Retailer Portal",
+            description: "Browse produce, place orders, and discover new local suppliers.",
             href: '/retailer-login',
             icon: <ShoppingBag className="w-12 h-12 text-primary" />,
         },
         {
-            title: t('portal_market_title'),
-            description: t('portal_market_description'),
+            title: "Market Portal",
+            description: "Oversee market operations, participation, and logistics.",
             href: '/market-login',
             icon: <Building className="w-12 h-12 text-primary" />,
         },
         {
-            title: t('portal_admin_title'),
-            description: t('portal_admin_description'),
+            title: "Admin Portal",
+            description: "System administration, user management, and analytics.",
             href: '/admin-login',
             icon: <Shield className="w-12 h-12 text-primary" />,
         },
@@ -157,53 +152,53 @@ export default function LandingPage() {
     const features = [
         {
             icon: <Cpu className="w-10 h-10 text-primary" />,
-            title: t('feature_priceAdvisor_title'),
-            description: t('feature_priceAdvisor_description')
+            title: "AI Price Advisor",
+            description: "Leverage AI to get fair price recommendations for your produce based on quality and real-time market data."
         },
         {
             icon: <TrendingUp className="w-10 h-10 text-primary" />,
-            title: t('feature_marketData_title'),
-            description: t('feature_marketData_description')
+            title: "Real-time Market Data",
+            description: "Access up-to-the-minute market prices and trends to make informed selling and purchasing decisions."
         },
         {
             icon: <Truck className="w-10 h-10 text-primary" />,
-            title: t('feature_supplyChain_title'),
-            description: t('feature_supplyChain_description')
+            title: "Supply Chain Optimization",
+            description: "Our AI analyzes supply and demand to recommend the most efficient distribution strategies to minimize waste."
         },
         {
             icon: <Lightbulb className="w-10 h-10 text-primary" />,
-            title: t('feature_personalizedDeals_title'),
-            description: t('feature_personalizedDeals_description')
+            title: "Personalized Deals",
+            description: "Retailers receive AI-powered recommendations for the best deals based on their purchasing history."
         },
         {
             icon: <Users className="w-10 h-10 text-primary" />,
-            title: t('feature_directConnections_title'),
-            description: t('feature_directConnections_description')
+            title: "Direct Connections",
+            description: "A transparent marketplace that directly connects farmers with retailers and local markets, fostering community."
         },
         {
             icon: <Bot className="w-10 h-10 text-primary" />,
-            title: t('feature_aiAssistants_title'),
-            description: t('feature_aiAssistants_description')
+            title: "AI-Powered Assistants",
+            description: "Get instant answers to your questions with our platform-wide FAQ bot and specialized Agri-Assistant for farmers."
         }
     ];
 
     const testimonials = [
         {
-            quote: t('testimonial1_quote'),
+            quote: "FarmLink has revolutionized how I sell my produce. The AI price advisor helps me get the best price every time.",
             name: "Anjali Patel",
-            role: t('testimonial1_role'),
+            role: "Farmer, Gujarat",
             avatar: "https://picsum.photos/100/100?random=21"
         },
         {
-            quote: t('testimonial2_quote'),
+            quote: "Finding high-quality, local produce has never been easier. The recommended deals save me time and money.",
             name: "Rohan Sharma",
-            role: t('testimonial2_role'),
+            role: "Retailer, Mumbai",
             avatar: "https://picsum.photos/100/100?random=22"
         },
         {
-            quote: t('testimonial3_quote'),
+            quote: "The Agri-Assistant chatbot is incredible. It's like having a farming expert in my pocket 24/7. I get instant advice on everything.",
             name: "Priya Singh",
-            role: t('testimonial3_role'),
+            role: "Farmer, Pune",
             avatar: "https://picsum.photos/100/100?random=23"
         }
     ];
@@ -223,17 +218,17 @@ export default function LandingPage() {
                 data-ai-hint="farm landscape"
              />
              <div className="relative z-10 p-4">
-                <h2 className="text-xl md:text-2xl font-semibold tracking-wide text-primary-foreground/80 mb-2">{t('hero_subtitle')}</h2>
-                <h1 className="text-5xl md:text-7xl font-bold font-headline tracking-tight">{t('hero_title')}</h1>
+                <h2 className="text-xl md:text-2xl font-semibold tracking-wide text-primary-foreground/80 mb-2">AI-Powered Agricultural Marketplace</h2>
+                <h1 className="text-5xl md:text-7xl font-bold font-headline tracking-tight">Connecting Fields to Markets, Seamlessly.</h1>
                 <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
-                    {t('hero_description')}
+                    FarmLink is the all-in-one platform empowering farmers, retailers, and local markets with AI-driven insights for a more efficient and fair agricultural ecosystem.
                 </p>
                 <div className="mt-8 flex justify-center gap-4">
                     <Button size="lg" asChild>
-                        <Link href="#portals">{t('hero_cta_getStarted')}</Link>
+                        <Link href="#portals">Get Started</Link>
                     </Button>
                     <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-black">
-                        {t('hero_cta_learnMore')}
+                        Learn More
                     </Button>
                 </div>
              </div>
@@ -243,9 +238,9 @@ export default function LandingPage() {
         <section id="features" className="py-16 md:py-24 bg-secondary/50">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto">
-                    <h2 className="text-4xl font-bold font-headline">{t('features_title')}</h2>
+                    <h2 className="text-4xl font-bold font-headline">A Smarter Way to Trade</h2>
                     <p className="mt-4 text-lg text-muted-foreground">
-                        {t('features_description')}
+                        Our powerful AI tools and transparent marketplace provide everything you need to thrive.
                     </p>
                 </div>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
@@ -272,36 +267,36 @@ export default function LandingPage() {
             <div className="container mx-auto px-4">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     <div className="space-y-4">
-                        <span className="text-primary font-semibold">{t('aiShowcase_tagline')}</span>
-                        <h2 className="text-4xl font-bold font-headline">{t('aiShowcase_title')}</h2>
+                        <span className="text-primary font-semibold">AI-Powered Assistance</span>
+                        <h2 className="text-4xl font-bold font-headline">Your Agricultural Expert is Here, 24/7</h2>
                         <p className="text-lg text-muted-foreground">
-                            {t('aiShowcase_description')}
+                            FarmLink integrates cutting-edge AI to provide instant support and expert advice. Whether you're a farmer needing crop advice or a new user exploring the platform, our AI assistants are here to help.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <div className="flex items-start gap-3">
                                 <CheckCircle className="w-6 h-6 text-primary mt-1 flex-shrink-0"/>
                                 <div>
-                                    <h3 className="font-semibold">{t('aiShowcase_agriAssist_title')}</h3>
-                                    <p className="text-muted-foreground text-sm">{t('aiShowcase_agriAssist_description')}</p>
+                                    <h3 className="font-semibold">Agri-Assistant</h3>
+                                    <p className="text-muted-foreground text-sm">Get expert answers to your farming questions, from pest control to market trends.</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
                                 <CheckCircle className="w-6 h-6 text-primary mt-1 flex-shrink-0"/>
                                 <div>
-                                    <h3 className="font-semibold">{t('aiShowcase_faqBot_title')}</h3>
-                                    <p className="text-muted-foreground text-sm">{t('aiShowcase_faqBot_description')}</p>
+                                    <h3 className="font-semibold">Platform FAQ Bot</h3>
+                                    <p className="text-muted-foreground text-sm">Have a question about a feature? Our FAQ bot provides instant answers.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                      <div className="bg-secondary/50 p-1.5 rounded-2xl shadow-lg h-[480px]">
                         <Chatbot
-                            chatbotName={t('agriAssist_name')}
+                            chatbotName="Agri-Assistant"
                             chatbotIcon={<Bot />}
                             getAiResponse={(input) => getFaqBotResponse({ question: input.message, history: input.history })}
-                            placeholder={t('agriAssist_placeholder')}
+                            placeholder="Ask about your crops..."
                             className="h-full"
-                            initialMessage={t('agriAssist_initialMessage')}
+                            initialMessage="Hello! Your Agricultural Expert is Here, 24/7. Ask me about your crops."
                         />
                     </div>
                 </div>
@@ -312,9 +307,9 @@ export default function LandingPage() {
         <section className="py-16 md-py-24 bg-secondary/50">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto">
-                    <h2 className="text-4xl font-bold font-headline">{t('howItWorks_title')}</h2>
+                    <h2 className="text-4xl font-bold font-headline">Get Started in 3 Easy Steps</h2>
                     <p className="mt-4 text-lg text-muted-foreground">
-                        {t('howItWorks_description')}
+                        Joining our network is simple and quick.
                     </p>
                 </div>
                 <div className="grid md:grid-cols-3 gap-8 mt-12 text-center">
@@ -322,22 +317,22 @@ export default function LandingPage() {
                        <div className="flex items-center justify-center w-24 h-24 rounded-full bg-primary text-primary-foreground mb-4">
                            <span className="text-4xl font-bold">1</span>
                        </div>
-                       <h3 className="text-xl font-headline font-semibold">{t('howItWorks_step1_title')}</h3>
-                       <p className="text-muted-foreground mt-2">{t('howItWorks_step1_description')}</p>
+                       <h3 className="text-xl font-headline font-semibold">Create an Account</h3>
+                       <p className="text-muted-foreground mt-2">Choose your portal and register as a Farmer, Retailer, or Market Manager.</p>
                    </div>
                    <div className="flex flex-col items-center">
                        <div className="flex items-center justify-center w-24 h-24 rounded-full bg-primary text-primary-foreground mb-4">
                            <span className="text-4xl font-bold">2</span>
                        </div>
-                       <h3 className="text-xl font-headline font-semibold">{t('howItWorks_step2_title')}</h3>
-                       <p className="text-muted-foreground mt-2">{t('howItWorks_step2_description')}</p>
+                       <h3 className="text-xl font-headline font-semibold">Explore Your Dashboard</h3>
+                       <p className="text-muted-foreground mt-2">Access powerful tools tailored to your role, from listing produce to analyzing data.</p>
                    </div>
                     <div className="flex flex-col items-center">
                        <div className="flex items-center justify-center w-24 h-24 rounded-full bg-primary text-primary-foreground mb-4">
                            <span className="text-4xl font-bold">3</span>
                        </div>
-                       <h3 className="text-xl font-headline font-semibold">{t('howItWorks_step3_title')}</h3>
-                       <p className="text-muted-foreground mt-2">{t('howItWorks_step3_description')}</p>
+                       <h3 className="text-xl font-headline font-semibold">Start Transacting</h3>
+                       <p className="text-muted-foreground mt-2">Connect with partners, make sales, place orders, and grow your business.</p>
                    </div>
                 </div>
             </div>
@@ -347,7 +342,7 @@ export default function LandingPage() {
         <section className="py-16 md:py-24">
             <div className="container mx-auto px-4">
                  <div className="text-center max-w-3xl mx-auto">
-                    <h2 className="text-4xl font-bold font-headline">{t('testimonials_title')}</h2>
+                    <h2 className="text-4xl font-bold font-headline">Trusted by the Community</h2>
                  </div>
                  <div className="grid md:grid-cols-3 gap-8 mt-12">
                      {testimonials.map(t => (
@@ -373,9 +368,9 @@ export default function LandingPage() {
         <section id="contact" className="py-16 md:py-24 bg-secondary/50">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto">
-                    <h2 className="text-4xl font-bold font-headline">{t('contact_title')}</h2>
+                    <h2 className="text-4xl font-bold font-headline">Get In Touch</h2>
                     <p className="mt-4 text-lg text-muted-foreground">
-                        {t('contact_description')}
+                        Have questions or feedback? We'd love to hear from you.
                     </p>
                 </div>
                 <ContactForm />
@@ -387,8 +382,8 @@ export default function LandingPage() {
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-2xl mx-auto">
                     <PageHeader
-                        title={t('portals_title')}
-                        description={t('portals_description')}
+                        title="Choose Your Portal"
+                        description="Select the portal that matches your role to log in or create an account."
                     />
                 </div>
                 <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 mt-12 w-full max-w-6xl mx-auto">
@@ -404,7 +399,7 @@ export default function LandingPage() {
                         <CardContent className="mt-auto w-full">
                         <Link href={portal.href} passHref>
                             <Button className="w-full">
-                            {t('portals_loginButton')} <ArrowRight className="ml-2 h-4 w-4" />
+                            Login <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
                         </Link>
                         </CardContent>
@@ -425,27 +420,26 @@ export default function LandingPage() {
                         <span className="text-xl font-semibold font-headline text-foreground">FarmLink</span>
                     </div>
                     <p className="text-muted-foreground mt-4 text-sm">
-                        {t('footer_tagline')}
+                        Connecting fields to markets, seamlessly.
                     </p>
                 </div>
                 <div>
-                    <h4 className="font-semibold text-foreground">{t('footer_navigation')}</h4>
+                    <h4 className="font-semibold text-foreground">Navigation</h4>
                     <ul className="mt-4 space-y-2 text-sm">
-                        <li><a href="#features" className="text-muted-foreground hover:text-foreground">{t('footer_features')}</a></li>
-                        <li><a href="#portals" className="text-muted-foreground hover:text-foreground">{t('footer_portals')}</a></li>
-                        <li><a href="#contact" className="text-muted-foreground hover:text-foreground">{t('footer_contactUs')}</a></li>
+                        <li><a href="#features" className="text-muted-foreground hover:text-foreground">Features</a></li>
+                        <li><a href="#portals" className="text-muted-foreground hover:text-foreground">Portals</a></li>
+                        <li><a href="#contact" className="text-muted-foreground hover:text-foreground">Contact Us</a></li>
                     </ul>
                 </div>
                  <div>
-                    <h4 className="font-semibold text-foreground">{t('footer_legal')}</h4>
+                    <h4 className="font-semibold text-foreground">Legal</h4>
                     <ul className="mt-4 space-y-2 text-sm">
-                        <li><a href="#" className="text-muted-foreground hover:text-foreground">{t('footer_privacyPolicy')}</a></li>
-                        <li><a href="#" className="text-muted-foreground hover:text-foreground">{t('footer_termsOfService')}</a></li>
-                        <li><LanguageSwitcher /></li>
+                        <li><a href="#" className="text-muted-foreground hover:text-foreground">Privacy Policy</a></li>
+                        <li><a href="#" className="text-muted-foreground hover:text-foreground">Terms of Service</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 className="font-semibold text-foreground">{t('footer_followUs')}</h4>
+                    <h4 className="font-semibold text-foreground">Follow Us</h4>
                     <div className="flex mt-4 space-x-4">
                         <a href="#" className="text-muted-foreground hover:text-foreground"><Twitter /></a>
                         <a href="#" className="text-muted-foreground hover:text-foreground"><Facebook /></a>
@@ -454,7 +448,7 @@ export default function LandingPage() {
                 </div>
             </div>
             <div className="mt-8 border-t border-border pt-6 text-center text-muted-foreground text-sm">
-                <p>&copy; 2024 FarmLink. {t('footer_allRightsReserved')}</p>
+                <p>&copy; 2024 FarmLink. All rights reserved.</p>
             </div>
         </div>
       </footer>

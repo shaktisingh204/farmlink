@@ -5,25 +5,22 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Users, BarChart, AreaChart, FileWarning, Server, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Loader2 } from 'lucide-react';
-import { useLanguage } from '@/hooks/use-language';
 
 export default function AdminDashboardPage() {
     const { user, loading, userProfile } = useAuth();
     const router = useRouter();
-    const { t } = useLanguage();
 
     const features = [
-        { href: '/admin-dashboard/user-management', label: t('adminDashboard_userManagement'), icon: Users },
-        { href: '/admin-dashboard/transactions', label: t('adminDashboard_transactions'), icon: BarChart },
-        { href: '/admin-dashboard/analytics', label: t('adminDashboard_analytics'), icon: AreaChart },
-        { href: '/admin-dashboard/complaints', label: t('adminDashboard_complaints'), icon: FileWarning },
-        { href: '/admin-dashboard/contact-messages', label: t('adminDashboard_contactMessages'), icon: Mail },
-        { href: '/admin-dashboard/system-health', label: t('adminDashboard_systemHealth'), icon: Server },
+        { href: '/admin-dashboard/user-management', label: 'User Management', icon: Users },
+        { href: '/admin-dashboard/transactions', label: 'Transactions', icon: BarChart },
+        { href: '/admin-dashboard/analytics', label: 'Analytics', icon: AreaChart },
+        { href: '/admin-dashboard/complaints', label: 'Complaints', icon: FileWarning },
+        { href: '/admin-dashboard/contact-messages', label: 'Contact Messages', icon: Mail },
+        { href: '/admin-dashboard/system-health', label: 'System Health', icon: Server },
     ];
 
     useEffect(() => {
@@ -44,8 +41,8 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        title={t('adminDashboard_title')}
-        description={t('adminDashboard_description')}
+        title="Admin Dashboard"
+        description="Welcome, Admin. Here's a summary of the platform's status."
       />
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
@@ -59,7 +56,7 @@ export default function AdminDashboardPage() {
             <CardContent className="mt-auto">
               <Link href={feature.href} passHref>
                 <Button variant="outline" className="w-full">
-                  {t('dashboard_goToPage')} <ArrowRight className="ml-2 h-4 w-4" />
+                  Go to page <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </CardContent>

@@ -9,20 +9,18 @@ import { ArrowRight } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { useLanguage } from '@/hooks/use-language';
 
 
 export default function RetailerDashboardPage() {
     const { user, loading, userProfile } = useAuth();
     const router = useRouter();
-    const { t } = useLanguage();
 
     const features = [
-        { href: '/retailer-dashboard/browse-produce', label: t('retailerDashboard_browseProduce'), icon: Search },
-        { href: '/retailer-dashboard/my-orders', label: t('retailerDashboard_myOrders'), icon: Receipt },
-        { href: '/retailer-dashboard/recommended-deals', label: t('retailerDashboard_recommendedDeals'), icon: Tags },
-        { href: '/retailer-dashboard/payments', label: t('retailerDashboard_payments'), icon: Wallet },
-        { href: '/retailer-dashboard/favorites', label: t('retailerDashboard_favorites'), icon: Heart },
+        { href: '/retailer-dashboard/browse-produce', label: 'Browse Produce', icon: Search },
+        { href: '/retailer-dashboard/my-orders', label: 'My Orders', icon: Receipt },
+        { href: '/retailer-dashboard/recommended-deals', label: 'Recommended Deals', icon: Tags },
+        { href: '/retailer-dashboard/payments', label: 'Payments', icon: Wallet },
+        { href: '/retailer-dashboard/favorites', label: 'Favorites', icon: Heart },
     ];
 
     useEffect(() => {
@@ -43,8 +41,8 @@ export default function RetailerDashboardPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        title={t('retailerDashboard_title')}
-        description={t('retailerDashboard_description')}
+        title="Retailer Dashboard"
+        description="Welcome! Find the freshest produce from local farmers."
       />
        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
@@ -58,7 +56,7 @@ export default function RetailerDashboardPage() {
             <CardContent className="mt-auto">
               <Link href={feature.href} passHref>
                 <Button variant="outline" className="w-full">
-                  {t('dashboard_goToPage')} <ArrowRight className="ml-2 h-4 w-4" />
+                  Go to page <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </CardContent>

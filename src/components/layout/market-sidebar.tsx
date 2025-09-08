@@ -24,20 +24,18 @@ import {
   Home,
   UserCircle,
 } from 'lucide-react';
-import { useLanguage } from '@/hooks/use-language';
 
 export function MarketSidebar() {
   const pathname = usePathname();
-  const { t } = useLanguage();
 
   const mainLinks = [
-    { href: '/local-market-dashboard', label: t('marketSidebar_overview'), icon: Home },
-    { href: '/local-market-dashboard/market-overview', label: t('marketSidebar_marketOverview'), icon: AreaChart },
-    { href: '/local-market-dashboard/farmer-participation', label: t('marketSidebar_farmerParticipation'), icon: Users2 },
-    { href: '/local-market-dashboard/retailer-activity', label: t('marketSidebar_retailerActivity'), icon: Activity },
-    { href: '/local-market-dashboard/logistics-snapshot', label: t('marketSidebar_logisticsSnapshot'), icon: TruckIcon },
-    { href: '/local-market-dashboard/revenue-payments', label: t('marketSidebar_revenuePayments'), icon: Wallet },
-    { href: '/local-market-dashboard/alerts', label: t('marketSidebar_alerts'), icon: Bell },
+    { href: '/local-market-dashboard', label: 'Overview', icon: Home },
+    { href: '/local-market-dashboard/market-overview', label: 'Market Overview', icon: AreaChart },
+    { href: '/local-market-dashboard/farmer-participation', label: 'Farmer Participation', icon: Users2 },
+    { href: '/local-market-dashboard/retailer-activity', label: 'Retailer Activity', icon: Activity },
+    { href: '/local-market-dashboard/logistics-snapshot', label: 'Logistics Snapshot', icon: TruckIcon },
+    { href: '/local-market-dashboard/revenue-payments', label: 'Revenue & Payments', icon: Wallet },
+    { href: '/local-market-dashboard/alerts', label: 'Alerts', icon: Bell },
   ];
 
   return (
@@ -47,7 +45,7 @@ export function MarketSidebar() {
           <Logo className="w-7 h-7 text-primary" />
           <div className="flex flex-col">
             <span className="text-xl font-semibold font-headline">FarmLink</span>
-            <span className="text-xs text-muted-foreground flex items-center gap-1"><Building className="w-3 h-3" /> {t('marketSidebar_portalName')}</span>
+            <span className="text-xs text-muted-foreground flex items-center gap-1"><Building className="w-3 h-3" /> Market Portal</span>
           </div>
         </div>
       </SidebarHeader>
@@ -79,11 +77,11 @@ export function MarketSidebar() {
                   variant={pathname === '/local-market-dashboard/profile' ? 'primary' : 'ghost'}
                   className="w-full justify-start"
                   size="lg"
-                  tooltip={t('sidebar_profile')}
+                  tooltip="Profile"
                   isActive={pathname === '/local-market-dashboard/profile'}
                 >
                 <UserCircle className="w-5 h-5"/>
-                <span>{t('sidebar_profile')}</span>
+                <span>Profile</span>
               </SidebarMenuButton>
             </Link>
            </SidebarMenuItem>
@@ -94,9 +92,9 @@ export function MarketSidebar() {
                   variant='outline'
                   className="w-full justify-start"
                   size="lg"
-                  tooltip={t('sidebar_backToPortals')}
+                  tooltip="Back to Portal Selection"
                 >
-                  <span>{t('sidebar_backToPortals')}</span>
+                  <span>Back to Portal Selection</span>
                 </SidebarMenuButton>
               </Link>
             </SidebarMenuItem>
