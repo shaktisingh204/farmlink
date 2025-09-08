@@ -48,20 +48,18 @@ export function MainSidebar() {
         <SidebarMenu>
           {mainLinks.map((item) => (
              <SidebarMenuItem key={item.href}>
-             <Link href={item.href}>
-               <SidebarMenuButton
-                 asChild
-                 variant={pathname.startsWith(item.href) ? 'primary' : 'ghost'}
-                 className="w-full justify-start"
-                 size="lg"
-                 tooltip={item.label}
-               >
-                <>
-                 <item.icon className="w-5 h-5" />
-                 <span>{item.label}</span>
-                </>
-               </SidebarMenuButton>
-             </Link>
+             <SidebarMenuButton
+               asChild
+               variant={pathname.startsWith(item.href) ? 'primary' : 'ghost'}
+               className="w-full justify-start"
+               size="lg"
+               tooltip={item.label}
+             >
+              <Link href={item.href}>
+               <item.icon className="w-5 h-5" />
+               <span>{item.label}</span>
+              </Link>
+             </SidebarMenuButton>
            </SidebarMenuItem>
           ))}
         </SidebarMenu>
@@ -69,35 +67,31 @@ export function MainSidebar() {
       <SidebarFooter className="mt-auto">
         <SidebarMenu>
            <SidebarMenuItem>
-            <Link href="/settings">
-              <SidebarMenuButton
-                  asChild
-                  variant={pathname === '/settings' ? 'primary' : 'ghost'}
-                  className="w-full justify-start"
-                  size="lg"
-                  tooltip='Settings'
-                >
-                <>
-                  <Settings className="w-5 h-5"/>
-                  <span>Settings</span>
-                </>
-              </SidebarMenuButton>
-            </Link>
+            <SidebarMenuButton
+                asChild
+                variant={pathname === '/settings' ? 'primary' : 'ghost'}
+                className="w-full justify-start"
+                size="lg"
+                tooltip='Settings'
+              >
+              <Link href="/settings">
+                <Settings className="w-5 h-5"/>
+                <span>Settings</span>
+              </Link>
+            </SidebarMenuButton>
            </SidebarMenuItem>
             <SidebarMenuItem>
-              <Link href="/">
-                <SidebarMenuButton
-                  asChild
-                  variant='outline'
-                  className="w-full justify-start"
-                  size="lg"
-                  tooltip='Back to Portal Selection'
-                >
-                  <>
-                  <span>Back to Portal Selection</span>
-                  </>
-                </SidebarMenuButton>
-              </Link>
+              <SidebarMenuButton
+                asChild
+                variant='outline'
+                className="w-full justify-start"
+                size="lg"
+                tooltip='Back to Portal Selection'
+              >
+                <Link href="/">
+                <span>Back to Portal Selection</span>
+                </Link>
+              </SidebarMenuButton>
             </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

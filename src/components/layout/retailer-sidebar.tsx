@@ -51,20 +51,18 @@ export function RetailerSidebar() {
         <SidebarMenu>
           {mainLinks.map((item) => (
              <SidebarMenuItem key={item.href}>
-             <Link href={item.href}>
-               <SidebarMenuButton
-                 asChild
-                 variant={pathname === item.href ? 'primary' : 'ghost'}
-                 className="w-full justify-start"
-                 size="lg"
-                 tooltip={item.label}
-               >
-                <>
-                 <item.icon className="w-5 h-5" />
-                 <span>{item.label}</span>
-                </>
-               </SidebarMenuButton>
-             </Link>
+             <SidebarMenuButton
+               asChild
+               variant={pathname === item.href ? 'primary' : 'ghost'}
+               className="w-full justify-start"
+               size="lg"
+               tooltip={item.label}
+             >
+              <Link href={item.href}>
+               <item.icon className="w-5 h-5" />
+               <span>{item.label}</span>
+              </Link>
+             </SidebarMenuButton>
            </SidebarMenuItem>
           ))}
         </SidebarMenu>
@@ -72,35 +70,31 @@ export function RetailerSidebar() {
       <SidebarFooter className="mt-auto">
         <SidebarMenu>
            <SidebarMenuItem>
-            <Link href="/retailer-dashboard/profile">
-              <SidebarMenuButton
-                  asChild
-                  variant={pathname === '/retailer-dashboard/profile' ? 'primary' : 'ghost'}
-                  className="w-full justify-start"
-                  size="lg"
-                  tooltip='Profile'
-                >
-                <>
-                  <UserCircle className="w-5 h-5"/>
-                  <span>Profile</span>
-                </>
-              </SidebarMenuButton>
-            </Link>
+            <SidebarMenuButton
+                asChild
+                variant={pathname === '/retailer-dashboard/profile' ? 'primary' : 'ghost'}
+                className="w-full justify-start"
+                size="lg"
+                tooltip='Profile'
+              >
+              <Link href="/retailer-dashboard/profile">
+                <UserCircle className="w-5 h-5"/>
+                <span>Profile</span>
+              </Link>
+            </SidebarMenuButton>
            </SidebarMenuItem>
             <SidebarMenuItem>
-              <Link href="/">
-                <SidebarMenuButton
-                  asChild
-                  variant='outline'
-                  className="w-full justify-start"
-                  size="lg"
-                  tooltip='Back to Portal Selection'
-                >
-                  <>
-                  <span>Back to Portal Selection</span>
-                  </>
-                </SidebarMenuButton>
-              </Link>
+              <SidebarMenuButton
+                asChild
+                variant='outline'
+                className="w-full justify-start"
+                size="lg"
+                tooltip='Back to Portal Selection'
+              >
+                <Link href="/">
+                <span>Back to Portal Selection</span>
+                </Link>
+              </SidebarMenuButton>
             </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
