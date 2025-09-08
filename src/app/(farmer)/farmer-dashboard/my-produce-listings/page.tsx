@@ -19,17 +19,22 @@ export default function MyProduceListingsPage() {
   const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
-    if (authLoading) {
-        // Wait until the authentication state is resolved
-        return;
-    }
-
+    // This effect should only run when the authentication state changes.
     const fetchProduce = async () => {
-      if (!user) {
-        setIsLoading(false);
-        // Don't set an error, just show the empty state. The empty state will guide them.
+      // If auth is still loading, do nothing yet.
+      if (authLoading) {
+        setIsLoading(true);
         return;
       }
+      
+      // If auth is done and there's no user, show the empty state.
+      if (!user) {
+        setIsLoading(false);
+        setProduceList([]); // Ensure list is empty
+        return;
+      }
+
+      // Now we know we have a user, so let's fetch their data.
       setIsLoading(true);
       setError(null);
       try {
