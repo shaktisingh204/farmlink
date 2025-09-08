@@ -110,7 +110,7 @@ function FaqChatbot() {
                     className="fixed bottom-4 right-4 h-16 w-16 rounded-full shadow-lg z-50"
                     aria-label="Open FAQ Chatbot"
                 >
-                    <Bot className="h-8 w-8" />
+                    <MessageSquare className="h-8 w-8" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent 
@@ -377,46 +377,46 @@ export default function LandingPage() {
             alt="Abstract footer background"
             fill
             objectFit="cover"
-            className="opacity-20"
+            className="opacity-10"
             data-ai-hint="dark farm"
         />
-        <div className="absolute inset-0 bg-black/70"></div>
+        <div className="absolute inset-0 bg-primary/90"></div>
         <div className="relative z-10 container mx-auto py-12 px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div className="col-span-2 md:col-span-1">
                     <div className="flex items-center gap-2">
-                        <Bot className="w-7 h-7 text-primary"/>
-                        <span className="text-xl font-semibold font-headline">FarmLink</span>
+                        <Bot className="w-7 h-7 text-primary-foreground"/>
+                        <span className="text-xl font-semibold font-headline text-primary-foreground">FarmLink</span>
                     </div>
-                    <p className="text-muted-foreground mt-4 text-sm">
+                    <p className="text-primary-foreground/80 mt-4 text-sm">
                         Connecting fields to markets, seamlessly.
                     </p>
                 </div>
                 <div>
-                    <h4 className="font-semibold text-foreground">Navigation</h4>
+                    <h4 className="font-semibold text-primary-foreground">Navigation</h4>
                     <ul className="mt-4 space-y-2 text-sm">
-                        <li><a href="#features" className="text-muted-foreground hover:text-primary">Features</a></li>
-                        <li><a href="#portals" className="text-muted-foreground hover:text-primary">Portals</a></li>
-                        <li><a href="#contact" className="text-muted-foreground hover:text-primary">Contact Us</a></li>
+                        <li><a href="#features" className="text-primary-foreground/80 hover:text-primary-foreground">Features</a></li>
+                        <li><a href="#portals" className="text-primary-foreground/80 hover:text-primary-foreground">Portals</a></li>
+                        <li><a href="#contact" className="text-primary-foreground/80 hover:text-primary-foreground">Contact Us</a></li>
                     </ul>
                 </div>
                  <div>
-                    <h4 className="font-semibold text-foreground">Legal</h4>
+                    <h4 className="font-semibold text-primary-foreground">Legal</h4>
                     <ul className="mt-4 space-y-2 text-sm">
-                        <li><a href="#" className="text-muted-foreground hover:text-primary">Privacy Policy</a></li>
-                        <li><a href="#" className="text-muted-foreground hover:text-primary">Terms of Service</a></li>
+                        <li><a href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Privacy Policy</a></li>
+                        <li><a href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Terms of Service</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 className="font-semibold text-foreground">Follow Us</h4>
+                    <h4 className="font-semibold text-primary-foreground">Follow Us</h4>
                     <div className="flex mt-4 space-x-4">
-                        <a href="#" className="text-muted-foreground hover:text-primary"><Twitter /></a>
-                        <a href="#" className="text-muted-foreground hover:text-primary"><Facebook /></a>
-                        <a href="#" className="text-muted-foreground hover:text-primary"><Instagram /></a>
+                        <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground"><Twitter /></a>
+                        <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground"><Facebook /></a>
+                        <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground"><Instagram /></a>
                     </div>
                 </div>
             </div>
-            <div className="mt-8 border-t border-white/10 pt-6 text-center text-muted-foreground text-sm">
+            <div className="mt-8 border-t border-primary-foreground/20 pt-6 text-center text-primary-foreground/80 text-sm">
                 <p>&copy; 2024 FarmLink. All rights reserved.</p>
             </div>
         </div>
@@ -424,3 +424,4 @@ export default function LandingPage() {
     </div>
   );
 }
+
