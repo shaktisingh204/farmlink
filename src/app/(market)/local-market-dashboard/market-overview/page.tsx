@@ -2,11 +2,20 @@
 'use client';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { useEffect, useState } from 'react';
 import { getMarketOverviewStats, type OverviewStats } from '../actions';
 import { Loader2, Users, ShoppingBag, List, DollarSign } from 'lucide-react';
-import { ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
+
+
+const chartConfig = {
+  totalSales: {
+    label: 'Total Sales',
+    color: 'hsl(var(--primary))',
+  },
+} satisfies ChartConfig;
+
 
 export default function Page() {
   const [stats, setStats] = useState<OverviewStats | null>(null);
@@ -97,15 +106,20 @@ export default function Page() {
                 <CardDescription>A summary of sales revenue over the last 30 days.</CardDescription>
             </CardHeader>
             <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={stats.salesData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="date" />
-                        <YAxis />
-                        <Tooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="totalSales" fill="hsl(var(--primary))" name="Total Sales" />
+               <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+                    <BarChart accessibilityLayer data={stats.salesData}>
+                        <CartesianGrid vertical={false} />
+                        <XAxis
+                            dataKey="date"
+                            tickLine={false}
+                            tickMargin={10}
+                            axisLine={false}
+                        />
+                         <YAxis />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Bar dataKey="totalSales" fill="var(--color-totalSales)" radius={4} />
                     </BarChart>
-                </ResponsiveContainer>
+                </ChartContainer>
             </CardContent>
         </Card>
 
