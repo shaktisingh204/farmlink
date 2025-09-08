@@ -40,7 +40,7 @@ const getMarketPrice = ai.defineTool({
     product: z.string().describe('The agricultural product to get the price for.'),
     source: z.string().describe('The source to get the market price from.'),
   }),
-  outputSchema: z.number().describe('The current market price for the product in USD.'),
+  outputSchema: z.number().describe('The current market price for the product in INR.'),
 },
 async (input) => {
   // TODO: Implement the actual market price fetching logic here.
