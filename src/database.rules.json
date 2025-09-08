@@ -3,8 +3,8 @@
   "rules": {
     "users": {
       "$uid": {
-        ".read": true,
-        ".write": true
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
       }
     },
     "produce": {
@@ -18,21 +18,21 @@
     "orders": {
       ".indexOn": ["farmerId", "retailerId"],
       "$orderId": {
-        ".read": true,
-        ".write": true,
+        ".read": "auth != null && (data.child('farmerId').val() === auth.uid || data.child('retailerId').val() === auth.uid)",
+        ".write": "auth != null && newData.child('retailerId').val() === auth.uid",
          ".validate": "newData.hasChildren(['produceId', 'farmerId', 'retailerId', 'quantity', 'totalPrice', 'status', 'orderDate'])"
       }
     },
     "favorites": {
       "$retailerId": {
-        ".read": true,
-        ".write": true
+        ".read": "auth != null && auth.uid === $retailerId",
+        ".write": "auth != null && auth.uid === $retailerId"
       }
     },
     "alerts": {
        ".indexOn": ["userId"],
        "$alertId": {
-        ".read": true,
+        ".read": "auth != null && data.child('userId').val() === auth.uid",
         ".write": true
       }
     },
