@@ -1,30 +1,55 @@
 
-import { getCurrentUser } from '@/lib/actions/user-actions';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { getProduceListings } from './actions';
+import { useAuth } from '@/hooks/use-auth';
+import { Loader2 } from 'lucide-react';
 import { MyProduceListingsContent } from './content';
 import type { Produce } from '@/lib/types';
-import { getTranslations } from '@/lib/i18n';
 
-export default async function MyProduceListingsPage() {
-  const user = await getCurrentUser();
+export default function MyProduceListingsPage() {
+  const { user, loading: authLoading } = useAuth();
+  const [produceList, setProduceList] = useState<Produce[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  let produceList: Produce[] = [];
-  let error: string | null = null;
-  
-  if (!user || user.role !== 'farmer') {
-    error = 'You must be logged in as a farmer to view your listings.';
-  } else {
-    try {
-      const result = await getProduceListings(user.uid);
-      if (result.error) {
-        error = result.error;
-      } else {
-        produceList = result.produce;
-      }
-    } catch (err: any) {
-      error = `Failed to fetch produce listings: ${err.message}`;
-      console.error(err);
+  useEffect(() => {
+    if (authLoading) return;
+
+    if (!user) {
+      setIsLoading(false);
+      setError('You must be logged in to view your listings.');
+      return;
     }
+
+    const fetchProduce = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const { produce, error } = await getProduceListings(user.uid);
+        if (error) {
+          setError(error);
+        } else {
+          setProduceList(produce || []);
+        }
+      } catch (err) {
+        setError('Failed to fetch produce listings.');
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProduce();
+  }, [user, authLoading]);
+
+  if (isLoading || authLoading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
   }
 
   return <MyProduceListingsContent produceList={produceList} error={error} />;
