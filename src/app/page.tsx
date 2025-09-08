@@ -3,7 +3,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { User, ShoppingBag, Building, Shield, ArrowRight, TrendingUp, Cpu, Truck, Lightbulb, Users, CheckCircle, Facebook, Twitter, Instagram, MessageSquare, Bot } from 'lucide-react';
 import { PageHeader } from '@/components/page-header';
@@ -16,6 +16,7 @@ import { Chatbot } from '@/components/chatbot';
 import { getFaqBotResponse } from './actions';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 
 const portals = [
@@ -82,17 +83,20 @@ const testimonials = [
     {
         quote: "FarmLink has revolutionized how I sell my produce. The AI price advisor helps me get the best price every time.",
         name: "Anjali Patel",
-        role: "Farmer, Gujarat"
+        role: "Farmer, Gujarat",
+        avatar: "https://picsum.photos/100/100?random=21"
     },
     {
         quote: "Finding high-quality, local produce has never been easier. The recommended deals save me time and money.",
         name: "Rohan Sharma",
-        role: "Retailer, Mumbai"
+        role: "Retailer, Mumbai",
+        avatar: "https://picsum.photos/100/100?random=22"
     },
     {
         quote: "The Agri-Assistant chatbot is incredible. It's like having a farming expert in my pocket 24/7. I get instant advice on everything.",
         name: "Priya Singh",
-        role: "Farmer, Pune"
+        role: "Farmer, Pune",
+        avatar: "https://picsum.photos/100/100?random=23"
     }
 ]
 
@@ -278,12 +282,17 @@ export default function LandingPage() {
                  </div>
                  <div className="grid md:grid-cols-3 gap-8 mt-12">
                      {testimonials.map(t => (
-                         <Card key={t.name} className="bg-secondary/50 border-0">
-                            <CardContent className="pt-6">
+                         <Card key={t.name} className="bg-background flex flex-col items-center text-center p-8 border-2">
+                            <CardContent className="p-0">
                                 <blockquote className="text-lg text-foreground/80 italic">"{t.quote}"</blockquote>
                             </CardContent>
-                            <CardFooter>
-                                <p className="font-semibold">{t.name}, <span className="text-muted-foreground font-normal">{t.role}</span></p>
+                            <CardFooter className="flex flex-col items-center mt-6 p-0">
+                                <Avatar className="w-16 h-16 mb-4">
+                                    <AvatarImage src={t.avatar} alt={t.name} />
+                                    <AvatarFallback>{t.name.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                                <p className="font-semibold">{t.name}</p>
+                                <p className="text-muted-foreground text-sm">{t.role}</p>
                             </CardFooter>
                          </Card>
                      ))}
@@ -415,9 +424,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-    
-
-
-
-
