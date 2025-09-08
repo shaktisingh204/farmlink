@@ -109,6 +109,9 @@ export async function updateProduceAction(
 }
 
 export async function getProduceListings(farmerId: string): Promise<{ produce: Produce[], error?: string }> {
+    if (!farmerId) {
+        return { produce: [], error: 'User ID is required.' };
+    }
     try {
         const produceRef = ref(db, 'produce');
         const dataQuery = query(produceRef, orderByChild('farmerId'), equalTo(farmerId));

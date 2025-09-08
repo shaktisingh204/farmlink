@@ -18,10 +18,12 @@ import { CircleUser } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/hooks/use-auth"
 import { usePathname } from "next/navigation"
+import { LanguageSwitcher, useLanguage } from "@/hooks/use-language"
 
 export function AppHeader() {
   const { user, logout } = useAuth();
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   const getProfileLink = () => {
     if (pathname.startsWith('/admin-dashboard')) return '/admin-dashboard/profile';
@@ -42,6 +44,7 @@ export function AppHeader() {
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <div className="ml-auto flex-1 sm:flex-initial">
         </div>
+         <LanguageSwitcher />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
@@ -55,14 +58,14 @@ export function AppHeader() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>{t('myAccount')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-                <Link href={getProfileLink()}>Profile</Link>
+                <Link href={getProfileLink()}>{t('profile')}</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuItem>{t('support')}</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => logout()}>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => logout()}>{t('logout')}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

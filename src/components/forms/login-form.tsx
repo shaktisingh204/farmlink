@@ -11,6 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Terminal, Loader2 } from 'lucide-react';
 import type { UserProfile } from '@/lib/types';
 import { useAuth } from '@/hooks/use-auth';
+import { useLanguage, LanguageSwitcher } from '@/hooks/use-language';
 
 interface LoginFormProps {
   title: string;
@@ -24,6 +25,7 @@ export function LoginForm({ title, description, icon, loginPath, role }: LoginFo
   const { loginAndRedirect } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useLanguage();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,28 +53,31 @@ export function LoginForm({ title, description, icon, loginPath, role }: LoginFo
       <Card className="w-full border-none shadow-none">
         <CardHeader className="text-center items-center gap-2">
           {icon}
-          <CardTitle className="font-headline text-2xl">{title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
+          <CardTitle className="font-headline text-2xl">{t(title)}</CardTitle>
+          <CardDescription>{t(description)}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+           <div className="flex justify-center">
+            <LanguageSwitcher />
+          </div>
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t('email')}</Label>
             <Input id="email" type="email" placeholder="m@example.com" required disabled={isLoading} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t('password')}</Label>
             <Input id="password" type="password" required disabled={isLoading}/>
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          {error && <Alert variant="destructive"><Terminal className="h-4 w-4" /><AlertTitle>Login Failed</AlertTitle><AlertDescription>{error}</AlertDescription></Alert>}
+          {error && <Alert variant="destructive"><Terminal className="h-4 w-4" /><AlertTitle>{t('loginFailed')}</AlertTitle><AlertDescription>{error}</AlertDescription></Alert>}
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isLoading ? 'Logging in...' : 'Login'}
+            {isLoading ? t('loggingIn') : t('login')}
           </Button>
           <p className="text-xs text-muted-foreground text-center pt-2">
             <Link href="/" className="underline hover:text-primary">
-              Back to portal selection
+              {t('backToPortalSelection')}
             </Link>
           </p>
         </CardFooter>

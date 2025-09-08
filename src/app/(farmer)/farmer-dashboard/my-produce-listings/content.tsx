@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { ImageIcon, PlusCircle, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useLanguage } from '@/hooks/use-language';
 
 interface MyProduceListingsContentProps {
   produceList: Produce[];
@@ -16,19 +17,19 @@ interface MyProduceListingsContentProps {
 }
 
 export function MyProduceListingsContent({ produceList, error }: MyProduceListingsContentProps) {
-
+  const { t } = useLanguage();
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <PageHeader
-          title="My Produce Listings"
-          description="Manage your produce listings."
+          title={t('myProduceListings')}
+          description={t('myProduceListingsDesc')}
         />
         <div className="flex items-center gap-2">
         <Button asChild>
             <Link href="/farmer-dashboard/my-produce-listings/add">
             <PlusCircle className="mr-2" />
-            Add New Listing
+            {t('addNewListing')}
             </Link>
         </Button>
         </div>
@@ -37,7 +38,7 @@ export function MyProduceListingsContent({ produceList, error }: MyProduceListin
       {error ? (
         <Alert variant="destructive">
           <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>Error Loading Listings</AlertTitle>
+          <AlertTitle>{t('errorLoadingListings')}</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       ) : (
@@ -63,24 +64,24 @@ export function MyProduceListingsContent({ produceList, error }: MyProduceListin
                 </CardHeader>
                 <CardContent className="flex-grow p-6">
                   <CardTitle className="font-headline text-xl mb-2">{item.name}</CardTitle>
-                  <p className="font-semibold text-lg text-primary mb-2">INR {item.price}/kg</p>
-                  <p className="text-sm text-muted-foreground mb-1">{item.quantity} kg available</p>
+                  <p className="font-semibold text-lg text-primary mb-2">INR {item.price}/{t('kg')}</p>
+                  <p className="text-sm text-muted-foreground mb-1">{item.quantity} {t('kg')} {t('available')}</p>
                   <CardDescription>{item.description}</CardDescription>
                 </CardContent>
                 <CardFooter>
                     <Button variant="outline" className="w-full" asChild>
-                    <Link href={`/farmer-dashboard/my-produce-listings/edit/${item.id}`}>Edit Listing</Link>
+                    <Link href={`/farmer-dashboard/my-produce-listings/edit/${item.id}`}>{t('editListing')}</Link>
                     </Button>
                 </CardFooter>
               </Card>
             ))
           ) : (
             <div className="col-span-full text-center py-12">
-              <p className="text-muted-foreground">You haven't listed any produce yet.</p>
+              <p className="text-muted-foreground">{t('noProduceListed')}</p>
                  <Button asChild className="mt-4">
                     <Link href="/farmer-dashboard/my-produce-listings/add">
                     <PlusCircle className="mr-2" />
-                    Add Your First Listing
+                    {t('addYourFirstListing')}
                     </Link>
                 </Button>
             </div>

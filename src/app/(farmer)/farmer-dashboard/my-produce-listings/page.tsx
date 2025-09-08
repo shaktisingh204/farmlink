@@ -7,19 +7,21 @@ import { useAuth } from '@/hooks/use-auth';
 import { Loader2 } from 'lucide-react';
 import { MyProduceListingsContent } from './content';
 import type { Produce } from '@/lib/types';
+import { useLanguage } from '@/hooks/use-language';
 
 export default function MyProduceListingsPage() {
   const { user, loading: authLoading } = useAuth();
   const [produceList, setProduceList] = useState<Produce[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (authLoading) return;
 
     if (!user) {
       setIsLoading(false);
-      setError('You must be logged in to view your listings.');
+      setError(t('errorMustBeLoggedIn'));
       return;
     }
 
@@ -34,7 +36,7 @@ export default function MyProduceListingsPage() {
           setProduceList(produce || []);
         }
       } catch (err) {
-        setError('Failed to fetch produce listings.');
+        setError(t('errorFailedToFetchListings'));
         console.error(err);
       } finally {
         setIsLoading(false);
@@ -42,7 +44,7 @@ export default function MyProduceListingsPage() {
     };
 
     fetchProduce();
-  }, [user, authLoading]);
+  }, [user, authLoading, t]);
 
   if (isLoading || authLoading) {
     return (
