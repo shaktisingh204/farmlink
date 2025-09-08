@@ -21,7 +21,6 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ title, description, icon, loginPath, role }: LoginFormProps) {
-  const router = useRouter();
   const { loginAndRedirect } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,15 +35,14 @@ export function LoginForm({ title, description, icon, loginPath, role }: LoginFo
 
     try {
       await loginAndRedirect(email, password, role, loginPath);
-      // The redirect is handled by the hook
+      // The redirect is now handled by the useAuth hook after profile is loaded.
     } catch (err: any) {
        if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
             setError('Invalid email or password. Please try again.');
        } else {
             setError(err.message || "An unexpected error occurred.");
        }
-    } finally {
-      setIsLoading(false);
+       setIsLoading(false);
     }
   };
 
