@@ -2,7 +2,7 @@
 'use server';
 
 import { db } from '@/lib/firebase';
-import { ref, get, set, push, serverTimestamp, remove } from 'firebase/database';
+import { ref, get, set, push, remove } from 'firebase/database';
 import type { Produce } from '@/lib/types';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirebaseAdminApp } from '@/lib/firebase-admin';
@@ -84,7 +84,7 @@ export async function createOrder(params: CreateOrderParams) {
             quantity,
             totalPrice,
             status: 'placed',
-            orderDate: serverTimestamp(),
+            orderDate: new Date().toISOString(),
         });
     } catch (e) {
         console.error("Failed to create order", e);

@@ -21,7 +21,7 @@
       ".read": true,
       "$orderId": {
         ".write": "auth != null && newData.child('retailerId').val() === auth.uid",
-         ".validate": "newData.hasChildren(['produceId', 'farmerId', 'retailerId', 'quantity', 'totalPrice', 'status', 'orderDate'])"
+         ".validate": "newData.hasChildren(['produceId', 'farmerId', 'retailerId', 'quantity', 'totalPrice', 'status', 'orderDate']) && newData.child('orderDate').isString()"
       }
     },
     "favorites": {
