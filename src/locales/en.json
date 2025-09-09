@@ -1,3 +1,4 @@
+
 {
   "features": "Features",
   "portals": "Portals",
@@ -115,9 +116,20 @@
   "myProduceListings": "My Produce Listings",
   "myProduceListingsDesc": "Manage your produce listings.",
   "marketPriceSuggestions": "Market Price Suggestions",
-  "agriAssistant": "Agri-Assistant",
   "dailyMarketPrices": "Daily Market Prices",
   "ordersReceived": "Orders Received",
   "paymentsEarnings": "Payments & Earnings",
-  "alerts": "Alerts"
+  "alerts": "Alerts",
+  "farmerDashboard": "Farmer Dashboard",
+  "farmerDashboardDesc": "Welcome back! Here's an overview of your farming activities.",
+  "goToPage": "Go to page",
+  "addNewListing": "Add New Listing",
+  "errorLoadingListings": "Error Loading Listings",
+  "errorMustBeLoggedIn": "You must be logged in to view your listings.",
+  "errorFailedToFetchListings": "Failed to fetch listings from the database.",
+  "kg": "kg",
+  "available": "available",
+  "editListing": "Edit Listing",
+  "noProduceListed": "You haven't listed any produce yet.",
+  "addYourFirstListing": "Add your first listing"
 }

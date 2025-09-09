@@ -438,7 +438,7 @@ export default function LandingPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div className="col-span-2 md:col-span-4 lg:col-span-2">
                     <div className="flex items-center gap-2">
-                        <Bot className="w-7 h-7 text-primary"/>
+                        <Logo className="w-7 h-7 text-primary"/>
                         <span className="text-xl font-semibold font-headline text-foreground">FarmLink</span>
                     </div>
                     <p className="text-muted-foreground mt-4 text-sm">
@@ -477,5 +477,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-    

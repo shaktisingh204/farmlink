@@ -115,7 +115,6 @@
   "overview": "अवलोकन",
   "myProduceListings": "मेरी उपज सूची",
   "myProduceListingsDesc": "अपनी उपज सूची प्रबंधित करें।",
-  "aiPriceAdvisor": "एआई मूल्य सलाहकार",
   "marketPriceSuggestions": "बाजार मूल्य सुझाव",
   "dailyMarketPrices": "दैनिक बाजार मूल्य",
   "ordersReceived": "प्राप्त आदेश",
@@ -134,5 +133,3 @@
   "noProduceListed": "आपने अभी तक कोई उपज सूचीबद्ध नहीं की है।",
   "addYourFirstListing": "अपनी पहली लिस्टिंग जोड़ें"
 }
-
-    
