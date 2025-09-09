@@ -8,7 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Terminal, Sparkles, UploadCloud, HeartPulse, Microscope, ListOrdered, Percent, BadgeHelp, CheckCircle, AlertTriangle, ShieldAlert, Badge } from 'lucide-react';
+import { Terminal, Sparkles, UploadCloud, HeartPulse, Microscope, ListOrdered, Percent, BadgeHelp, CheckCircle, AlertTriangle, ShieldAlert } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { useState, useActionState } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -24,9 +25,9 @@ function SubmitButton() {
 }
 
 const statusConfig = {
-    'Healthy': { icon: CheckCircle, color: 'text-green-500', badge: 'default' },
-    'At Risk': { icon: AlertTriangle, color: 'text-yellow-500', badge: 'secondary' },
-    'Sick': { icon: ShieldAlert, color: 'text-destructive', badge: 'destructive' }
+    'Healthy': { icon: CheckCircle, color: 'text-green-500', badge: 'default' as const },
+    'At Risk': { icon: AlertTriangle, color: 'text-yellow-500', badge: 'secondary' as const },
+    'Sick': { icon: ShieldAlert, color: 'text-destructive', badge: 'destructive' as const }
 };
 
 export default function PlantHealthPage() {
@@ -124,8 +125,7 @@ export default function PlantHealthPage() {
                              <CardTitle className="text-lg">Diagnosis for: {state.result.plantType}</CardTitle>
                              <div className="flex items-center justify-between pt-2">
                                 <Badge variant={statusConfig[state.result.status].badge} className="text-base">
-                                    <const IconComponent = statusConfig[state.result.status].icon; />
-                                    <IconComponent className={cn("mr-2 h-4 w-4", statusConfig[state.result.status].color)} />
+                                    {React.createElement(statusConfig[state.result.status].icon, { className: cn("mr-2 h-4 w-4", statusConfig[state.result.status].color)})}
                                     {state.result.status}
                                 </Badge>
                                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -170,3 +170,5 @@ export default function PlantHealthPage() {
     </div>
   );
 }
+
+    
