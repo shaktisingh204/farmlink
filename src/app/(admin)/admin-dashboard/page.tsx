@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { getMarketOverviewStats, type OverviewStats } from '@/app/(market)/local-market-dashboard/actions';
 import { BarChart as RechartsBarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Bar, CartesianGrid } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const chartConfig = {
   totalSales: {
