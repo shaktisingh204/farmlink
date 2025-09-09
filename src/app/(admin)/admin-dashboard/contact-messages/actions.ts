@@ -39,7 +39,8 @@ export async function getContactMessages(): Promise<{
     return { messages: [] };
   } catch (error) {
     console.error('Error fetching contact messages:', error);
-    return { error: 'Failed to fetch messages from the database.' };
+    // Return a more specific error if one occurs, otherwise let the UI handle the empty state.
+    return { error: 'A server error occurred while fetching messages.' };
   }
 }
 
