@@ -1,5 +1,6 @@
 
 'use client';
+import React from 'react';
 import { useFormStatus } from 'react-dom';
 import { getPlantHealthAction, type PlantHealthState } from './actions';
 import { PageHeader } from '@/components/page-header';
@@ -170,5 +171,3 @@ export default function PlantHealthPage() {
     </div>
   );
 }
-
-    
