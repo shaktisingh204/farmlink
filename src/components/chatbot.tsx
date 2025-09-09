@@ -11,6 +11,7 @@ import { Send, User, Bot, Loader2, Volume2, Pause, Mic, MicOff } from 'lucide-re
 import { cn } from '@/lib/utils';
 import type { AgriAssistInput } from '@/ai/flows/agri-assist-flow';
 import type { FaqBotInput } from '@/ai/flows/faq-bot-flow';
+import { useLanguage } from '@/hooks/use-language';
 
 type Message = {
     role: 'user' | 'model';
@@ -43,6 +44,7 @@ export function Chatbot({
     const scrollAreaRef = useRef<HTMLDivElement>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [currentlyPlaying, setCurrentlyPlaying] = useState<number | null>(null);
+    const { language } = useLanguage();
 
     const {
         transcript,
@@ -132,8 +134,14 @@ export function Chatbot({
                sendMessage(input);
             }
         } else {
+            const langCode = {
+                en: 'en-US',
+                hi: 'hi-IN',
+                pa: 'pa-IN'
+            }[language] || 'en-US';
+
             resetTranscript();
-            SpeechRecognition.startListening({ continuous: true });
+            SpeechRecognition.startListening({ continuous: true, language: langCode });
         }
     };
     
