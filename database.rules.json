@@ -1,28 +1,46 @@
 {
   "rules": {
     "users": {
-      ".read": true,
-      ".write": true
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
     },
     "produce": {
+      ".indexOn": ["farmerId"],
       ".read": true,
-      ".write": true
+      "$produceId": {
+        ".validate": "newData.hasChildren(['name', 'variety', 'quantity', 'price', 'description', 'farmerId', 'createdAt'])",
+        ".write": "auth != null && newData.child('farmerId').val() === auth.uid"
+      }
     },
     "orders": {
-      ".read": true,
-      ".write": true
+      ".indexOn": ["farmerId", "retailerId"],
+      "$orderId": {
+        ".read": "auth != null && (data.child('farmerId').val() === auth.uid || data.child('retailerId').val() === auth.uid)",
+        ".write": "auth != null && newData.child('retailerId').val() === auth.uid",
+        ".validate": "newData.hasChildren(['produceId', 'farmerId', 'retailerId', 'quantity', 'totalPrice', 'status', 'orderDate'])"
+      }
     },
     "favorites": {
-      ".read": true,
-      ".write": true
+      "$retailerId": {
+        ".read": "auth != null && auth.uid === $retailerId",
+        ".write": "auth != null && auth.uid === $retailerId"
+      }
     },
     "alerts": {
-      ".read": true,
-      ".write": true
+      ".indexOn": ["userId"],
+      "$alertId": {
+        ".read": "auth != null && data.child('userId').val() === auth.uid",
+        ".write": true
+      }
     },
     "contactMessages": {
       ".read": true,
-      ".write": true
+      ".write": true,
+      "$messageId": {
+        ".validate": "newData.hasChildren(['name', 'email', 'message', 'timestamp'])"
+      }
     }
   }
 }
