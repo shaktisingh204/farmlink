@@ -10,6 +10,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import wav from 'wav';
 
 const FaqBotInputSchema = z.object({
   history: z.array(z.object({
@@ -24,6 +25,7 @@ export type FaqBotInput = z.infer<typeof FaqBotInputSchema>;
 
 const FaqBotOutputSchema = z.object({
   answer: z.string().describe('The AI\'s answer to the user\'s question.'),
+  audioDataUri: z.string().optional().describe('A data URI of the spoken answer in WAV format.'),
 });
 export type FaqBotOutput = z.infer<typeof FaqBotOutputSchema>;
 
@@ -57,6 +59,34 @@ If the user's question is not about FarmLink or its features, politely state tha
 Do not make up features that are not on this list.
 `;
 
+
+async function toWav(
+  pcmData: Buffer,
+  channels = 1,
+  rate = 24000,
+  sampleWidth = 2
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const writer = new wav.Writer({
+      channels,
+      sampleRate: rate,
+      bitDepth: sampleWidth * 8,
+    });
+
+    let bufs = [] as any[];
+    writer.on('error', reject);
+    writer.on('data', function (d) {
+      bufs.push(d);
+    });
+    writer.on('end', function () {
+      resolve(Buffer.concat(bufs).toString('base64'));
+    });
+
+    writer.write(pcmData);
+    writer.end();
+  });
+}
+
 const faqBotFlow = ai.defineFlow(
   {
     name: 'faqBotFlow',
@@ -77,6 +107,33 @@ const faqBotFlow = ai.defineFlow(
         system: systemInstruction,
     });
 
-    return { answer: llmResponse.text };
+    const answer = llmResponse.text;
+
+     // Generate TTS audio
+    const { media } = await ai.generate({
+      model: 'googleai/gemini-2.5-flash-preview-tts',
+      config: {
+        responseModalities: ['AUDIO'],
+        speechConfig: {
+          voiceConfig: {
+            prebuiltVoiceConfig: { voiceName: 'Algenib' },
+          },
+        },
+      },
+      prompt: answer,
+    });
+
+    if (!media) {
+      return { answer, audioDataUri: undefined };
+    }
+
+    const audioBuffer = Buffer.from(
+      media.url.substring(media.url.indexOf(',') + 1),
+      'base64'
+    );
+    
+    const audioDataUri = 'data:audio/wav;base64,' + (await toWav(audioBuffer));
+
+    return { answer, audioDataUri };
   }
 );

@@ -6,10 +6,10 @@ import { push, ref, set } from 'firebase/database';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 
-export async function getFaqBotResponse(input: FaqBotInput): Promise<{ answer: string } | { error: string }> {
+export async function getFaqBotResponse(input: FaqBotInput): Promise<{ answer: string, audioDataUri?: string } | { error: string }> {
     try {
         const result = await faqBot(input);
-        return { answer: result.answer };
+        return { answer: result.answer, audioDataUri: result.audioDataUri };
     } catch (e: any) {
         console.error("Error getting response from FAQ Bot flow", e);
         return { error: e.message || "An unexpected error occurred." };

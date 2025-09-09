@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Send, User, Bot, Loader2 } from 'lucide-react';
+import { Send, User, Bot, Loader2, Volume2, Pause } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { AgriAssistInput } from '@/ai/flows/agri-assist-flow';
 import type { FaqBotInput } from '@/ai/flows/faq-bot-flow';
@@ -13,12 +13,13 @@ import type { FaqBotInput } from '@/ai/flows/faq-bot-flow';
 type Message = {
     role: 'user' | 'model';
     content: string;
+    audioDataUri?: string;
 };
 
 type ChatbotProps = {
     chatbotName: string;
     chatbotIcon: React.ReactNode;
-    getAiResponse: (input: any) => Promise<{ answer: string } | { error: string }>;
+    getAiResponse: (input: any) => Promise<{ answer: string, audioDataUri?: string } | { error: string }>;
     placeholder?: string;
     className?: string;
     initialMessage?: string;
@@ -38,6 +39,8 @@ export function Chatbot({
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const scrollAreaRef = useRef<HTMLDivElement>(null);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [currentlyPlaying, setCurrentlyPlaying] = useState<number | null>(null);
 
     const scrollToBottom = () => {
         if (scrollAreaRef.current) {
@@ -50,6 +53,27 @@ export function Chatbot({
             scrollToBottom();
         });
     }, [messages]);
+
+    const handlePlayAudio = (audioDataUri: string, index: number) => {
+        if (currentlyPlaying === index) {
+            audioRef.current?.pause();
+            setCurrentlyPlaying(null);
+            return;
+        }
+
+        if (audioRef.current) {
+            audioRef.current.pause();
+        }
+
+        const newAudio = new Audio(audioDataUri);
+        audioRef.current = newAudio;
+        newAudio.play();
+        setCurrentlyPlaying(index);
+
+        newAudio.onended = () => {
+            setCurrentlyPlaying(null);
+        };
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -68,7 +92,7 @@ export function Chatbot({
         try {
             const result = await getAiResponse({ message: input, history: historyForApi });
             if ('answer' in result) {
-                const botMessage: Message = { role: 'model', content: result.answer };
+                const botMessage: Message = { role: 'model', content: result.answer, audioDataUri: result.audioDataUri };
                 setMessages(prev => [...prev, botMessage]);
             } else {
                  const errorMessage: Message = { role: 'model', content: `Error: ${result.error}` };
@@ -98,8 +122,18 @@ export function Chatbot({
                                         <Bot className="w-5 h-5" />
                                     </span>
                                 )}
-                                <div className={cn("p-3 rounded-lg max-w-xs md:max-w-md", message.role === 'user' ? 'bg-secondary' : 'bg-background border')}>
+                                <div className={cn("p-3 rounded-lg max-w-xs md:max-w-md relative group", message.role === 'user' ? 'bg-secondary' : 'bg-background border')}>
                                     <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                                     {message.role === 'model' && message.audioDataUri && (
+                                        <Button 
+                                            size="icon" 
+                                            variant="ghost" 
+                                            className="absolute -bottom-4 -right-4 h-7 w-7 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                            onClick={() => handlePlayAudio(message.audioDataUri!, index)}
+                                        >
+                                            {currentlyPlaying === index ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                                        </Button>
+                                    )}
                                 </div>
                                 {message.role === 'user' && (
                                     <span className="flex-shrink-0 w-8 h-8 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center">

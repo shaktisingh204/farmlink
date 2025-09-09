@@ -10,6 +10,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import wav from 'wav';
 
 const AgriAssistInputSchema = z.object({
   history: z.array(z.object({
@@ -24,6 +25,7 @@ export type AgriAssistInput = z.infer<typeof AgriAssistInputSchema>;
 
 const AgriAssistOutputSchema = z.object({
   answer: z.string().describe('The AI\'s answer to the farmer\'s question.'),
+  audioDataUri: z.string().optional().describe('A data URI of the spoken answer in WAV format.'),
 });
 export type AgriAssistOutput = z.infer<typeof AgriAssistOutputSchema>;
 
@@ -31,18 +33,32 @@ export async function agriAssist(input: AgriAssistInput): Promise<AgriAssistOutp
   return agriAssistFlow(input);
 }
 
-const prompt = ai.definePrompt({
-  name: 'agriAssistPrompt',
-  input: {schema: AgriAssistInputSchema},
-  output: {schema: AgriAssistOutputSchema},
-  prompt: `You are an expert agricultural assistant. Your audience is farmers in India.
-  Your goal is to provide helpful, concise, and actionable answers to their questions.
-  Use a friendly and encouraging tone. Keep answers short and to the point where possible.
-  
-  User's question:
-  {{{message}}}
-  `,
-});
+async function toWav(
+  pcmData: Buffer,
+  channels = 1,
+  rate = 24000,
+  sampleWidth = 2
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const writer = new wav.Writer({
+      channels,
+      sampleRate: rate,
+      bitDepth: sampleWidth * 8,
+    });
+
+    let bufs = [] as any[];
+    writer.on('error', reject);
+    writer.on('data', function (d) {
+      bufs.push(d);
+    });
+    writer.on('end', function () {
+      resolve(Buffer.concat(bufs).toString('base64'));
+    });
+
+    writer.write(pcmData);
+    writer.end();
+  });
+}
 
 const agriAssistFlow = ai.defineFlow(
   {
@@ -61,8 +77,39 @@ const agriAssistFlow = ai.defineFlow(
         prompt: message,
         history: llmHistory,
         model: 'googleai/gemini-2.5-flash',
+        system: `You are an expert agricultural assistant. Your audience is farmers in India.
+        Your goal is to provide helpful, concise, and actionable answers to their questions.
+        Use a friendly and encouraging tone. Keep answers short and to the point where possible.
+        `,
     });
 
-    return { answer: llmResponse.text };
+    const answer = llmResponse.text;
+    
+    // Generate TTS audio
+    const { media } = await ai.generate({
+      model: 'googleai/gemini-2.5-flash-preview-tts',
+      config: {
+        responseModalities: ['AUDIO'],
+        speechConfig: {
+          voiceConfig: {
+            prebuiltVoiceConfig: { voiceName: 'Algenib' },
+          },
+        },
+      },
+      prompt: answer,
+    });
+
+    if (!media) {
+      return { answer, audioDataUri: undefined };
+    }
+
+    const audioBuffer = Buffer.from(
+      media.url.substring(media.url.indexOf(',') + 1),
+      'base64'
+    );
+    
+    const audioDataUri = 'data:audio/wav;base64,' + (await toWav(audioBuffer));
+
+    return { answer, audioDataUri };
   }
 );
