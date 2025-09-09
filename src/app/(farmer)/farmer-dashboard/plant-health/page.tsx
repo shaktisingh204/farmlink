@@ -26,8 +26,8 @@ function SubmitButton() {
 const statusConfig = {
     'Healthy': { icon: CheckCircle, color: 'text-green-500', badge: 'default' },
     'At Risk': { icon: AlertTriangle, color: 'text-yellow-500', badge: 'secondary' },
-    'Sick': { icon: ShieldAlert, color: 'text-destructive', badge: 'destructive' },
-}
+    'Sick': { icon: ShieldAlert, color: 'text-destructive', badge: 'destructive' }
+};
 
 export default function PlantHealthPage() {
   const initialState: PlantHealthState = {};
