@@ -26,6 +26,7 @@ import {
   Route,
   UserCircle,
   Bot,
+  HeartPulse,
 } from 'lucide-react';
 import { useLanguage } from '@/hooks/use-language';
 
@@ -36,6 +37,7 @@ export function FarmerSidebar() {
   const mainLinks = [
     { href: '/farmer-dashboard', label: 'overview', icon: Home },
     { href: '/farmer-dashboard/my-produce-listings', label: 'myProduceListings', icon: List },
+    { href: '/farmer-dashboard/plant-health', label: 'Plant Health', icon: HeartPulse },
     { href: '/farmer-dashboard/ai-price-advisor', label: 'aiPriceAdvisor', icon: Microscope },
     { href: '/farmer-dashboard/market-price-suggestions', label: 'marketPriceSuggestions', icon: Tags },
     { href: '/farmer-dashboard/agri-assist', label: 'agriAssistant', icon: Bot },
@@ -70,11 +72,11 @@ export function FarmerSidebar() {
                   variant={isActive(item.href) ? 'primary' : 'ghost'}
                   className="w-full justify-start"
                   size="lg"
-                  tooltip={t(item.label)}
+                  tooltip={t(item.label) || item.label}
                   isActive={isActive(item.href)}
                 >
                  <item.icon className="w-5 h-5" />
-                 <span>{t(item.label)}</span>
+                 <span>{t(item.label) || item.label}</span>
                 </SidebarMenuButton>
               </Link>
            </SidebarMenuItem>

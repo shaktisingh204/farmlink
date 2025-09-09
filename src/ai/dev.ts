@@ -10,3 +10,4 @@ import '@/ai/flows/market-suggestion-flow.ts';
 import '@/ai/flows/deal-recommender-flow.ts';
 import '@/ai/flows/faq-bot-flow.ts';
 import '@/ai/flows/agri-assist-flow.ts';
+import '@/ai/flows/plant-health-flow.ts';
