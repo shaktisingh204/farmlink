@@ -10,35 +10,28 @@
     },
     "produce": {
       ".indexOn": ["farmerId"],
-      ".read": true,
-      "$produceId": {
-        ".validate": "newData.hasChildren(['name', 'variety', 'quantity', 'price', 'description', 'farmerId', 'createdAt'])",
-        ".write": "auth != null && (newData.child('farmerId').val() === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'admin')"
-      }
+      ".read": "auth != null",
+      ".write": "auth != null"
     },
     "orders": {
       ".indexOn": ["farmerId", "retailerId"],
       ".read": "auth != null",
+      ".write": "auth != null",
       "$orderId": {
-        ".write": "auth != null && newData.child('retailerId').val() === auth.uid",
         ".validate": "newData.hasChildren(['produceId', 'farmerId', 'retailerId', 'quantity', 'totalPrice', 'status', 'orderDate']) && newData.child('orderDate').isString()"
       }
     },
     "favorites": {
-      "$retailerId": {
-        ".read": "auth != null && auth.uid === $retailerId",
-        ".write": "auth != null && auth.uid === $retailerId"
-      }
+      ".read": "auth != null",
+      ".write": "auth != null"
     },
     "alerts": {
        ".indexOn": ["userId"],
-       "$alertId": {
-        ".read": "auth != null && data.child('userId').val() === auth.uid",
-        ".write": true
-      }
+       ".read": "auth != null",
+       ".write": "auth != null"
     },
     "contactMessages": {
-      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      ".read": "auth != null",
       ".write": true,
       "$messageId": {
         ".validate": "newData.hasChildren(['name', 'email', 'message', 'timestamp'])"
