@@ -68,7 +68,7 @@ export async function addProduceAction(
   } catch (e: any)
   {
     console.error('Error in addProduceAction:', e);
-    return { error: 'An unexpected error occurred. Please try again.' };
+    return { error: e.message || 'An unexpected error occurred. Please try again.' };
   }
 }
 
@@ -114,7 +114,7 @@ export async function updateProduceAction(
     return { success: true };
   } catch (e: any) {
     console.error("Error in updateProduceAction:", e);
-    return { error: 'An unexpected error occurred. Please try again.' };
+    return { error: e.message || 'An unexpected error occurred. Please try again.' };
   }
 }
 
