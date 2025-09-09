@@ -49,8 +49,18 @@ export async function addProduceAction(
         return { error: 'You must be logged in to add produce.' };
     }
 
+    const { imageUrl, ...restOfData } = validatedFields.data;
+
+    const dataToSave: any = {
+      ...restOfData
+    };
+
+    if (imageUrl) {
+      dataToSave.imageUrl = imageUrl;
+    }
+
     const newProduceRef = push(ref(db, 'produce'));
-    await set(newProduceRef, validatedFields.data);
+    await set(newProduceRef, dataToSave);
 
     revalidatePath('/farmer-dashboard/my-produce-listings');
     revalidatePath('/retailer-dashboard/browse-produce'); // Revalidate retailer page
