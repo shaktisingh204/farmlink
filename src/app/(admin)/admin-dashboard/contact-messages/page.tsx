@@ -30,11 +30,13 @@ export default function Page() {
       const result = await getContactMessages();
       if (result.error) {
         setError(result.error);
+        setMessages([]);
       } else {
         setMessages(result.messages || []);
       }
     } catch (err) {
       setError('An unexpected error occurred.');
+      setMessages([]);
     } finally {
       setIsLoading(false);
     }
@@ -65,6 +67,7 @@ export default function Page() {
           <CardTitle>Inbox</CardTitle>
           <CardDescription>
             A list of all messages from your users.
+            {error && <span className="text-destructive"> Error: {error}</span>}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -72,8 +75,6 @@ export default function Page() {
             <div className="flex justify-center items-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
-          ) : error ? (
-            <div className="text-center py-12 text-destructive">{error}</div>
           ) : messages.length > 0 ? (
             <Accordion type="multiple" className="w-full">
               {messages.map((message) => (

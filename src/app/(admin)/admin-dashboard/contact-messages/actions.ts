@@ -2,7 +2,7 @@
 'use server';
 
 import { db } from '@/lib/firebase';
-import { ref, get, set } from 'firebase/database';
+import { ref, get, set, serverTimestamp } from 'firebase/database';
 import { revalidatePath } from 'next/cache';
 
 export interface ContactMessage {
