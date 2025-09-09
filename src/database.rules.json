@@ -2,8 +2,8 @@
 {
   "rules": {
     "users": {
+      ".read": true,
       "$uid": {
-        ".read": "auth != null && auth.uid === $uid",
         ".write": "auth != null && auth.uid === $uid"
       }
     },
@@ -12,28 +12,27 @@
       ".read": true,
       "$produceId": {
         ".validate": "newData.hasChildren(['name', 'variety', 'quantity', 'price', 'description', 'farmerId', 'createdAt'])",
-        ".write": "auth != null && newData.child('farmerId').val() === auth.uid"
+        ".write": "auth != null && (newData.child('farmerId').val() === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'admin')"
       }
     },
     "orders": {
       ".indexOn": ["farmerId", "retailerId"],
-      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      ".read": true,
       "$orderId": {
-        ".read": "auth != null && (data.child('farmerId').val() === auth.uid || data.child('retailerId').val() === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'market')",
         ".write": "auth != null && newData.child('retailerId').val() === auth.uid",
          ".validate": "newData.hasChildren(['produceId', 'farmerId', 'retailerId', 'quantity', 'totalPrice', 'status', 'orderDate'])"
       }
     },
     "favorites": {
+      ".read": true,
       "$retailerId": {
-        ".read": "auth != null && auth.uid === $retailerId",
         ".write": "auth != null && auth.uid === $retailerId"
       }
     },
     "alerts": {
        ".indexOn": ["userId"],
+       ".read": true,
        "$alertId": {
-        ".read": "auth != null && data.child('userId').val() === auth.uid",
         ".write": true
       }
     },
