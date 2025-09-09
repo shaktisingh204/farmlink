@@ -2,7 +2,7 @@
 {
   "rules": {
     "users": {
-      ".read": true,
+      ".read": "auth != null",
       ".indexOn": ["role"],
       "$uid": {
         ".write": "auth != null && auth.uid === $uid"
@@ -18,22 +18,22 @@
     },
     "orders": {
       ".indexOn": ["farmerId", "retailerId"],
-      ".read": true,
+      ".read": "auth != null",
       "$orderId": {
         ".write": "auth != null && newData.child('retailerId').val() === auth.uid",
-         ".validate": "newData.hasChildren(['produceId', 'farmerId', 'retailerId', 'quantity', 'totalPrice', 'status', 'orderDate']) && newData.child('orderDate').isString()"
+        ".validate": "newData.hasChildren(['produceId', 'farmerId', 'retailerId', 'quantity', 'totalPrice', 'status', 'orderDate']) && newData.child('orderDate').isString()"
       }
     },
     "favorites": {
-      ".read": true,
       "$retailerId": {
+        ".read": "auth != null && auth.uid === $retailerId",
         ".write": "auth != null && auth.uid === $retailerId"
       }
     },
     "alerts": {
        ".indexOn": ["userId"],
-       ".read": true,
        "$alertId": {
+        ".read": "auth != null && data.child('userId').val() === auth.uid",
         ".write": true
       }
     },
@@ -46,4 +46,3 @@
     }
   }
 }
-
