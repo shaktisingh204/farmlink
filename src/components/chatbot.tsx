@@ -1,11 +1,13 @@
 
 'use client';
 import { useState, useRef, useEffect, startTransition } from 'react';
+import 'regenerator-runtime/runtime'
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Send, User, Bot, Loader2, Volume2, Pause } from 'lucide-react';
+import { Send, User, Bot, Loader2, Volume2, Pause, Mic, MicOff } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { AgriAssistInput } from '@/ai/flows/agri-assist-flow';
 import type { FaqBotInput } from '@/ai/flows/faq-bot-flow';
@@ -42,6 +44,18 @@ export function Chatbot({
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [currentlyPlaying, setCurrentlyPlaying] = useState<number | null>(null);
 
+    const {
+        transcript,
+        listening,
+        resetTranscript,
+        browserSupportsSpeechRecognition
+    } = useSpeechRecognition();
+    
+    useEffect(() => {
+        setInput(transcript);
+    }, [transcript]);
+
+
     const scrollToBottom = () => {
         if (scrollAreaRef.current) {
             scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
@@ -74,23 +88,23 @@ export function Chatbot({
             setCurrentlyPlaying(null);
         };
     };
+    
+    const sendMessage = async (messageContent: string) => {
+        if (!messageContent.trim() || isLoading) return;
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!input.trim() || isLoading) return;
-
-        const userMessage: Message = { role: 'user', content: input };
+        const userMessage: Message = { role: 'user', content: messageContent };
         setMessages(prev => [...prev, userMessage]);
         setInput('');
+        resetTranscript();
         setIsLoading(true);
 
         const historyForApi = messages.map(msg => ({
             role: msg.role,
             content: [{ text: msg.content }]
         }));
-
+        
         try {
-            const result = await getAiResponse({ message: input, history: historyForApi });
+            const result = await getAiResponse({ message: messageContent, history: historyForApi });
             if ('answer' in result) {
                 const botMessage: Message = { role: 'model', content: result.answer, audioDataUri: result.audioDataUri };
                 setMessages(prev => [...prev, botMessage]);
@@ -104,7 +118,28 @@ export function Chatbot({
         } finally {
             setIsLoading(false);
         }
+    }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        sendMessage(input);
     };
+    
+    const handleVoiceToggle = () => {
+        if (listening) {
+            SpeechRecognition.stopListening();
+            if(input.trim()){
+               sendMessage(input);
+            }
+        } else {
+            resetTranscript();
+            SpeechRecognition.startListening({ continuous: true });
+        }
+    };
+    
+    if (!browserSupportsSpeechRecognition) {
+        return <span>Browser doesn't support speech recognition.</span>;
+    }
 
     return (
         <Card className={cn("flex flex-col h-full", className)}>
@@ -160,9 +195,12 @@ export function Chatbot({
                     <Input
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        placeholder={placeholder}
+                        placeholder={listening ? "Listening..." : placeholder}
                         disabled={isLoading}
                     />
+                     <Button type="button" size="icon" variant={listening ? "destructive" : "ghost"} onClick={handleVoiceToggle} disabled={isLoading}>
+                        {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                    </Button>
                     <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
                         <Send className="w-4 h-4" />
                     </Button>
